@@ -1,3 +1,7 @@
+<template>
+  <span>{{ value }}</span>
+</template>
+
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
 import { TransitionPresets, useTransition } from '@vueuse/core';
@@ -80,9 +84,5 @@ watch(
   { immediate: true }
 );
 </script>
-
-<template>
-  <span>{{ value }}</span>
-</template>
 
 <style scoped></style>

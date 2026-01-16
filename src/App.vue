@@ -1,3 +1,18 @@
+<template>
+  <NConfigProvider
+    :theme="naiveDarkTheme"
+    :theme-overrides="themeStore.naiveTheme"
+    :locale="naiveLocale"
+    :date-locale="naiveDateLocale"
+    class="h-full"
+  >
+    <AppProvider>
+      <RouterView class="bg-layout" />
+      <NWatermark v-if="themeStore.watermark.visible" v-bind="watermarkProps" />
+    </AppProvider>
+  </NConfigProvider>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import { NConfigProvider, darkTheme } from 'naive-ui';
@@ -43,20 +58,5 @@ const watermarkProps = computed<WatermarkProps>(() => {
   };
 });
 </script>
-
-<template>
-  <NConfigProvider
-    :theme="naiveDarkTheme"
-    :theme-overrides="themeStore.naiveTheme"
-    :locale="naiveLocale"
-    :date-locale="naiveDateLocale"
-    class="h-full"
-  >
-    <AppProvider>
-      <RouterView class="bg-layout" />
-      <NWatermark v-if="themeStore.watermark.visible" v-bind="watermarkProps" />
-    </AppProvider>
-  </NConfigProvider>
-</template>
 
 <style scoped></style>

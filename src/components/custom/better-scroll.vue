@@ -1,3 +1,11 @@
+<template>
+  <div ref="bsWrapper" class="h-full text-left">
+    <div ref="bsContent" class="inline-block" :class="{ 'h-full': !isScrollY }">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useElementSize } from '@vueuse/core';
@@ -41,13 +49,5 @@ onMounted(() => {
 
 defineExpose({ instance });
 </script>
-
-<template>
-  <div ref="bsWrapper" class="h-full text-left">
-    <div ref="bsContent" class="inline-block" :class="{ 'h-full': !isScrollY }">
-      <slot></slot>
-    </div>
-  </div>
-</template>
 
 <style scoped></style>

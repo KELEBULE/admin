@@ -1,3 +1,25 @@
+<template>
+  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
+    <NFormItem path="userName">
+      <NInput v-model:value="model.userName" size="medium" :placeholder="$t('page.login.common.userNamePlaceholder')" />
+    </NFormItem>
+    <NFormItem path="password">
+      <NInput
+        v-model:value="model.password"
+        size="medium"
+        type="password"
+        show-password-on="click"
+        :placeholder="$t('page.login.common.passwordPlaceholder')"
+      />
+    </NFormItem>
+    <NSpace vertical :size="24">
+      <NButton type="primary" size="large" block :loading="authStore.loginLoading" @click="handleSubmit">
+        {{ $t('common.confirm') }}
+      </NButton>
+    </NSpace>
+  </NForm>
+</template>
+
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { useAuthStore } from '@/store/modules/auth';
@@ -37,27 +59,5 @@ async function handleSubmit() {
   await authStore.login(model.userName, sha256(model.password));
 }
 </script>
-
-<template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
-    <NFormItem path="userName">
-      <NInput v-model:value="model.userName" size="medium" :placeholder="$t('page.login.common.userNamePlaceholder')" />
-    </NFormItem>
-    <NFormItem path="password">
-      <NInput
-        v-model:value="model.password"
-        size="medium"
-        type="password"
-        show-password-on="click"
-        :placeholder="$t('page.login.common.passwordPlaceholder')"
-      />
-    </NFormItem>
-    <NSpace vertical :size="24">
-      <NButton type="primary" size="large" block :loading="authStore.loginLoading" @click="handleSubmit">
-        {{ $t('common.confirm') }}
-      </NButton>
-    </NSpace>
-  </NForm>
-</template>
 
 <style scoped></style>

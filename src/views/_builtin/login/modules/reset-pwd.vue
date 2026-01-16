@@ -1,3 +1,33 @@
+<template>
+  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
+    <NFormItem path="phone">
+      <NInput v-model:value="model.phone" :placeholder="$t('page.login.common.phonePlaceholder')" />
+    </NFormItem>
+    <NFormItem path="code">
+      <NInput v-model:value="model.code" :placeholder="$t('page.login.common.codePlaceholder')" />
+    </NFormItem>
+    <NFormItem path="password">
+      <NInput v-model:value="model.password" type="password" show-password-on="click" :placeholder="$t('page.login.common.passwordPlaceholder')" />
+    </NFormItem>
+    <NFormItem path="confirmPassword">
+      <NInput
+        v-model:value="model.confirmPassword"
+        type="password"
+        show-password-on="click"
+        :placeholder="$t('page.login.common.confirmPasswordPlaceholder')"
+      />
+    </NFormItem>
+    <NSpace vertical :size="18" class="w-full">
+      <NButton type="primary" size="large" round block @click="handleSubmit">
+        {{ $t('common.confirm') }}
+      </NButton>
+      <NButton size="large" round block @click="toggleLoginModule('pwd-login')">
+        {{ $t('page.login.common.back') }}
+      </NButton>
+    </NSpace>
+  </NForm>
+</template>
+
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import { useRouterPush } from '@/hooks/common/router';
@@ -43,35 +73,5 @@ async function handleSubmit() {
   window.$message?.success($t('page.login.common.validateSuccess'));
 }
 </script>
-
-<template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
-    <NFormItem path="phone">
-      <NInput v-model:value="model.phone" :placeholder="$t('page.login.common.phonePlaceholder')" />
-    </NFormItem>
-    <NFormItem path="code">
-      <NInput v-model:value="model.code" :placeholder="$t('page.login.common.codePlaceholder')" />
-    </NFormItem>
-    <NFormItem path="password">
-      <NInput v-model:value="model.password" type="password" show-password-on="click" :placeholder="$t('page.login.common.passwordPlaceholder')" />
-    </NFormItem>
-    <NFormItem path="confirmPassword">
-      <NInput
-        v-model:value="model.confirmPassword"
-        type="password"
-        show-password-on="click"
-        :placeholder="$t('page.login.common.confirmPasswordPlaceholder')"
-      />
-    </NFormItem>
-    <NSpace vertical :size="18" class="w-full">
-      <NButton type="primary" size="large" round block @click="handleSubmit">
-        {{ $t('common.confirm') }}
-      </NButton>
-      <NButton size="large" round block @click="toggleLoginModule('pwd-login')">
-        {{ $t('page.login.common.back') }}
-      </NButton>
-    </NSpace>
-  </NForm>
-</template>
 
 <style scoped></style>

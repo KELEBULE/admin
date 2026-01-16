@@ -20,8 +20,21 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
-    "home": "/home";
+    "confid-center": "/confid-center";
+    "confid-center_alarm-config": "/confid-center/alarm-config";
+    "confid-center_organization-config": "/confid-center/organization-config";
+    "confid-center_system-announce": "/confid-center/system-announce";
+    "confid-center_system-config": "/confid-center/system-config";
+    "data-center": "/data-center";
+    "data-center_alarm-record": "/data-center/alarm-record";
+    "data-center_detection-record": "/data-center/detection-record";
+    "data-center_equipment-info": "/data-center/equipment-info";
+    "equipment-center": "/equipment-center";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
+    "monitor-center": "/monitor-center";
+    "user-center": "/user-center";
+    "workbench": "/workbench";
+    "workorder-center": "/workorder-center";
   };
 
   /**
@@ -56,8 +69,14 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "home"
+    | "confid-center"
+    | "data-center"
+    | "equipment-center"
     | "login"
+    | "monitor-center"
+    | "user-center"
+    | "workbench"
+    | "workorder-center"
   >;
 
   /**
@@ -78,7 +97,18 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "login"
-    | "home"
+    | "confid-center_alarm-config"
+    | "confid-center_organization-config"
+    | "confid-center_system-announce"
+    | "confid-center_system-config"
+    | "data-center_alarm-record"
+    | "data-center_detection-record"
+    | "data-center_equipment-info"
+    | "equipment-center"
+    | "monitor-center"
+    | "user-center"
+    | "workbench"
+    | "workorder-center"
   >;
 
   /**

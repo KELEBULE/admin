@@ -1,3 +1,31 @@
+<template>
+  <Teleport :to="`#${GLOBAL_HEADER_MENU_ID}`">
+    <NMenu
+      mode="horizontal"
+      :value="activeFirstLevelMenuKey"
+      :options="firstLevelMenus"
+      :indent="18"
+      responsive
+      @update:value="handleSelectMixMenu"
+    />
+  </Teleport>
+  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
+    <SimpleScrollbar>
+      <NMenu
+        v-model:expanded-keys="expandedKeys"
+        mode="vertical"
+        :value="selectedKey"
+        :collapsed="appStore.siderCollapse"
+        :collapsed-width="themeStore.sider.collapsedWidth"
+        :collapsed-icon-size="22"
+        :options="childLevelMenus"
+        :indent="18"
+        @update:value="routerPushByKeyWithMetaQuery"
+      />
+    </SimpleScrollbar>
+  </Teleport>
+</template>
+
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -49,33 +77,5 @@ watch(
   { immediate: true }
 );
 </script>
-
-<template>
-  <Teleport :to="`#${GLOBAL_HEADER_MENU_ID}`">
-    <NMenu
-      mode="horizontal"
-      :value="activeFirstLevelMenuKey"
-      :options="firstLevelMenus"
-      :indent="18"
-      responsive
-      @update:value="handleSelectMixMenu"
-    />
-  </Teleport>
-  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
-    <SimpleScrollbar>
-      <NMenu
-        v-model:expanded-keys="expandedKeys"
-        mode="vertical"
-        :value="selectedKey"
-        :collapsed="appStore.siderCollapse"
-        :collapsed-width="themeStore.sider.collapsedWidth"
-        :collapsed-icon-size="22"
-        :options="childLevelMenus"
-        :indent="18"
-        @update:value="routerPushByKeyWithMetaQuery"
-      />
-    </SimpleScrollbar>
-  </Teleport>
-</template>
 
 <style scoped></style>

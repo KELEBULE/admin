@@ -1,3 +1,22 @@
+<template>
+  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
+    <SimpleScrollbar>
+      <NMenu
+        v-model:expanded-keys="expandedKeys"
+        mode="vertical"
+        :value="selectedKey"
+        :collapsed="appStore.siderCollapse"
+        :collapsed-width="themeStore.sider.collapsedWidth"
+        :collapsed-icon-size="22"
+        :options="routeStore.menus"
+        :inverted="inverted"
+        :indent="18"
+        @update:value="routerPushByKeyWithMetaQuery"
+      />
+    </SimpleScrollbar>
+  </Teleport>
+</template>
+
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -40,24 +59,5 @@ watch(
   { immediate: true }
 );
 </script>
-
-<template>
-  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
-    <SimpleScrollbar>
-      <NMenu
-        v-model:expanded-keys="expandedKeys"
-        mode="vertical"
-        :value="selectedKey"
-        :collapsed="appStore.siderCollapse"
-        :collapsed-width="themeStore.sider.collapsedWidth"
-        :collapsed-icon-size="22"
-        :options="routeStore.menus"
-        :inverted="inverted"
-        :indent="18"
-        @update:value="routerPushByKeyWithMetaQuery"
-      />
-    </SimpleScrollbar>
-  </Teleport>
-</template>
 
 <style scoped></style>

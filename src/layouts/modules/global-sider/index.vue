@@ -1,3 +1,10 @@
+<template>
+  <DarkModeContainer class="size-full flex-col-stretch shadow-sider" :inverted="darkMenu">
+    <GlobalLogo v-if="showLogo" :show-title="!appStore.siderCollapse" :style="{ height: themeStore.header.height + 'px' }" />
+    <div :id="GLOBAL_SIDER_MENU_ID" :class="menuWrapperClass"></div>
+  </DarkModeContainer>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
@@ -18,12 +25,5 @@ const darkMenu = computed(() => !themeStore.darkMode && !isHorizontalMix.value &
 const showLogo = computed(() => !isVerticalMix.value && !isHorizontalMix.value);
 const menuWrapperClass = computed(() => (showLogo.value ? 'flex-1-hidden' : 'h-full'));
 </script>
-
-<template>
-  <DarkModeContainer class="size-full flex-col-stretch shadow-sider" :inverted="darkMenu">
-    <GlobalLogo v-if="showLogo" :show-title="!appStore.siderCollapse" :style="{ height: themeStore.header.height + 'px' }" />
-    <div :id="GLOBAL_SIDER_MENU_ID" :class="menuWrapperClass"></div>
-  </DarkModeContainer>
-</template>
 
 <style scoped></style>

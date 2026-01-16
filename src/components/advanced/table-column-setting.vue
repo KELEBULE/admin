@@ -1,15 +1,3 @@
-<script setup lang="ts" generic="T extends Record<string, unknown>, K = never">
-import { VueDraggable } from 'vue-draggable-plus';
-
-defineOptions({
-  name: 'TableColumnSetting'
-});
-
-const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
-  required: true
-});
-</script>
-
 <template>
   <NPopover placement="bottom-end" trigger="click" class="p-8px">
     <template #trigger>
@@ -32,5 +20,17 @@ const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
     </VueDraggable>
   </NPopover>
 </template>
+
+<script setup lang="ts" generic="T extends Record<string, unknown>, K = never">
+import { VueDraggable } from 'vue-draggable-plus';
+
+defineOptions({
+  name: 'TableColumnSetting'
+});
+
+const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
+  required: true
+});
+</script>
 
 <style scoped></style>

@@ -1,26 +1,26 @@
+<template>
+  <div class="h-44px flex-y-center gap-14px px-24px">
+    <span class="flex-y-center">
+      <IconMdiKeyboardReturn class="operate-shadow operate-item" />
+      <span>{{ $t('common.confirm') }}</span>
+    </span>
+    <span class="flex-y-center">
+      <IconMdiArrowUpThin class="operate-shadow operate-item" />
+      <IconMdiArrowDownThin class="operate-shadow operate-item" />
+      <span>{{ $t('common.switch') }}</span>
+    </span>
+    <span class="flex-y-center">
+      <IconMdiKeyboardEsc class="operate-shadow operate-item" />
+      <span>{{ $t('common.close') }}</span>
+    </span>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { $t } from '@/locales';
 
 defineOptions({ name: 'SearchFooter' });
 </script>
-
-<template>
-  <div class="h-44px flex-y-center gap-14px px-24px">
-    <span class="flex-y-center">
-      <icon-mdi-keyboard-return class="operate-shadow operate-item" />
-      <span>{{ $t('common.confirm') }}</span>
-    </span>
-    <span class="flex-y-center">
-      <icon-mdi-arrow-up-thin class="operate-shadow operate-item" />
-      <icon-mdi-arrow-down-thin class="operate-shadow operate-item" />
-      <span>{{ $t('common.switch') }}</span>
-    </span>
-    <span class="flex-y-center">
-      <icon-mdi-keyboard-esc class="operate-shadow operate-item" />
-      <span>{{ $t('common.close') }}</span>
-    </span>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .operate-shadow {

@@ -1,3 +1,27 @@
+<template>
+  <DarkModeContainer class="h-full flex-y-center px-12px shadow-header">
+    <GlobalLogo v-if="showLogo" class="h-full" :style="{ width: themeStore.sider.width + 'px' }" />
+    <MenuToggler v-if="showMenuToggler" :collapsed="appStore.siderCollapse" @click="appStore.toggleSiderCollapse" />
+    <div v-if="showMenu" :id="GLOBAL_HEADER_MENU_ID" class="h-full flex-y-center flex-1-hidden"></div>
+    <div v-else class="h-full flex-y-center flex-1-hidden">
+      <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
+    </div>
+    <div class="h-full flex-y-center justify-end">
+      <GlobalSearch v-if="themeStore.header.globalSearch.visible" />
+      <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
+      <LangSwitch
+        v-if="themeStore.header.multilingual.visible"
+        :lang="appStore.locale"
+        :lang-options="appStore.localeOptions"
+        @change-lang="appStore.changeLocale"
+      />
+      <ThemeSchemaSwitch :theme-schema="themeStore.themeScheme" :is-dark="themeStore.darkMode" @switch="themeStore.toggleThemeScheme" />
+      <ThemeButton />
+      <UserAvatar />
+    </div>
+  </DarkModeContainer>
+</template>
+
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
 import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
@@ -28,29 +52,5 @@ const appStore = useAppStore();
 const themeStore = useThemeStore();
 const { isFullscreen, toggle } = useFullscreen();
 </script>
-
-<template>
-  <DarkModeContainer class="h-full flex-y-center px-12px shadow-header">
-    <GlobalLogo v-if="showLogo" class="h-full" :style="{ width: themeStore.sider.width + 'px' }" />
-    <MenuToggler v-if="showMenuToggler" :collapsed="appStore.siderCollapse" @click="appStore.toggleSiderCollapse" />
-    <div v-if="showMenu" :id="GLOBAL_HEADER_MENU_ID" class="h-full flex-y-center flex-1-hidden"></div>
-    <div v-else class="h-full flex-y-center flex-1-hidden">
-      <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
-    </div>
-    <div class="h-full flex-y-center justify-end">
-      <GlobalSearch v-if="themeStore.header.globalSearch.visible" />
-      <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
-      <LangSwitch
-        v-if="themeStore.header.multilingual.visible"
-        :lang="appStore.locale"
-        :lang-options="appStore.localeOptions"
-        @change-lang="appStore.changeLocale"
-      />
-      <ThemeSchemaSwitch :theme-schema="themeStore.themeScheme" :is-dark="themeStore.darkMode" @switch="themeStore.toggleThemeScheme" />
-      <ThemeButton />
-      <UserAvatar />
-    </div>
-  </DarkModeContainer>
-</template>
 
 <style scoped></style>

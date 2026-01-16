@@ -1,3 +1,17 @@
+<template>
+  <NButton v-if="!authStore.isLogin" quaternary @click="loginOrRegister">
+    {{ $t('page.login.common.loginOrRegister') }}
+  </NButton>
+  <NDropdown v-else placement="bottom" trigger="click" :options="options" @select="handleDropdown">
+    <div>
+      <ButtonIcon>
+        <SvgIcon icon="ph:user-circle" class="text-icon-large" />
+        <span class="text-16px font-medium">{{ authStore.userInfo.userName }}</span>
+      </ButtonIcon>
+    </div>
+  </NDropdown>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { VNode } from 'vue';
@@ -73,23 +87,9 @@ function handleDropdown(key: DropdownKey) {
   if (key === 'logout') {
     logout();
   } else {
-    routerPushByKey(key);
+    routerPushByKey('user-center');
   }
 }
 </script>
-
-<template>
-  <NButton v-if="!authStore.isLogin" quaternary @click="loginOrRegister">
-    {{ $t('page.login.common.loginOrRegister') }}
-  </NButton>
-  <NDropdown v-else placement="bottom" trigger="click" :options="options" @select="handleDropdown">
-    <div>
-      <ButtonIcon>
-        <SvgIcon icon="ph:user-circle" class="text-icon-large" />
-        <span class="text-16px font-medium">{{ authStore.userInfo.userName }}</span>
-      </ButtonIcon>
-    </div>
-  </NDropdown>
-</template>
 
 <style scoped></style>

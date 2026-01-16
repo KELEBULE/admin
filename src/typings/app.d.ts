@@ -1167,6 +1167,10 @@ declare namespace App {
             preview: string;
           };
         };
+        userCenter: {
+          userInfo: string;
+          accountConfig: string;
+        };
       };
       form: {
         required: string;

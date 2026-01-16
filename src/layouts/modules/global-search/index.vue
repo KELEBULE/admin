@@ -1,3 +1,10 @@
+<template>
+  <ButtonIcon :tooltip-content="$t('common.search')" @click="toggle">
+    <IconUilSearch />
+  </ButtonIcon>
+  <SearchModal v-model:show="show" />
+</template>
+
 <script lang="ts" setup>
 import { useBoolean } from '@sa/hooks';
 import { $t } from '@/locales';
@@ -7,12 +14,5 @@ defineOptions({ name: 'GlobalSearch' });
 
 const { bool: show, toggle } = useBoolean();
 </script>
-
-<template>
-  <ButtonIcon :tooltip-content="$t('common.search')" @click="toggle">
-    <icon-uil-search />
-  </ButtonIcon>
-  <SearchModal v-model:show="show" />
-</template>
 
 <style lang="scss" scoped></style>

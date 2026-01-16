@@ -1,3 +1,52 @@
+<template>
+  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
+    <div class="h-full flex" @mouseleave="handleResetActiveMenu">
+      <FirstLevelMenu
+        :menus="allMenus"
+        :active-menu-key="activeFirstLevelMenuKey"
+        :inverted="inverted"
+        :sider-collapse="appStore.siderCollapse"
+        :dark-mode="themeStore.darkMode"
+        :theme-color="themeStore.themeColor"
+        @select="handleSelectMixMenu"
+        @toggle-sider-collapse="appStore.toggleSiderCollapse"
+      >
+        <GlobalLogo :show-title="false" :style="{ height: themeStore.header.height + 'px' }" />
+      </FirstLevelMenu>
+      <div
+        class="relative h-full transition-width-300"
+        :style="{ width: appStore.mixSiderFixed && hasChildMenus ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
+      >
+        <DarkModeContainer
+          class="absolute-lt h-full flex-col-stretch nowrap-hidden shadow-sm transition-all-300"
+          :inverted="inverted"
+          :style="{ width: showDrawer ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
+        >
+          <header class="flex-y-center justify-between px-12px" :style="{ height: themeStore.header.height + 'px' }">
+            <h2 class="text-16px text-primary font-bold">{{ $t('system.title') }}</h2>
+            <PinToggler
+              :pin="appStore.mixSiderFixed"
+              :class="{ 'text-white:88 !hover:text-white': inverted }"
+              @click="appStore.toggleMixSiderFixed"
+            />
+          </header>
+          <SimpleScrollbar>
+            <NMenu
+              v-model:expanded-keys="expandedKeys"
+              mode="vertical"
+              :value="selectedKey"
+              :options="childLevelMenus"
+              :inverted="inverted"
+              :indent="18"
+              @update:value="routerPushByKeyWithMetaQuery"
+            />
+          </SimpleScrollbar>
+        </DarkModeContainer>
+      </div>
+    </div>
+  </Teleport>
+</template>
+
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -75,54 +124,5 @@ watch(
   { immediate: true }
 );
 </script>
-
-<template>
-  <Teleport :to="`#${GLOBAL_SIDER_MENU_ID}`">
-    <div class="h-full flex" @mouseleave="handleResetActiveMenu">
-      <FirstLevelMenu
-        :menus="allMenus"
-        :active-menu-key="activeFirstLevelMenuKey"
-        :inverted="inverted"
-        :sider-collapse="appStore.siderCollapse"
-        :dark-mode="themeStore.darkMode"
-        :theme-color="themeStore.themeColor"
-        @select="handleSelectMixMenu"
-        @toggle-sider-collapse="appStore.toggleSiderCollapse"
-      >
-        <GlobalLogo :show-title="false" :style="{ height: themeStore.header.height + 'px' }" />
-      </FirstLevelMenu>
-      <div
-        class="relative h-full transition-width-300"
-        :style="{ width: appStore.mixSiderFixed && hasChildMenus ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
-      >
-        <DarkModeContainer
-          class="absolute-lt h-full flex-col-stretch nowrap-hidden shadow-sm transition-all-300"
-          :inverted="inverted"
-          :style="{ width: showDrawer ? themeStore.sider.mixChildMenuWidth + 'px' : '0px' }"
-        >
-          <header class="flex-y-center justify-between px-12px" :style="{ height: themeStore.header.height + 'px' }">
-            <h2 class="text-16px text-primary font-bold">{{ $t('system.title') }}</h2>
-            <PinToggler
-              :pin="appStore.mixSiderFixed"
-              :class="{ 'text-white:88 !hover:text-white': inverted }"
-              @click="appStore.toggleMixSiderFixed"
-            />
-          </header>
-          <SimpleScrollbar>
-            <NMenu
-              v-model:expanded-keys="expandedKeys"
-              mode="vertical"
-              :value="selectedKey"
-              :options="childLevelMenus"
-              :inverted="inverted"
-              :indent="18"
-              @update:value="routerPushByKeyWithMetaQuery"
-            />
-          </SimpleScrollbar>
-        </DarkModeContainer>
-      </div>
-    </div>
-  </Teleport>
-</template>
 
 <style scoped></style>

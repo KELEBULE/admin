@@ -1,3 +1,25 @@
+<template>
+  <RouterView v-slot="{ Component, route }">
+    <Transition
+      :name="transitionName"
+      mode="out-in"
+      @before-leave="appStore.setContentXScrollable(true)"
+      @after-leave="resetScroll"
+      @after-enter="appStore.setContentXScrollable(false)"
+    >
+      <KeepAlive :include="routeStore.cacheRoutes" :exclude="routeStore.excludeCacheRoutes">
+        <component
+          :is="Component"
+          v-if="appStore.reloadFlag"
+          :key="tabStore.getTabIdByRoute(route)"
+          :class="{ 'p-8px': showPadding }"
+          class="flex-grow bg-layout transition-300"
+        />
+      </KeepAlive>
+    </Transition>
+  </RouterView>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import { LAYOUT_SCROLL_EL_ID } from '@sa/materials';
@@ -32,27 +54,5 @@ function resetScroll() {
   el?.scrollTo({ left: 0, top: 0 });
 }
 </script>
-
-<template>
-  <RouterView v-slot="{ Component, route }">
-    <Transition
-      :name="transitionName"
-      mode="out-in"
-      @before-leave="appStore.setContentXScrollable(true)"
-      @after-leave="resetScroll"
-      @after-enter="appStore.setContentXScrollable(false)"
-    >
-      <KeepAlive :include="routeStore.cacheRoutes" :exclude="routeStore.excludeCacheRoutes">
-        <component
-          :is="Component"
-          v-if="appStore.reloadFlag"
-          :key="tabStore.getTabIdByRoute(route)"
-          :class="{ 'p-8px': showPadding }"
-          class="flex-grow bg-layout transition-300"
-        />
-      </KeepAlive>
-    </Transition>
-  </RouterView>
-</template>
 
 <style></style>

@@ -1,24 +1,3 @@
-<script setup lang="ts">
-import { computed } from 'vue';
-import { resetCacheStrategyOptions, themePageAnimationModeOptions, themeScrollModeOptions, themeTabModeOptions } from '@/constants/app';
-import { useThemeStore } from '@/store/modules/theme';
-import { translateOptions } from '@/utils/common';
-import { $t } from '@/locales';
-import SettingItem from '../components/setting-item.vue';
-
-defineOptions({
-  name: 'PageFun'
-});
-
-const themeStore = useThemeStore();
-
-const layoutMode = computed(() => themeStore.layout.mode);
-
-const isMixLayoutMode = computed(() => layoutMode.value.includes('mix'));
-
-const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wrapper');
-</script>
-
 <template>
   <NDivider>{{ $t('theme.pageFunTitle') }}</NDivider>
   <TransitionGroup tag="div" name="setting-list" class="flex-col-stretch gap-12px">
@@ -102,6 +81,27 @@ const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wra
     </SettingItem>
   </TransitionGroup>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { resetCacheStrategyOptions, themePageAnimationModeOptions, themeScrollModeOptions, themeTabModeOptions } from '@/constants/app';
+import { useThemeStore } from '@/store/modules/theme';
+import { translateOptions } from '@/utils/common';
+import { $t } from '@/locales';
+import SettingItem from '../components/setting-item.vue';
+
+defineOptions({
+  name: 'PageFun'
+});
+
+const themeStore = useThemeStore();
+
+const layoutMode = computed(() => themeStore.layout.mode);
+
+const isMixLayoutMode = computed(() => layoutMode.value.includes('mix'));
+
+const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wrapper');
+</script>
 
 <style scoped>
 .setting-list-move,

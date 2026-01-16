@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import { $t } from '@/locales';
-
-defineOptions({
-  name: 'LookForward'
-});
-</script>
-
 <template>
   <div class="size-full min-h-520px flex-col-center gap-24px overflow-hidden">
     <div class="flex text-400px text-primary">
@@ -16,5 +8,13 @@ defineOptions({
     </slot>
   </div>
 </template>
+
+<script setup lang="ts">
+import { $t } from '@/locales';
+
+defineOptions({
+  name: 'LookForward'
+});
+</script>
 
 <style scoped></style>

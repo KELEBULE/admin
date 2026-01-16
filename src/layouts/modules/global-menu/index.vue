@@ -1,3 +1,7 @@
+<template>
+  <component :is="activeMenu" :key="reRenderVertical" />
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Component } from 'vue';
@@ -29,9 +33,5 @@ const activeMenu = computed(() => {
 
 const reRenderVertical = computed(() => themeStore.layout.mode === 'vertical' && appStore.isMobile);
 </script>
-
-<template>
-  <component :is="activeMenu" :key="reRenderVertical" />
-</template>
 
 <style scoped></style>

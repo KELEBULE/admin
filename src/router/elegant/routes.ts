@@ -40,14 +40,103 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'home',
-    path: '/home',
-    component: 'layout.base$view.home',
+    name: 'confid-center',
+    path: '/confid-center',
+    component: 'layout.base',
     meta: {
-      title: 'home',
-      i18nKey: 'route.home',
-      icon: 'mdi:monitor-dashboard',
-      order: 1
+      title: 'confid-center',
+      i18nKey: 'route.confid-center',
+      order: 6
+    },
+    children: [
+      {
+        name: 'confid-center_alarm-config',
+        path: '/confid-center/alarm-config',
+        component: 'view.confid-center_alarm-config',
+        meta: {
+          title: 'confid-center_alarm-config',
+          i18nKey: 'route.confid-center_alarm-config'
+        }
+      },
+      {
+        name: 'confid-center_organization-config',
+        path: '/confid-center/organization-config',
+        component: 'view.confid-center_organization-config',
+        meta: {
+          title: 'confid-center_organization-config',
+          i18nKey: 'route.confid-center_organization-config'
+        }
+      },
+      {
+        name: 'confid-center_system-announce',
+        path: '/confid-center/system-announce',
+        component: 'view.confid-center_system-announce',
+        meta: {
+          title: 'confid-center_system-announce',
+          i18nKey: 'route.confid-center_system-announce'
+        }
+      },
+      {
+        name: 'confid-center_system-config',
+        path: '/confid-center/system-config',
+        component: 'view.confid-center_system-config',
+        meta: {
+          title: 'confid-center_system-config',
+          i18nKey: 'route.confid-center_system-config'
+        }
+      }
+    ]
+  },
+  {
+    name: 'data-center',
+    path: '/data-center',
+    component: 'layout.base',
+    meta: {
+      title: 'data-center',
+      i18nKey: 'route.data-center',
+      order: 3
+    },
+    children: [
+      {
+        name: 'data-center_alarm-record',
+        path: '/data-center/alarm-record',
+        component: 'view.data-center_alarm-record',
+        meta: {
+          title: 'data-center_alarm-record',
+          i18nKey: 'route.data-center_alarm-record',
+          order: 2
+        }
+      },
+      {
+        name: 'data-center_detection-record',
+        path: '/data-center/detection-record',
+        component: 'view.data-center_detection-record',
+        meta: {
+          title: 'data-center_detection-record',
+          i18nKey: 'route.data-center_detection-record',
+          order: 3
+        }
+      },
+      {
+        name: 'data-center_equipment-info',
+        path: '/data-center/equipment-info',
+        component: 'view.data-center_equipment-info',
+        meta: {
+          title: 'data-center_equipment-info',
+          i18nKey: 'route.data-center_equipment-info',
+          order: 1
+        }
+      }
+    ]
+  },
+  {
+    name: 'equipment-center',
+    path: '/equipment-center',
+    component: 'layout.base$view.equipment-center',
+    meta: {
+      title: 'equipment-center',
+      i18nKey: 'route.equipment-center',
+      order: 5
     }
   },
   {
@@ -60,6 +149,46 @@ export const generatedRoutes: GeneratedRoute[] = [
       i18nKey: 'route.login',
       constant: true,
       hideInMenu: true
+    }
+  },
+  {
+    name: 'monitor-center',
+    path: '/monitor-center',
+    component: 'layout.base$view.monitor-center',
+    meta: {
+      title: 'monitor-center',
+      i18nKey: 'route.monitor-center',
+      order: 2
+    }
+  },
+  {
+    name: 'user-center',
+    path: '/user-center',
+    component: 'layout.base$view.user-center',
+    meta: {
+      title: 'user-center',
+      i18nKey: 'route.user-center',
+      hideInMenu: true
+    }
+  },
+  {
+    name: 'workbench',
+    path: '/workbench',
+    component: 'layout.base$view.workbench',
+    meta: {
+      title: 'workbench',
+      i18nKey: 'route.workbench',
+      order: 1
+    }
+  },
+  {
+    name: 'workorder-center',
+    path: '/workorder-center',
+    component: 'layout.base$view.workorder-center',
+    meta: {
+      title: 'workorder-center',
+      i18nKey: 'route.workorder-center',
+      order: 4
     }
   }
 ];
