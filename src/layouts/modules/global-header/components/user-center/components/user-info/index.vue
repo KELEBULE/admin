@@ -20,9 +20,6 @@
         <NCard class="h-full">
           <NFlex v-if="edit" vertical class="w-full h-full" :size="0">
             <NForm ref="formRef" :model="userInfo" class="w-full h-full" size="small" :rules="rules">
-              <NFormItem label="昵称：" :label-width="100" label-placement="left" label-align="left" size="small" path="nickName">
-                <NInput v-model:value="userInfo.nickName" placeholder="请输入昵称" clearable></NInput>
-              </NFormItem>
               <NFormItem label="姓名：" :label-width="100" label-placement="left" label-align="left" size="small" path="realName">
                 <NInput v-model:value="userInfo.realName" placeholder="请输入真实姓名" clearable></NInput>
               </NFormItem>
@@ -50,8 +47,6 @@
           </NFlex>
           <NFlex v-else class="w-full h-full items-center justify-center" :size="0">
             <div class="w-full flex flex-col justify-center">
-              <NText class="text-16px">昵称: {{ userInfo.nickName }}</NText>
-              <NDivider />
               <NText class="text-16px">姓名: {{ userInfo.realName }}</NText>
               <NDivider />
               <NText class="text-16px">性别: {{ userInfo.gender }}</NText>
@@ -88,7 +83,6 @@ const userInfo = ref({
   realName: '',
   gender: '',
   email: '',
-  nickName: '',
   code: ''
 });
 const edit = ref(false);
@@ -108,7 +102,6 @@ const save = async () => {
         realName: userInfo.value.realName,
         gender: userInfo.value.gender,
         phone: userInfo.value.phone,
-        nickName: userInfo.value.nickName,
         email: userInfo.value.email,
         id: authStore.userInfo.id
       };
@@ -203,7 +196,6 @@ onMounted(async () => {
       userInfo.value.realName = res.data.realName;
       userInfo.value.gender = res.data.gender === '1' ? '男' : '女';
       userInfo.value.email = res.data.email;
-      userInfo.value.nickName = res.data.nickName;
     }
   } catch (error) {
     window.$message?.error(`获取用户信息失败,${error}`);

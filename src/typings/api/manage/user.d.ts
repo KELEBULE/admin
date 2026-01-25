@@ -16,7 +16,7 @@ declare namespace Api {
       /** user name */
       userName: string;
       /** user gender */
-      gender: UserGender | null;
+      gender: UserGender;
       /** user nickname */
       nickName: string;
       /** user real name */

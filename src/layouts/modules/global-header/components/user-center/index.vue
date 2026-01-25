@@ -1,5 +1,5 @@
 <template>
-  <NModal v-model:show="visible" class="w-700px h-510px">
+  <NModal v-model:show="visible" class="w-700px h-460px">
     <NCard title="个人中心">
       <NTabs v-model:value="Tab" type="line" animated class="w-full h-full">
         <NTabPane name="user-info" :tab="$t('page.userCenter.userInfo')" class="h-full">
