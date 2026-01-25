@@ -85,13 +85,14 @@ const userInfo = ref({
   email: '',
   code: ''
 });
+const originalEmail = ref('');
 const edit = ref(false);
 const save = async () => {
   if (!formRef.value) return;
   try {
     await formRef.value.validate();
     const EmailData = {
-      email: userInfo.value.email,
+      email: originalEmail.value,
       code: userInfo.value.code
     };
     const res = await fetchVerifyEmail(EmailData);
@@ -150,21 +151,18 @@ const rules = ref({
 const countdown = ref(60);
 const wait = ref(false);
 const sendCode = async () => {
-  // 直接使用正则表达式验证邮箱格式
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(userInfo.value.email)) {
-    window.$message?.error('邮箱格式不正确，请检查输入');
+  if (!originalEmail.value) {
+    window.$message?.error('原始邮箱不存在，无法发送验证码');
     return;
   }
   try {
     const data = {
-      email: userInfo.value.email
+      email: originalEmail.value
     };
     const res = await fetchSendEmail(data);
     if (res.data) {
       window.$message?.success('验证码发送成功');
       wait.value = true;
-      // 倒计时
       const timer = setInterval(() => {
         countdown.value -= 1;
         if (countdown.value <= 0) {
@@ -194,8 +192,9 @@ onMounted(async () => {
       userInfo.value.lastLoginTime = res.data.lastLoginTime;
       userInfo.value.createTime = res.data.createTime;
       userInfo.value.realName = res.data.realName;
-      userInfo.value.gender = res.data.gender === '1' ? '男' : '女';
+      userInfo.value.gender = res.data.gender;
       userInfo.value.email = res.data.email;
+      originalEmail.value = res.data.email;
     }
   } catch (error) {
     window.$message?.error(`获取用户信息失败,${error}`);

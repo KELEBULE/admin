@@ -1,12 +1,18 @@
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
-    <NFormItem path="phone">
-      <NInput v-model:value="model.phone" :placeholder="$t('page.login.common.phonePlaceholder')" />
+    <NFormItem path="realName">
+      <NInput v-model:value="model.realName" placeholder="请输入姓名" />
+    </NFormItem>
+    <NFormItem path="userName">
+      <NInput v-model:value="model.userName" placeholder="请输入用户名" />
+    </NFormItem>
+    <NFormItem path="email">
+      <NInput v-model:value="model.email" placeholder="请输入邮箱" />
     </NFormItem>
     <NFormItem path="code">
       <div class="w-full flex-y-center gap-16px">
         <NInput v-model:value="model.code" :placeholder="$t('page.login.common.codePlaceholder')" />
-        <NButton size="large" :disabled="isCounting" :loading="loading" @click="getCaptcha(model.phone)">
+        <NButton size="large" :disabled="isCounting" :loading="loading" @click="getCaptcha(model.email)">
           {{ label }}
         </NButton>
       </div>
@@ -26,57 +32,75 @@
       <NButton type="primary" size="large" round block @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
-      <NButton size="large" round block @click="toggleLoginModule('pwd-login')">
-        {{ $t('page.login.common.back') }}
-      </NButton>
     </NSpace>
   </NForm>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { useRouterPush } from '@/hooks/common/router';
+import { fetchRegisterByEmail } from '@/service/api/auth';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useCaptcha } from '@/hooks/business/captcha';
 import { $t } from '@/locales';
-
 defineOptions({
   name: 'Register'
 });
-
-const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
 const { label, isCounting, loading, getCaptcha } = useCaptcha();
 
 interface FormModel {
-  phone: string;
+  email: string;
   code: string;
   password: string;
   confirmPassword: string;
+  realName: string;
+  userName: string;
 }
 
 const model: FormModel = reactive({
-  phone: '',
+  email: '',
   code: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  realName: '',
+  userName: ''
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
   const { formRules, createConfirmPwdRule } = useFormRules();
 
   return {
-    phone: formRules.phone,
+    email: formRules.email,
     code: formRules.code,
     password: formRules.pwd,
-    confirmPassword: createConfirmPwdRule(model.password)
+    confirmPassword: createConfirmPwdRule(model.password),
+    realName: formRules.realName,
+    userName: formRules.userName
   };
 });
 
 async function handleSubmit() {
   await validate();
   // request to register
-  window.$message?.success($t('page.login.common.validateSuccess'));
+  try {
+    const data = {
+      email: model.email,
+      code: model.code,
+      password: model.password,
+      realName: model.realName,
+      userName: model.userName
+    };
+    const res = await fetchRegisterByEmail(data);
+    if (res.data) {
+      window.$message?.success('注册成功,等待管理员审核');
+      // redirect to login page
+      window.location.href = '/login';
+    } else {
+      window.$message?.error('注册失败');
+    }
+  } catch (error) {
+    window.$message?.error(`注册失败,${error}`);
+  }
 }
 </script>
 

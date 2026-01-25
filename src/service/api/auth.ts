@@ -54,3 +54,12 @@ export function fetchRefreshToken(refreshToken: string) {
 export function fetchCustomBackendError(code: string, msg: string) {
   return request({ url: '/auth/error', params: { code, msg } });
 }
+
+// 邮箱注册
+export function fetchRegisterByEmail(data: { email: string; code: string; password: string; realName: string; userName: string }) {
+  return request<any>({
+    url: '/auth/email_register',
+    method: 'post',
+    data
+  });
+}

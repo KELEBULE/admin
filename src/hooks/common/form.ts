@@ -38,7 +38,8 @@ export function useFormRules() {
     phone: [createRequiredRule($t('form.phone.required')), patternRules.phone],
     pwd: [createRequiredRule($t('form.pwd.required')), patternRules.pwd],
     code: [createRequiredRule($t('form.code.required')), patternRules.code],
-    email: [createRequiredRule($t('form.email.required')), patternRules.email]
+    email: [createRequiredRule($t('form.email.required')), patternRules.email],
+    realName: [createRequiredRule('请输入姓名')]
   } satisfies Record<string, App.Global.FormRule[]>;
 
   /** the default required rule */

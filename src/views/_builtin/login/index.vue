@@ -23,7 +23,11 @@
           </div>
         </header>
         <main class="pt-24px">
-          <h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3>
+          <NTabs v-model:value="tab" type="line" animated class="w-full">
+            <NTab name="pwd-login" class="text-20px lt-sm:text-18px" @click="tab = 'pwd-login'">密码登录</NTab>
+            <NTab name="code-login" class="text-20px lt-sm:text-18px" @click="tab = 'code-login'">邮箱验证</NTab>
+            <NTab name="register" class="text-20px lt-sm:text-18px" @click="tab = 'register'">邮箱注册</NTab>
+          </NTabs>
           <div class="pt-24px">
             <Transition :name="themeStore.page.animateMode" mode="out-in" appear>
               <component :is="activeModule.component" />
@@ -36,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { Component } from 'vue';
 import { getPaletteColorByNumber, mixColor } from '@sa/color';
 import { loginModuleRecord } from '@/constants/app';
@@ -49,12 +53,12 @@ import Register from './modules/register.vue';
 import ResetPwd from './modules/reset-pwd.vue';
 import BindWechat from './modules/bind-wechat.vue';
 
-interface Props {
-  /** The login module */
-  module?: UnionKey.LoginModule;
-}
+// interface Props {
+//   /** The login module */
+//   module?: UnionKey.LoginModule;
+// }
 
-const props = defineProps<Props>();
+// const props = defineProps<Props>();
 
 const appStore = useAppStore();
 const themeStore = useThemeStore();
@@ -63,7 +67,7 @@ interface LoginModule {
   label: string;
   component: Component;
 }
-
+const tab = ref('pwd-login');
 const moduleMap: Record<UnionKey.LoginModule, LoginModule> = {
   'pwd-login': { label: loginModuleRecord['pwd-login'], component: PwdLogin },
   'code-login': { label: loginModuleRecord['code-login'], component: CodeLogin },
@@ -72,7 +76,7 @@ const moduleMap: Record<UnionKey.LoginModule, LoginModule> = {
   'bind-wechat': { label: loginModuleRecord['bind-wechat'], component: BindWechat }
 };
 
-const activeModule = computed(() => moduleMap[props.module || 'pwd-login']);
+const activeModule = computed(() => moduleMap[tab.value as UnionKey.LoginModule]);
 
 const bgThemeColor = computed(() => (themeStore.darkMode ? getPaletteColorByNumber(themeStore.themeColor, 600) : themeStore.themeColor));
 
