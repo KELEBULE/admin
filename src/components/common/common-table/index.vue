@@ -83,6 +83,7 @@ const props = withDefaults(
     immediate?: boolean; // 是否立即请求数据
     beforeInitdata?: ((params: any) => any) | null;
     rowKey?: string;
+    method?: 'get' | 'post'; // 请求方法
   }>(),
   {
     queryRules: {},
@@ -93,7 +94,8 @@ const props = withDefaults(
     showColumnSetting: true,
     immediate: true,
     beforeInitdata: null,
-    rowKey: 'id'
+    rowKey: 'id',
+    method: 'post'
   }
 );
 const emit = defineEmits(['page', 'pageSize', 'selection', 'dbClick', 'oneClick', 'search', 'controlColumns', 'dataReady']);
@@ -228,8 +230,8 @@ const initData = async () => {
 
   request<PageResult>({
     url: props.url,
-    method: 'post',
-    data: params
+    method: props.method,
+    [props.method === 'get' ? 'params' : 'data']: params
   })
     .then(async (res: any) => {
       loading.value = false;

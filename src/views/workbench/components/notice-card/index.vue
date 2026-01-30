@@ -34,7 +34,7 @@ import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { fetchGetNoticeList } from '@/service/api/manage/notice';
 import { NoticeCategory, NoticeCategoryMap } from '@/enum/index';
-import Detail from '@/views/confid-center/system-announce/components/detail.vue';
+import Detail from '@/views/config-center/system-announce/components/detail.vue';
 
 const router = useRouter();
 const noticeList = ref<any[]>([]);

@@ -49,7 +49,7 @@
             <div class="w-full flex flex-col justify-center">
               <NText class="text-16px">姓名: {{ userInfo.realName }}</NText>
               <NDivider />
-              <NText class="text-16px">性别: {{ userInfo.gender }}</NText>
+              <NText class="text-16px">性别: {{ userInfo.gender === '1' ? '男' : '女' }}</NText>
               <NDivider />
               <NText class="text-16px">手机: {{ userInfo.phone }}</NText>
               <NDivider />

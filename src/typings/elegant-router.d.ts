@@ -20,11 +20,11 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
-    "confid-center": "/confid-center";
-    "confid-center_alarm-config": "/confid-center/alarm-config";
-    "confid-center_organization-config": "/confid-center/organization-config";
-    "confid-center_system-announce": "/confid-center/system-announce";
-    "confid-center_system-config": "/confid-center/system-config";
+    "config-center": "/config-center";
+    "config-center_alarm-config": "/config-center/alarm-config";
+    "config-center_organization-config": "/config-center/organization-config";
+    "config-center_system-announce": "/config-center/system-announce";
+    "config-center_system-config": "/config-center/system-config";
     "data-center": "/data-center";
     "data-center_alarm-record": "/data-center/alarm-record";
     "data-center_detection-record": "/data-center/detection-record";
@@ -68,7 +68,7 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "confid-center"
+    | "config-center"
     | "data-center"
     | "equipment-center"
     | "login"
@@ -95,10 +95,10 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "login"
-    | "confid-center_alarm-config"
-    | "confid-center_organization-config"
-    | "confid-center_system-announce"
-    | "confid-center_system-config"
+    | "config-center_alarm-config"
+    | "config-center_organization-config"
+    | "config-center_system-announce"
+    | "config-center_system-config"
     | "data-center_alarm-record"
     | "data-center_detection-record"
     | "data-center_equipment-info"

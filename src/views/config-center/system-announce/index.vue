@@ -70,11 +70,11 @@ const fieldList = ref([
       options: [
         {
           label: '公告',
-          value: 1
+          value: 2
         },
         {
           label: '通知',
-          value: 2
+          value: 1
         }
       ]
     }
@@ -99,7 +99,8 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'category',
     title: '类型',
-    width: 80,
+    align: 'center',
+    width: 60,
     render: (row: any) => {
       const typeMap: Record<string, any> = {
         [NoticeCategory.Announce]: 'primary',
@@ -112,7 +113,8 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'title',
     title: '标题',
-    width: 300
+    align: 'center',
+    width: 500
   },
   // {
   //   key: 'content',
@@ -129,7 +131,8 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'releaseTime',
     title: '发布时间',
-    width: 180,
+    align: 'center',
+    width: 200,
     render: (row: any) => {
       return dayjs(row.releaseTime).format('YYYY-MM-DD HH:mm:ss');
     }
@@ -169,10 +172,11 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'action',
     title: '操作',
-    width: 80,
+    align: 'center',
+    width: 60,
     render: (row: any) => {
       return (
-        <NSpace>
+        <NSpace justify="space-around">
           <NButton text type="primary" onClick={() => handleDetail(row)}>
             详情
           </NButton>

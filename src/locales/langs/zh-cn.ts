@@ -181,17 +181,17 @@ const local: App.I18n.Schema = {
     500: '服务器错误',
     workbench: '工作台',
     'monitor-center': '监控中心',
-    'confid-center': '配置中心',
     'data-center': '数据中心',
     'equipment-center': '设备中心',
     'data-center_alarm-record': '报警记录',
     'data-center_detection-record': '检测记录',
     'data-center_equipment-info': '设备信息',
-    'confid-center_alarm-config': '报警配置',
-    'confid-center_organization-config': '组织配置',
-    'confid-center_system-announce': '系统公告',
-    'confid-center_system-config': '系统配置',
-    'workorder-center': '工单中心'
+    'workorder-center': '工单中心',
+    'config-center': '配置中心',
+    'config-center_alarm-config': '报警配置',
+    'config-center_organization-config': '组织配置',
+    'config-center_system-announce': '系统公告',
+    'config-center_system-config': '系统配置'
   },
 
   page: {

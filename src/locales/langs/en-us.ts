@@ -181,17 +181,17 @@ const local: App.I18n.Schema = {
     500: 'Server Error',
     workbench: 'Workbench',
     'monitor-center': 'Monitor Center',
-    'confid-center': 'Confid Center',
     'data-center': 'Data Center',
     'equipment-center': 'Equipment Center',
     'data-center_alarm-record': 'Alarm Record',
     'data-center_detection-record': 'Detection Record',
     'data-center_equipment-info': 'Equipment Info',
-    'confid-center_alarm-config': 'Alarm Config',
-    'confid-center_organization-config': 'Organization Config',
-    'confid-center_system-announce': 'System Announce',
-    'confid-center_system-config': 'System Config',
-    'workorder-center': 'Workorder Center'
+    'workorder-center': 'Workorder Center',
+    'config-center': 'Config Center',
+    'config-center_alarm-config': 'Alarm Config',
+    'config-center_organization-config': 'Organization Config',
+    'config-center_system-announce': 'System Announce',
+    'config-center_system-config': 'System Config'
   },
 
   page: {

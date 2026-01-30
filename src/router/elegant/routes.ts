@@ -40,49 +40,49 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'confid-center',
-    path: '/confid-center',
+    name: 'config-center',
+    path: '/config-center',
     component: 'layout.base',
     meta: {
-      title: 'confid-center',
-      i18nKey: 'route.confid-center',
+      title: 'config-center',
+      i18nKey: 'route.config-center',
       order: 6
     },
     children: [
       {
-        name: 'confid-center_alarm-config',
-        path: '/confid-center/alarm-config',
-        component: 'view.confid-center_alarm-config',
+        name: 'config-center_alarm-config',
+        path: '/config-center/alarm-config',
+        component: 'view.config-center_alarm-config',
         meta: {
-          title: 'confid-center_alarm-config',
-          i18nKey: 'route.confid-center_alarm-config'
+          title: 'config-center_alarm-config',
+          i18nKey: 'route.config-center_alarm-config'
         }
       },
       {
-        name: 'confid-center_organization-config',
-        path: '/confid-center/organization-config',
-        component: 'view.confid-center_organization-config',
+        name: 'config-center_organization-config',
+        path: '/config-center/organization-config',
+        component: 'view.config-center_organization-config',
         meta: {
-          title: 'confid-center_organization-config',
-          i18nKey: 'route.confid-center_organization-config'
+          title: 'config-center_organization-config',
+          i18nKey: 'route.config-center_organization-config'
         }
       },
       {
-        name: 'confid-center_system-announce',
-        path: '/confid-center/system-announce',
-        component: 'view.confid-center_system-announce',
+        name: 'config-center_system-announce',
+        path: '/config-center/system-announce',
+        component: 'view.config-center_system-announce',
         meta: {
-          title: 'confid-center_system-announce',
-          i18nKey: 'route.confid-center_system-announce'
+          title: 'config-center_system-announce',
+          i18nKey: 'route.config-center_system-announce'
         }
       },
       {
-        name: 'confid-center_system-config',
-        path: '/confid-center/system-config',
-        component: 'view.confid-center_system-config',
+        name: 'config-center_system-config',
+        path: '/config-center/system-config',
+        component: 'view.config-center_system-config',
         meta: {
-          title: 'confid-center_system-config',
-          i18nKey: 'route.confid-center_system-config'
+          title: 'config-center_system-config',
+          i18nKey: 'route.config-center_system-config'
         }
       }
     ]
