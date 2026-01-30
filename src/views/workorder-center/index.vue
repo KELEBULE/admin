@@ -1,7 +1,9 @@
 <template>
-  <NCard class="w-full h-full bg-black">
-    <CommonTable ref="commonTable" :url="url" :columns="columns" :search-field-list="fieldList" />
-  </NCard>
+  <div>
+    <NFlex class="rounded-10px p-8px h-full w-full bg-#fff">
+      <CommonTable ref="commonTable" class="h-full w-full" :url="url" :columns="columns" :search-field-list="fieldList" />
+    </NFlex>
+  </div>
 </template>
 
 <script setup lang="ts">

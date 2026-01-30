@@ -202,7 +202,7 @@ const computedScrollX = computed(() => {
   return sum;
 });
 
-const initSearchForm = defineModel('searchForm', { type: Object, default: { orderBy: '' } }); // 搜索表单的内容,(需要回显在表单中)
+const initSearchForm = defineModel('searchForm', { type: Object, default: {} }); // 搜索表单的内容,(需要回显在表单中)
 const searchForm = ref({ ...initSearchForm.value });
 
 const tableData = ref<any>([]);
@@ -233,12 +233,12 @@ const initData = async () => {
   })
     .then(async (res: any) => {
       loading.value = false;
-      // 兼容两种数据结构：1. { data: { list: [], total: 0 } } 2. { data: [] }
+      // 兼容三种数据结构：1. { data: { list: [], total: 0 } } 2. { data: { records: [], total: 0 } } 3. { data: [] }
       if (Array.isArray(res.data)) {
         tableData.value = res.data ?? [];
         pagination.value.total = res.data?.length ?? 0;
       } else {
-        tableData.value = res.data?.list ?? [];
+        tableData.value = res.data?.list ?? res.data?.records ?? [];
         pagination.value.total = res.data ? Number(res.data.total ?? 0) : 0;
       }
 

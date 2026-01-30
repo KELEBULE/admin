@@ -5,8 +5,9 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import Components from 'unplugin-vue-components/vite';
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import { AntDesignVueResolver, NaiveUiResolver } from 'unplugin-vue-components/resolvers';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+import AutoImport from 'unplugin-auto-import/vite';
 
 export function setupUnplugin(viteEnv: Env.ImportMeta) {
   const { VITE_ICON_PREFIX, VITE_ICON_LOCAL_PREFIX } = viteEnv;
@@ -26,15 +27,25 @@ export function setupUnplugin(viteEnv: Env.ImportMeta) {
       defaultClass: 'inline-block'
     }),
     Components({
-      dts: 'src/typings/components.d.ts',
+      dts: 'components.d.ts',
       types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
-      resolvers: [NaiveUiResolver(), IconsResolver({ customCollections: [collectionName], componentPrefix: VITE_ICON_PREFIX })]
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: false
+        }),
+        NaiveUiResolver(),
+        IconsResolver({ customCollections: [collectionName], componentPrefix: VITE_ICON_PREFIX })
+      ]
     }),
     createSvgIconsPlugin({
       iconDirs: [localIconPath],
       symbolId: `${VITE_ICON_LOCAL_PREFIX}-[dir]-[name]`,
       inject: 'body-last',
       customDomId: '__SVG_ICON_LOCAL__'
+    }),
+    AutoImport({
+      imports: ['vue', 'vue-router', 'pinia'], // 自动导入vue和vue-router相关函数
+      dts: './auto-import.d.ts' // 生成 `auto-import.d.ts` 全局声明（ts项目添加上）
     })
   ];
 

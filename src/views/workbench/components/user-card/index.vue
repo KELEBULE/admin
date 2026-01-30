@@ -1,9 +1,11 @@
 <template>
-  <div class="w-full h-full flex flex-col justify-center items-center">
-    <div class="w-full flex flex-col justify-center items-center">
-      <NText class="text-24px font-bold">{{ userInfo.nickName }}</NText>
-      <NText class="text-16px">{{ userInfo.realName }}</NText>
-      <NText class="text-16px">{{ userInfo.gender }}</NText>
+  <div class="w-full h-full flex flex-col justify-center items-center py-4">
+    <div class="w-full flex flex-col items-center">
+      <NImage :src="userInfo.avatar || '/default-avatar.png'" class="w-80px h-80px rounded-full mb-3" fallback-src="/default-avatar.png"></NImage>
+      <NText class="text-18px font-bold mb-1">{{ userInfo.username }}</NText>
+      <NText class="text-14px text-gray-600 mb-2">{{ userInfo.realName }}</NText>
+      <NText class="text-12px text-gray-500 mb-1">{{ userInfo.gender }}</NText>
+      <NText class="text-12px text-gray-500 mb-1">{{ userInfo.phone }}</NText>
     </div>
   </div>
 </template>
@@ -21,7 +23,6 @@ const userInfo = ref({
   realName: '',
   gender: '',
   email: '',
-  nickName: '',
   code: ''
 });
 onMounted(async () => {
@@ -38,7 +39,6 @@ onMounted(async () => {
     userInfo.value.realName = res.data.realName;
     userInfo.value.gender = res.data.gender === '1' ? '男' : '女';
     userInfo.value.email = res.data.email;
-    userInfo.value.nickName = res.data.nickName;
   }
 });
 </script>

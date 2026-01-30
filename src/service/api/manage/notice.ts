@@ -3,11 +3,11 @@ import { request } from '@/service/request';
 // =============== Notice Begin ===============
 
 /** get notice list */
-export function fetchGetNoticeList(params?: Api.Manage.NoticeSearchParams) {
+export function fetchGetNoticeList(data: any) {
   return request<Api.Manage.NoticeList>({
     url: '/sys_notice/page',
-    method: 'GET',
-    params
+    method: 'POST',
+    data
   });
 }
 

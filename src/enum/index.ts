@@ -27,3 +27,11 @@ export enum EnumDataType {
   map = '[object Map]',
   file = '[object File]'
 }
+export enum NoticeCategory {
+  Notice = 1,
+  Announce = 2
+}
+export const NoticeCategoryMap = {
+  [NoticeCategory.Announce]: '公告',
+  [NoticeCategory.Notice]: '通知'
+};
