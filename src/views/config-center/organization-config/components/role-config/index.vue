@@ -13,7 +13,7 @@
       <template #actions>
         <NButton type="primary" @click="handleAdd">新增</NButton>
         <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">删除</NButton>
-        <NButton v-if="hasAuth('sys:role:export')" @click="exportData">导出</NButton>
+        <NButton @click="exportData">导出</NButton>
       </template>
     </CommonTable>
     <RoleOperateDrawer v-model:visible="showEdit" :operate-type="operateType" :row-data="editRow" @submitted="handleSubmitted"></RoleOperateDrawer>
@@ -29,7 +29,7 @@ import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NDropdown, NPopconfirm, NSpace } from 'naive-ui';
 import { fetchDeleteRole, fetchExportRoleData } from '@/service/api/manage/role';
 import { useDict } from '@/hooks/business/dict';
-import { useAuth } from '@/hooks/business/auth';
+// import { useAuth } from '@/hooks/business/auth';
 import { transDeleteParams } from '@/utils/common';
 import { downloadBlob } from '@/utils/download';
 import { $t } from '@/locales';
@@ -44,7 +44,7 @@ defineOptions({
 
 const { dictTag } = useDict();
 
-const { hasAuth } = useAuth();
+// const { hasAuth } = useAuth();
 
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);

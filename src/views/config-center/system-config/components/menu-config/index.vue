@@ -1,11 +1,11 @@
 <template>
-  <div class="flex overflow-hidden">
-    <NGrid :x-gap="8" :y-gap="8" item-responsive responsive="screen" cols="1 s:1 m:5 l:5 xl:5 2xl:5" class="h-full-hidden">
-      <NGridItem span="1" class="h-full-hidden">
+  <div class="rounded-10px h-full bg-#fff">
+    <NGrid :x-gap="8" :y-gap="8" item-responsive responsive="screen" cols="1 s:1 m:5 l:5 xl:5 2xl:5" class="h-full">
+      <NGridItem span="1" class="h-full">
         <NCard :title="$t('page.manage.menu.title')" :bordered="false" size="small" class="h-full sm:flex-1-hidden" content-class="h-full-hidden">
           <template #header-extra>
             <NFlex>
-              <NButton v-if="hasAuth('sys:menu:add')" ghost type="primary" size="small" @click="handleAddMenu()">
+              <NButton ghost type="primary" size="small" @click="handleAddMenu()">
                 {{ $t('common.add') }}
               </NButton>
               <NButton quaternary @click="init(null)">
@@ -31,17 +31,17 @@
           </div>
         </NCard>
       </NGridItem>
-      <NGridItem v-if="detailVisible" span="4" class="flex-col-stretch gap-8px overflow-hidden lt-sm:overflow-auto">
+      <NGridItem v-if="detailVisible" span="4" class="flex-col gap-8px">
         <NCard :title="$t('page.manage.menu.detail')" :bordered="false" size="small">
           <template #header-extra>
             <NFlex>
-              <NButton v-if="showData.type === '1' && hasAuth('sys:menu:add')" type="primary" quaternary size="small" @click="handleAddChildMenu()">
+              <NButton v-if="showData.type === '1'" type="primary" quaternary size="small" @click="handleAddChildMenu()">
                 {{ $t('page.manage.menu.addChildMenu') }}
               </NButton>
-              <NButton v-if="hasAuth('sys:menu:update')" ghost type="primary" size="small" @click="handleEditMenu()">
+              <NButton ghost type="primary" size="small" @click="handleEditMenu()">
                 {{ $t('common.edit') }}
               </NButton>
-              <NPopconfirm v-if="hasAuth('sys:menu:delete')" placement="bottom" @positive-click="handleDeleteMenu">
+              <NPopconfirm placement="bottom" @positive-click="handleDeleteMenu">
                 <template #trigger>
                   <NButton ghost type="error" size="small">
                     {{ $t('common.delete') }}
@@ -66,13 +66,15 @@
               <NTag :type="dcitType('feature_status', showData.hide)">{{ dictLabel('feature_status', showData.hide) }}</NTag>
             </NDescriptionsItem>
             <NDescriptionsItem :label="$t('page.manage.menu.keepAlive')">
-              <NTag :type="dcitType('feature_status', showData.keepAlive || 'N')">{{ dictLabel('feature_status', showData.keepAlive || 'N') }}</NTag>
+              <NTag :type="dcitType('feature_status', showData.keepAlive || 'N')">
+                {{ dictLabel('feature_status', showData.keepAlive || 'N') }}
+              </NTag>
             </NDescriptionsItem>
             <NDescriptionsItem :label="$t('page.manage.menu.href')" :span="2">{{ showData.href }}</NDescriptionsItem>
             <NDescriptionsItem :label="$t('page.manage.menu.iframeUrl')" :span="2">{{ showData.iframeUrl }}</NDescriptionsItem>
           </NDescriptions>
         </NCard>
-        <PermissionListTable :show-data="showData" :all-pages="allPages" />
+        <PermissionListTable :show-data="showData" :all-pages="allPages" class="h-full" />
       </NGridItem>
       <NGridItem v-else span="4" class="h-full overflow-auto">
         <NCard :bordered="false" size="small" class="h-full">
@@ -96,7 +98,7 @@ import { h, reactive, ref, shallowRef } from 'vue';
 import { NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { fetchDeleteMenu, fetchGetAllPages, fetchGetMenuTree } from '@/service/api';
-import { useAuth } from '@/hooks/business/auth';
+// import { useAuth } from '@/hooks/business/auth';
 import { useDict } from '@/hooks/business/dict';
 import { transDeleteParams } from '@/utils/common';
 import { $t } from '@/locales';
@@ -108,7 +110,7 @@ const { bool: detailVisible, setBool: setDetailVisible, setFalse: hideDetail } =
 
 const { bool: menuDrawerVisible, setTrue: openMenuDrawer } = useBoolean();
 
-const { hasAuth } = useAuth();
+// const { hasAuth } = useAuth();
 
 const { dcitType, dictLabel } = useDict();
 

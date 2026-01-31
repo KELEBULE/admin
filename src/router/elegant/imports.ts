@@ -20,6 +20,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   500: () => import("@/views/_builtin/500/index.vue"),
   login: () => import("@/views/_builtin/login/index.vue"),
   "config-center_alarm-config": () => import("@/views/config-center/alarm-config/index.vue"),
+  "config-center_log-config": () => import("@/views/config-center/log-config/index.vue"),
   "config-center_organization-config": () => import("@/views/config-center/organization-config/index.vue"),
   "config-center_system-announce": () => import("@/views/config-center/system-announce/index.vue"),
   "config-center_system-config": () => import("@/views/config-center/system-config/index.vue"),

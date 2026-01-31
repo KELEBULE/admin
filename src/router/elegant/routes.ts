@@ -59,6 +59,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'config-center_log-config',
+        path: '/config-center/log-config',
+        component: 'view.config-center_log-config',
+        meta: {
+          title: 'config-center_log-config',
+          i18nKey: 'route.config-center_log-config'
+        }
+      },
+      {
         name: 'config-center_organization-config',
         path: '/config-center/organization-config',
         component: 'view.config-center_organization-config',

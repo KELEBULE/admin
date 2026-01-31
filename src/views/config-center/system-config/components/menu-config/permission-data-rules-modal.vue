@@ -38,7 +38,7 @@ import { computed, reactive, watch } from 'vue';
 import { NButton, NPopconfirm } from 'naive-ui';
 import { fetchDeleteDataScope, fetchGetDataScopeList } from '@/service/api';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { useAuth } from '@/hooks/business/auth';
+// import { useAuth } from '@/hooks/business/auth';
 import { useDict } from '@/hooks/business/dict';
 import { transDeleteParams } from '@/utils/common';
 import { $t } from '@/locales';
@@ -60,7 +60,7 @@ const props = defineProps<Props>();
 
 const { dictTag } = useDict();
 
-const { hasAuth } = useAuth();
+// const { hasAuth } = useAuth();
 
 const { bool: dataScopeOperateModalVisible, setTrue: openDataScopeOperateModalVisible } = useBoolean();
 
@@ -146,12 +146,12 @@ const { columns, data, loading, mobilePagination, updateSearchParams, getData, g
       fixed: 'right',
       render: row => (
         <div class="flex-center gap-8px">
-          {hasAuth('sys:permission:update') && (
+          {
             <NButton type="primary" quaternary size="small" onClick={() => handleEditButton(row.id)}>
               {$t('common.edit')}
             </NButton>
-          )}
-          {hasAuth('sys:permission:delete') && (
+          }
+          {
             <NPopconfirm onPositiveClick={() => handleDeleteButton(row.id)}>
               {{
                 default: () => $t('common.confirmDelete'),
@@ -162,7 +162,7 @@ const { columns, data, loading, mobilePagination, updateSearchParams, getData, g
                 )
               }}
             </NPopconfirm>
-          )}
+          }
         </div>
       )
     }

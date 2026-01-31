@@ -191,7 +191,8 @@ const local: App.I18n.Schema = {
     'config-center_alarm-config': '报警配置',
     'config-center_organization-config': '组织配置',
     'config-center_system-announce': '系统公告',
-    'config-center_system-config': '系统配置'
+    'config-center_system-config': '系统配置',
+    'config-center_log-config': '日志配置'
   },
 
   page: {

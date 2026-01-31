@@ -191,7 +191,8 @@ const local: App.I18n.Schema = {
     'config-center_alarm-config': 'Alarm Config',
     'config-center_organization-config': 'Organization Config',
     'config-center_system-announce': 'System Announce',
-    'config-center_system-config': 'System Config'
+    'config-center_system-config': 'System Config',
+    'config-center_log-config': 'Log Config'
   },
 
   page: {

@@ -22,6 +22,7 @@ declare module "@elegant-router/types" {
     "500": "/500";
     "config-center": "/config-center";
     "config-center_alarm-config": "/config-center/alarm-config";
+    "config-center_log-config": "/config-center/log-config";
     "config-center_organization-config": "/config-center/organization-config";
     "config-center_system-announce": "/config-center/system-announce";
     "config-center_system-config": "/config-center/system-config";
@@ -96,6 +97,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "login"
     | "config-center_alarm-config"
+    | "config-center_log-config"
     | "config-center_organization-config"
     | "config-center_system-announce"
     | "config-center_system-config"

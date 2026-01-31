@@ -5,8 +5,15 @@
         <NTabPane name="menu-config" tab="菜单配置" class="w-full h-full">
           <MenuConfig></MenuConfig>
         </NTabPane>
-        <NTabPane name="role-config" tab="角色配置" class="w-full h-full"></NTabPane>
-        <NTabPane name="user-config" tab="用户配置" class="w-full h-full"></NTabPane>
+        <NTabPane name="dict-config" tab="字典配置" class="w-full h-full">
+          <DictConfig></DictConfig>
+        </NTabPane>
+        <NTabPane name="system-monitor" tab="系统监控" class="h-full">
+          <SystemMonitor></SystemMonitor>
+        </NTabPane>
+        <NTabPane name="cache-monitor" tab="缓存监控" class="h-full">
+          <CacheMonitor></CacheMonitor>
+        </NTabPane>
       </NTabs>
     </NFlex>
   </div>
@@ -14,6 +21,9 @@
 
 <script setup lang="ts">
 import MenuConfig from './components/menu-config/index.vue';
+import DictConfig from './components/dict-config/index.vue';
+import SystemMonitor from './components/system-monitor/index.vue';
+import CacheMonitor from './components/cache-monitor/index.vue';
 </script>
 
 <style scoped></style>

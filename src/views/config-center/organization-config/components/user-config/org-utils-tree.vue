@@ -3,7 +3,7 @@
     <NCard :title="$t('page.manage.orgUnits.title')" :bordered="false" size="small" class="h-full sm:flex-1-hidden" content-class="h-full-hidden">
       <template #header-extra>
         <NFlex>
-          <NButton v-if="hasAuth('sys:org:units:add')" ghost type="primary" @click="handleAdd()">
+          <NButton ghost type="primary" @click="handleAdd()">
             {{ $t('common.add') }}
           </NButton>
           <NButton quaternary>
@@ -41,7 +41,7 @@ import type { TreeOption } from 'naive-ui';
 import { NButton, NButtonGroup, NFlex, NPopconfirm } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { fetchDeleteOrgUnits, fetchGetOrgUnits, fetchGetOrgUnitsTree } from '@/service/api';
-import { useAuth } from '@/hooks/business/auth';
+// import { useAuth } from '@/hooks/business/auth';
 import { transDeleteParams } from '@/utils/common';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { $t } from '@/locales';
@@ -60,7 +60,7 @@ type Emits = {
 
 const emit = defineEmits<Emits>();
 
-const { hasAuth } = useAuth();
+// const { hasAuth } = useAuth();
 
 const operateType = ref<OperateType>('add');
 
@@ -129,54 +129,54 @@ function renderSuffix({ option }: { option: TreeOption }) {
     {},
     {
       default: () => [
-        hasAuth('sys:org:units:add') &&
-          h(
-            NButton,
-            {
-              size: 'tiny',
-              quaternary: true,
-              onClick: event => {
-                event.stopPropagation();
-                handleAddChild(item);
-              }
-            },
-            { icon: () => h(SvgIcon, { icon: 'ic:round-playlist-add' }) }
-          ),
-        hasAuth('sys:org:units:update') &&
-          h(
-            NButton,
-            {
-              size: 'tiny',
-              quaternary: true,
-              onClick: event => {
-                event.stopPropagation();
-                handleEdit(item);
-              }
-            },
-            { icon: () => h(SvgIcon, { icon: 'ic:round-edit' }) }
-          ),
-        hasAuth('sys:org:units:delete') &&
-          h(
-            NPopconfirm,
-            {
-              onPositiveClick: () => handleDelete(item)
-            },
-            {
-              default: () => $t('common.confirmDelete'),
-              trigger: () =>
-                h(
-                  NButton,
-                  {
-                    size: 'tiny',
-                    quaternary: true,
-                    onClick: event => {
-                      event.stopPropagation();
-                    }
-                  },
-                  { icon: () => h(SvgIcon, { icon: 'ic:round-delete' }) }
-                )
+        // hasAuth('sys:org:units:add') &&
+        h(
+          NButton,
+          {
+            size: 'tiny',
+            quaternary: true,
+            onClick: event => {
+              event.stopPropagation();
+              handleAddChild(item);
             }
-          )
+          },
+          { icon: () => h(SvgIcon, { icon: 'ic:round-playlist-add' }) }
+        ),
+        // hasAuth('sys:org:units:update') &&
+        h(
+          NButton,
+          {
+            size: 'tiny',
+            quaternary: true,
+            onClick: event => {
+              event.stopPropagation();
+              handleEdit(item);
+            }
+          },
+          { icon: () => h(SvgIcon, { icon: 'ic:round-edit' }) }
+        ),
+        // hasAuth('sys:org:units:delete') &&
+        h(
+          NPopconfirm,
+          {
+            onPositiveClick: () => handleDelete(item)
+          },
+          {
+            default: () => $t('common.confirmDelete'),
+            trigger: () =>
+              h(
+                NButton,
+                {
+                  size: 'tiny',
+                  quaternary: true,
+                  onClick: event => {
+                    event.stopPropagation();
+                  }
+                },
+                { icon: () => h(SvgIcon, { icon: 'ic:round-delete' }) }
+              )
+          }
+        )
       ]
     }
   );

@@ -11,6 +11,9 @@
         <NTabPane name="user-config" tab="用户配置" class="w-full h-full">
           <UserConfig></UserConfig>
         </NTabPane>
+        <NTabPane name="position-config" tab="岗位配置" class="w-full h-full">
+          <PositionConfig></PositionConfig>
+        </NTabPane>
       </NTabs>
     </NFlex>
   </div>
@@ -20,6 +23,7 @@
 import OrganizationConfig from './components/org-config/index.vue';
 import RoleConfig from './components/role-config/index.vue';
 import UserConfig from './components/user-config/index.vue';
+import PositionConfig from './components/position-config/index.vue';
 </script>
 
 <style scoped></style>
