@@ -28,7 +28,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 import { useRouteStore } from '@/store/modules/route';
 import { useTabStore } from '@/store/modules/tab';
-import GlobalAi from './components/global-ai.vue';
+import GlobalAi from '@/components/common/global-modal/global-ai.vue';
 
 defineOptions({
   name: 'GlobalContent'

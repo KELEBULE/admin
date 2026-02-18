@@ -29,11 +29,12 @@ export default defineConfig(
       'vue/prefer-true-attribute-shorthand': 'off',
       'no-use-before-define': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
-      'vue/html-comment-content-newline': 'off', // 关闭hmtl的注释内容标签换行
+      'vue/html-comment-content-newline': 'off',
       'require-atomic-updates': 'off',
       'class-methods-use-this': 'off',
       '@typescript-eslint/require-atomic-updates': 'off',
-      complexity: ['error', { max: 40 }]
+      complexity: ['error', { max: 40 }],
+      'no-await-in-loop': 'off'
     }
   }
 );

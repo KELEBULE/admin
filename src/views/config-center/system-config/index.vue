@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NFlex class="rounded-10px p-10px h-full bg-#fff">
+    <NFlex class="rounded-10px p-10px h-full bg-container">
       <NTabs class="w-full">
         <NTabPane name="menu-config" tab="菜单配置" class="w-full h-full">
           <MenuConfig></MenuConfig>
@@ -14,6 +14,9 @@
         <NTabPane name="cache-monitor" tab="缓存监控" class="h-full">
           <CacheMonitor></CacheMonitor>
         </NTabPane>
+        <NTabPane name="ai-config" tab="AI配置" class="h-full">
+          <AiConfig></AiConfig>
+        </NTabPane>
       </NTabs>
     </NFlex>
   </div>
@@ -24,6 +27,7 @@ import MenuConfig from './components/menu-config/index.vue';
 import DictConfig from './components/dict-config/index.vue';
 import SystemMonitor from './components/system-monitor/index.vue';
 import CacheMonitor from './components/cache-monitor/index.vue';
+import AiConfig from './components/Ai-config/index.vue';
 </script>
 
 <style scoped></style>

@@ -22,7 +22,7 @@ import { useAuthStore } from '@/store/modules/auth';
 import { useRouterPush } from '@/hooks/common/router';
 import { useSvgIcon } from '@/hooks/common/icon';
 import { $t } from '@/locales';
-import UserCenter from './user-center/index.vue';
+import UserCenter from '@/components/common/global-modal/user-center/index.vue';
 
 defineOptions({
   name: 'UserAvatar'

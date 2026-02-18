@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NFlex class="rounded-10px p-10px h-full bg-#fff">
+    <NFlex class="rounded-10px p-10px h-full bg-container">
       <NTabs class="w-full">
         <NTabPane name="organization-config" tab="组织配置" class="w-full h-full">
           <OrganizationConfig></OrganizationConfig>

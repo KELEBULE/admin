@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NFlex class="rounded-10px p-8px h-full w-full bg-#fff">
+    <NFlex class="rounded-10px p-8px h-full w-full bg-container">
       <CommonTable ref="commonTable" class="h-full w-full" :url="url" :columns="columns" :search-field-list="fieldList" />
     </NFlex>
   </div>

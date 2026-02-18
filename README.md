@@ -29,6 +29,83 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 - **命令行工具**：内置高效的命令行工具，git提交、删除文件、发布等。
 - **移动端适配**：完美支持移动端，实现自适应布局。
 
+### 通用组件
+
+项目内置了三个功能强大的通用组件，位于 `src/components/common` 目录下，可大幅提升开发效率。
+
+#### CommonDrawer 通用抽屉组件
+
+基于 Naive UI NDrawer 二次封装的高级抽屉组件，提供更丰富的交互体验。
+
+**主要特性：**
+- **多方向支持**：支持 `right`、`left`、`top`、`bottom` 四个方向弹出
+- **折叠功能**：关闭后可折叠为小图标，点击可重新展开
+- **Tab 切换**：支持抽屉内 Tab 标签页切换功能
+- **主题适配**：自动适配明暗主题，支持自定义背景透明度
+- **毛玻璃效果**：内置 backdrop-filter 模糊效果
+- **自定义插槽**：提供 `header`、`footer`、默认插槽，灵活定制内容
+
+**基础用法：**
+```vue
+<CommonDrawer v-model="show" title="详情" :width="500">
+  <!-- 内容 -->
+</CommonDrawer>
+```
+
+#### CommonForm 通用表单组件
+
+基于 Naive UI NForm 二次封装的配置化表单组件，通过 JSON 配置快速生成表单。
+
+**主要特性：**
+- **配置化驱动**：通过 `fieldList` 配置自动生成表单字段
+- **丰富组件支持**：内置 15+ 表单控件（Input、Select、DatePicker、Switch、Cascader 等）
+- **远程数据选择**：支持 `remote-select` 远程搜索下拉框
+- **自动占位符**：根据字段标签自动生成 placeholder
+- **展开/收起**：支持表单字段展开收起功能
+- **栅格布局**：基于 24 栅格系统，支持自定义字段宽度
+- **表单验证**：完整支持 Naive UI 表单验证规则
+- **事件上下文**：事件回调自动注入 formModel 和 field 上下文
+
+**基础用法：**
+```vue
+<CommonForm
+  :model="formData"
+  :field-list="[
+    { value: 'name', label: '名称' },
+    { value: 'status', label: '状态', component: 'n-select', list: statusOptions }
+  ]"
+  @confirm="handleSubmit"
+/>
+```
+
+#### CommonTable 通用表格组件
+
+集成了搜索、分页、列设置等功能的高级数据表格组件，开箱即用。
+
+**主要特性：**
+- **自动请求**：传入 URL 自动发起请求获取数据
+- **集成搜索**：内置搜索表单，支持展开收起
+- **分页功能**：自动分页，支持页码和每页条数切换
+- **列设置**：支持列显示/隐藏、拖拽排序
+- **列过滤**：支持表头筛选器（输入框、数字、日期、下拉选择）
+- **行选择**：支持多选/单选，返回选中行数据
+- **行事件**：支持单击、双击行事件
+- **排序功能**：支持列排序，自动传递排序参数
+- **数据适配**：兼容多种后端数据结构（list/records 数组）
+- **请求拦截**：支持 `beforeInitdata` 钩子处理请求参数
+
+**基础用法：**
+```vue
+<CommonTable
+  :url="'/api/user/list'"
+  :columns="columns"
+  :search-field-list="searchFields"
+  v-model:pagination="pagination"
+  v-model:checked-row-keys="selectedKeys"
+  @selection="handleSelection"
+/>
+```
+
 ### 项目源码
 
 | 名称      | 链接                                                                      |

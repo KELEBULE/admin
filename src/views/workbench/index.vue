@@ -2,24 +2,18 @@
   <div class="h-full w-full">
     <NGrid class="h-full w-full" :cols="10" x-gap="16">
       <NGridItem :span="7" class="h-full">
-        <NFlex vertical class="h-full w-full">
-          <NGrid class="h-full w-full" :cols="1" y-gap="16">
-            <NGridItem class="w-full">
-              <NCard class="h-full w-full" :bordered="false">
-                <DataCard></DataCard>
-              </NCard>
-            </NGridItem>
-            <NGridItem class="w-full">
-              <NCard class="h-full w-full" :bordered="false">
-                <AiCard></AiCard>
-              </NCard>
-            </NGridItem>
-          </NGrid>
+        <NFlex vertical class="h-full w-full" :size="16">
+          <NCard class="flex-1" :bordered="false">
+            <DataCard></DataCard>
+          </NCard>
+          <NCard class="h-450px" :bordered="false">
+            <AiCard></AiCard>
+          </NCard>
         </NFlex>
       </NGridItem>
       <NGridItem :span="3" class="h-full w-full">
         <NFlex vertical class="h-full w-full" :size="16">
-          <NCard class="flex-1 min-h-0" :bordered="false">
+          <NCard class="h-200px" :bordered="false">
             <UserCard></UserCard>
           </NCard>
           <NCard class="flex-1 min-h-0" :bordered="false">

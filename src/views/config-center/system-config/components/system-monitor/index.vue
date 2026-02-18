@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <NCard :title="$t('page.monitor.system.status')" size="small" content-class="text-center">
       <NGrid :x-gap="8" item-responsive responsive="screen" cols="2 s:2 m:4 l:4 xl:4 2xl:4">
         <NGridItem>

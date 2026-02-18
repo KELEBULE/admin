@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NFlex class="rounded-10px p-10px h-full bg-#fff">
+    <NFlex class="rounded-10px p-10px h-full bg-container">
       <CommonTable
         ref="tableRef"
         v-model:checked-row-keys="checkedRowKeys"

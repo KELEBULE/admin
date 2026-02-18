@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NFlex class="rounded-10px p-10px h-full bg-#fff">
+    <NFlex class="rounded-10px p-10px h-full bg-container">
       <NTabs class="w-full">
         <NTabPane name="login-log" tab="登录日志" class="w-full h-full">
           <LoginLog></LoginLog>

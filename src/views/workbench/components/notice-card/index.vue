@@ -65,7 +65,7 @@ const loadNoticeList = async () => {
 };
 
 const handleMore = () => {
-  router.push('/confid-center/system-announce');
+  router.push('/config-center/system-announce');
 };
 
 const handleDetail = (row: any) => {

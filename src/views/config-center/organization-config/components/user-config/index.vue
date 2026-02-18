@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-10px p-10px h-full bg-#fff">
+  <div class="rounded-10px p-10px h-full bg-container">
     <NGrid :x-gap="8" :y-gap="8" item-responsive responsive="screen" cols="1 s:1 m:5 l:5 xl:5 2xl:5" class="h-full-hidden">
       <NGridItem span="1" class="h-full-hidden"><OrgUnitTree @select="handleSelect" /></NGridItem>
       <NGridItem span="4" class="h-full overflow-auto">
