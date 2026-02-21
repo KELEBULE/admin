@@ -181,6 +181,7 @@ function loadCarModel() {
       loading.value = false;
       emit('loaded');
     },
+    undefined,
     error => {
       console.error('模型加载失败:', error);
       loading.value = false;
