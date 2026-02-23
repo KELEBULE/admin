@@ -1,5 +1,14 @@
 import { request } from '@/service/request/index';
 
+export interface AiSessionVO {
+  id: number;
+  sessionId: string;
+  title: string;
+  model: string;
+  lastActiveTime: string;
+  createTime: string;
+}
+
 export const fetchNormalCompletion = (data: any) => {
   return request({
     url: '/ai_chat/completion',
@@ -13,12 +22,10 @@ export const fetchStreamCompletion = (params: any) => {
     url: '/ai_chat/stream',
     method: 'GET',
     params,
-    // 流式响应不需要JSON解析
     responseType: 'stream'
   });
 };
 
-// 历史/ai_chat/session/{sessionId}
 export const fetchSessionCompletion = (sessionId: string, data: any) => {
   return request({
     url: `/ai_chat/session/${sessionId}`,
@@ -26,21 +33,21 @@ export const fetchSessionCompletion = (sessionId: string, data: any) => {
     data
   });
 };
-// 删除历史/ai_chat/session/{sessionId}
+
 export const deleteSessionCompletion = (sessionId: string) => {
   return request({
     url: `/ai_chat/session/${sessionId}`,
     method: 'DELETE'
   });
 };
-// 获取可用模型/ai_chat/models
+
 export const fetchAvailableModels = () => {
   return request({
     url: '/ai_chat/models',
     method: 'GET'
   });
 };
-// 上传文件/ai_chat/file/upload
+
 export const uploadFileCompletion = (data: any) => {
   return request({
     url: '/ai_chat/file/upload',
@@ -49,7 +56,6 @@ export const uploadFileCompletion = (data: any) => {
   });
 };
 
-// 删除文件/ai_chat/file
 export const deleteFileCompletion = (data: any) => {
   return request({
     url: `/ai_chat/file`,
@@ -58,7 +64,6 @@ export const deleteFileCompletion = (data: any) => {
   });
 };
 
-// 获取会话历史/ai_chat/session/{sessionId}
 export const fetchSessionHistory = (sessionId: string) => {
   return request({
     url: `/ai_chat/session/${sessionId}`,
@@ -66,10 +71,16 @@ export const fetchSessionHistory = (sessionId: string) => {
   });
 };
 
-// 清除会话历史/ai_chat/session/{sessionId}
 export const clearSessionHistory = (sessionId: string) => {
   return request({
     url: `/ai_chat/session/${sessionId}`,
     method: 'DELETE'
+  });
+};
+
+export const fetchSessionList = () => {
+  return request<AiSessionVO[]>({
+    url: '/ai_chat/sessions',
+    method: 'GET'
   });
 };

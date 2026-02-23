@@ -24,7 +24,9 @@ const local: App.I18n.Schema = {
     confirm: 'Confirm',
     delete: 'Delete',
     deleteSuccess: 'Delete Success',
+    deleteFailed: 'Delete Failed',
     confirmDelete: 'Are you sure you want to delete?',
+    loadFailed: 'Load Failed',
     edit: 'Edit',
     warning: 'Warning',
     error: 'Error',
@@ -302,7 +304,15 @@ const local: App.I18n.Schema = {
       priorityLow: 'Low',
       thisMonth: 'This Month',
       minute: 'minute',
-      noData: 'No Data'
+      noData: 'No Data',
+      ai: {
+        historyTitle: 'Chat History',
+        historyChat: 'History',
+        newChat: 'New Chat',
+        noHistory: 'No history',
+        yesterday: 'Yesterday',
+        daysAgo: '{count} days ago'
+      }
     },
     function: {
       tab: {

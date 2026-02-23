@@ -324,7 +324,9 @@ declare namespace App {
         confirm: string;
         delete: string;
         deleteSuccess: string;
+        deleteFailed: string;
         confirmDelete: string;
+        loadFailed: string;
         edit: string;
         warning: string;
         error: string;
@@ -544,6 +546,14 @@ declare namespace App {
           thisMonth: string;
           minute: string;
           noData: string;
+          ai: {
+            historyTitle: string;
+            historyChat: string;
+            newChat: string;
+            noHistory: string;
+            yesterday: string;
+            daysAgo: string;
+          };
         };
         function: {
           tab: {

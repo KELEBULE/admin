@@ -24,7 +24,9 @@ const local: App.I18n.Schema = {
     confirm: '确认',
     delete: '删除',
     deleteSuccess: '删除成功',
+    deleteFailed: '删除失败',
     confirmDelete: '确认删除吗？',
+    loadFailed: '加载失败',
     edit: '编辑',
     warning: '警告',
     error: '错误',
@@ -1059,7 +1061,15 @@ const local: App.I18n.Schema = {
       priorityLow: '低',
       thisMonth: '本月',
       minute: '分钟',
-      noData: '暂无数据'
+      noData: '暂无数据',
+      ai: {
+        historyTitle: '历史对话',
+        historyChat: '历史对话',
+        newChat: '新建对话',
+        noHistory: '暂无历史记录',
+        yesterday: '昨天',
+        daysAgo: '{count}天前'
+      }
     },
     equipment: {
       title: '设备中心',
