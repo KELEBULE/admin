@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mb-4px">
       <NText class="text-18px font-bold">通知</NText>
       <NButton text type="primary" @click="handleMore">更多</NButton>
     </div>
@@ -54,7 +54,7 @@ const loadNoticeList = async () => {
   try {
     const res = await fetchGetNoticeList({
       page: 1,
-      pageSize: 5
+      pageSize: 10
     });
     if (res.data?.records) {
       noticeList.value = res.data.records;

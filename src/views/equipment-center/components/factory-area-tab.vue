@@ -23,11 +23,11 @@
 </template>
 
 <script setup lang="tsx">
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchDeleteDevice, fetchDeleteFactoryArea } from '@/service/api/equipment';
+import { fetchDeleteDevice, fetchDeleteFactoryArea, fetchGetFactoryInfoList } from '@/service/api/equipment';
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 
@@ -52,7 +52,29 @@ const operateType = ref<'add' | 'edit' | 'addChild'>('add');
 const editType = ref<'area' | 'device'>('area');
 const editRow = ref<any>({});
 
-const fieldList = ref([
+const factoryOptions = ref<{ label: string; value: number }[]>([]);
+
+async function loadFactoryOptions() {
+  const { data: factoryList } = await fetchGetFactoryInfoList();
+  if (factoryList) {
+    factoryOptions.value = factoryList.map((item: any) => ({
+      label: item.factoryName,
+      value: item.factoryId
+    }));
+  }
+}
+
+const fieldList = computed(() => [
+  {
+    label: $t('page.equipment.factoryName'),
+    value: 'factoryId',
+    span: 6,
+    component: 'n-select',
+    extraProps: {
+      clearable: true,
+      options: factoryOptions.value
+    }
+  },
   {
     label: $t('page.equipment.areaName'),
     value: 'areaName',
@@ -169,7 +191,7 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'action',
     title: $t('common.operate'),
-    width: 250,
+    width: 100,
     align: 'center',
     fixed: 'right',
     render: (row: any) => {
@@ -194,12 +216,13 @@ const columns = ref<DataTableColumn[]>([
       }
       return (
         <NSpace justify="end">
-          <NButton type="primary" text size="small" onClick={() => handleAddDevice(row)}>
-            {$t('page.equipment.addDevice')}
-          </NButton>
           <NButton type="info" text size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
+          <NButton type="primary" text size="small" onClick={() => handleAddDevice(row)}>
+            {$t('page.equipment.addDevice')}
+          </NButton>
+
           <NPopconfirm onPositiveClick={() => handleDelete(row.areaId)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -279,6 +302,10 @@ async function handleBatchDelete() {
 function handleSubmitted() {
   tableRef.value?.initData();
 }
+
+onMounted(() => {
+  loadFactoryOptions();
+});
 </script>
 
 <style scoped></style>

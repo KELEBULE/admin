@@ -3,3 +3,4 @@ export * from './route';
 export * from './monitor';
 export * from './manage';
 export * from './tools';
+export * from './workorder';

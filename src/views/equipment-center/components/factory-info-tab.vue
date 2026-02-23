@@ -87,12 +87,6 @@ const columns = ref<DataTableColumn[]>([
     fixed: 'left'
   },
   {
-    key: 'index',
-    title: $t('common.index'),
-    width: 64,
-    align: 'center'
-  },
-  {
     key: 'factoryCode',
     title: $t('page.equipment.factoryCode'),
     width: 120,
@@ -149,12 +143,12 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'action',
     title: $t('common.operate'),
-    width: 150,
+    width: 80,
     align: 'center',
     fixed: 'right',
     render: (row: any) => {
       return (
-        <NSpace justify="end">
+        <NSpace justify="center">
           <NButton type="info" text size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>

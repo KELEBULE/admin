@@ -22,10 +22,10 @@ import { request } from '@/service/request';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete';
 interface Props {
-  url: string; // 请求的url
-  value: string; // v-model的值
-  params?: object; // 请求的参数
-  type?: RequestMethod; // 请求方式
+  url: string;
+  value: string | number | undefined;
+  params?: object;
+  type?: RequestMethod;
   valueKey?: string;
   labelKey?: string;
   dataKey?: string;
@@ -58,7 +58,7 @@ const handleSearch = async (query: string) => {
         ...props.params
       }
     });
-    options.value = map((resp?.list || resp?.data?.list || resp) ?? [], (item: any) => ({
+    options.value = map((resp?.list || resp?.data?.list || resp?.data?.records || resp) ?? [], (item: any) => ({
       ...item,
       [props.labelKey]: item[props.labelKey],
       [props.valueKey]: item[props.valueKey]
