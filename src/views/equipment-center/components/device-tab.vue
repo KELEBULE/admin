@@ -20,6 +20,7 @@
     </CommonTable>
     <EditDrawer v-model:visible="showEdit" :row="editRow" :operate-type="operateType" :edit-type="editType" @submitted="handleSubmitted" />
     <DetailDrawer v-model:visible="showDetail" :row="detailRow" :detail-type="detailType" />
+    <ThresholdConfigModal v-model:visible="showThresholdConfig" :part-data="thresholdPartData" />
   </div>
 </template>
 
@@ -32,6 +33,7 @@ import { fetchDeleteDevice, fetchDeleteDevicePart } from '@/service/api/equipmen
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 import DetailDrawer from './detail-drawer.vue';
+import ThresholdConfigModal from './threshold-config-modal.vue';
 
 defineOptions({
   name: 'DeviceTab'
@@ -57,6 +59,9 @@ const editRow = ref<any>({});
 const showDetail = ref(false);
 const detailType = ref<'device' | 'part'>('device');
 const detailRow = ref<any>({});
+
+const showThresholdConfig = ref(false);
+const thresholdPartData = ref<any>({});
 
 const fieldList = ref([
   {
@@ -217,6 +222,9 @@ const columns = ref<DataTableColumn[]>([
       if (row.partId) {
         return (
           <NSpace justify="end">
+            <NButton type="info" text size="small" onClick={() => handleThresholdConfig(row)}>
+              {$t('page.equipment.thresholdConfig')}
+            </NButton>
             <NButton type="info" text size="small" onClick={() => handleDetailPart(row)}>
               {$t('page.equipment.viewDetail')}
             </NButton>
@@ -302,6 +310,11 @@ function handleDetailPart(row: any) {
   detailType.value = 'part';
   detailRow.value = { ...row };
   showDetail.value = true;
+}
+
+function handleThresholdConfig(row: any) {
+  thresholdPartData.value = { ...row };
+  showThresholdConfig.value = true;
 }
 
 async function handleDelete(id: string) {

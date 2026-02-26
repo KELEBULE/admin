@@ -168,3 +168,41 @@ export function fetchDeleteDevicePart(data: Api.Common.DeleteParams) {
     data
   });
 }
+
+export function fetchGetPartThresholdConfigList(partId: number | string) {
+  return request<Api.Equipment.PartThresholdConfig[]>({
+    url: `/part_threshold_config/list/${partId}`,
+    method: 'GET'
+  });
+}
+
+export function fetchGetPartThresholdConfig(id: string | number) {
+  return request<Api.Equipment.PartThresholdConfig>({
+    url: `/part_threshold_config/${id}`,
+    method: 'GET'
+  });
+}
+
+export function fetchAddPartThresholdConfig(data: Api.Equipment.PartThresholdConfigEdit) {
+  return request<boolean>({
+    url: '/part_threshold_config/',
+    method: 'POST',
+    data
+  });
+}
+
+export function fetchUpdatePartThresholdConfig(data: Api.Equipment.PartThresholdConfigEdit) {
+  return request<boolean>({
+    url: '/part_threshold_config/',
+    method: 'PUT',
+    data
+  });
+}
+
+export function fetchDeletePartThresholdConfig(data: Api.Common.DeleteParams) {
+  return request<boolean>({
+    url: '/part_threshold_config/',
+    method: 'DELETE',
+    data
+  });
+}

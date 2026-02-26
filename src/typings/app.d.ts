@@ -1269,6 +1269,19 @@ declare namespace App {
           confirmBatchDeleteDevice: string;
           confirmDeleteDevice: string;
           searchPlaceholder: string;
+          thresholdConfig: string;
+          configName: string;
+          tempMin: string;
+          tempMax: string;
+          warningMin: string;
+          warningMax: string;
+          checkInterval: string;
+          configStatus: string;
+          tempRange: string;
+          warningRange: string;
+          seconds: string;
+          addThresholdConfig: string;
+          editThresholdConfig: string;
           form: {
             factoryCode: string;
             factoryName: string;
@@ -1296,6 +1309,12 @@ declare namespace App {
             partName: string;
             partType: string;
             installPosition: string;
+            configName: string;
+            tempMin: string;
+            tempMax: string;
+            warningMin: string;
+            warningMax: string;
+            checkInterval: string;
           };
         };
         workorder: {

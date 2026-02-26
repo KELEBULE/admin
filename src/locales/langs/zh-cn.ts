@@ -1137,6 +1137,19 @@ const local: App.I18n.Schema = {
       confirmBatchDeleteDevice: '确定要批量删除选中的设备吗？删除设备将同时删除其关联的所有部件，此操作不可恢复。',
       confirmDeleteDevice: '确定要删除该设备吗？删除设备将同时删除其关联的所有部件，此操作不可恢复。',
       searchPlaceholder: '请输入设备名称或编码搜索',
+      thresholdConfig: '阈值配置',
+      configName: '配置名称',
+      tempMin: '温度下限',
+      tempMax: '温度上限',
+      warningMin: '预警下限',
+      warningMax: '预警上限',
+      checkInterval: '检测间隔',
+      configStatus: '配置状态',
+      tempRange: '温度范围',
+      warningRange: '预警范围',
+      seconds: '秒',
+      addThresholdConfig: '新增阈值配置',
+      editThresholdConfig: '编辑阈值配置',
       form: {
         factoryCode: '请输入工厂编码',
         factoryName: '请输入工厂名称',
@@ -1163,7 +1176,13 @@ const local: App.I18n.Schema = {
         partCode: '请输入部件编码',
         partName: '请输入部件名称',
         partType: '请输入部件类型',
-        installPosition: '请输入安装位置'
+        installPosition: '请输入安装位置',
+        configName: '请输入配置名称',
+        tempMin: '请输入温度下限',
+        tempMax: '请输入温度上限',
+        warningMin: '请输入预警下限',
+        warningMax: '请输入预警上限',
+        checkInterval: '请输入检测间隔'
       }
     }
   },

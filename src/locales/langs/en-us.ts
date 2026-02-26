@@ -1030,6 +1030,19 @@ const local: App.I18n.Schema = {
       confirmBatchDeleteDevice: 'Are you sure to delete selected devices? All associated parts will also be deleted.',
       confirmDeleteDevice: 'Are you sure to delete this device? All associated parts will also be deleted.',
       searchPlaceholder: 'Search by device name or code',
+      thresholdConfig: 'Threshold Config',
+      configName: 'Config Name',
+      tempMin: 'Temp Min',
+      tempMax: 'Temp Max',
+      warningMin: 'Warning Min',
+      warningMax: 'Warning Max',
+      checkInterval: 'Check Interval',
+      configStatus: 'Config Status',
+      tempRange: 'Temp Range',
+      warningRange: 'Warning Range',
+      seconds: 's',
+      addThresholdConfig: 'Add Threshold Config',
+      editThresholdConfig: 'Edit Threshold Config',
       form: {
         factoryCode: 'Please enter factory code',
         factoryName: 'Please enter factory name',
@@ -1056,7 +1069,13 @@ const local: App.I18n.Schema = {
         partCode: 'Please enter part code',
         partName: 'Please enter part name',
         partType: 'Please enter part type',
-        installPosition: 'Please enter install position'
+        installPosition: 'Please enter install position',
+        configName: 'Please enter config name',
+        tempMin: 'Please enter temp min',
+        tempMax: 'Please enter temp max',
+        warningMin: 'Please enter warning min',
+        warningMax: 'Please enter warning max',
+        checkInterval: 'Please enter check interval'
       }
     },
     workorder: {

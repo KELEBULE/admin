@@ -145,5 +145,31 @@ declare namespace Api {
       installPosition?: string;
       partStatus?: number;
     };
+
+    type PartThresholdConfig = {
+      id: number;
+      partId: number;
+      configName: string;
+      tempMin?: number;
+      tempMax?: number;
+      warningMin?: number;
+      warningMax?: number;
+      checkInterval?: number;
+      configStatus?: number;
+      createTime?: string;
+      updateTime?: string;
+    };
+
+    type PartThresholdConfigEdit = {
+      id?: number;
+      partId: number;
+      configName: string;
+      tempMin?: number;
+      tempMax?: number;
+      warningMin?: number;
+      warningMax?: number;
+      checkInterval?: number;
+      configStatus?: number;
+    };
   }
 }
