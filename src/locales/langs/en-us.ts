@@ -1043,6 +1043,12 @@ const local: App.I18n.Schema = {
       seconds: 's',
       addThresholdConfig: 'Add Threshold Config',
       editThresholdConfig: 'Edit Threshold Config',
+      level1Alarm: 'Level 1 Alarm',
+      level2Alarm: 'Level 2 Alarm',
+      level3Alarm: 'Level 3 Alarm',
+      operator: 'Operator',
+      thresholdValue: 'Threshold Value',
+      otherConfig: 'Other Config',
       form: {
         factoryCode: 'Please enter factory code',
         factoryName: 'Please enter factory name',
@@ -1075,7 +1081,94 @@ const local: App.I18n.Schema = {
         tempMax: 'Please enter temp max',
         warningMin: 'Please enter warning min',
         warningMax: 'Please enter warning max',
-        checkInterval: 'Please enter check interval'
+        checkInterval: 'Please enter check interval',
+        thresholdValue: 'Please enter threshold value'
+      }
+    },
+    alarm: {
+      ruleCode: 'Rule Code',
+      ruleName: 'Rule Name',
+      alarmType: 'Alarm Type',
+      conditionType: 'Condition Type',
+      conditionValue: 'Condition Value',
+      alarmLevel: 'Alarm Level',
+      ruleStatus: 'Rule Status',
+      deviceSelectType: 'Device Select Type',
+      deviceSelect: 'Device Selection',
+      deviceCount: 'Device Count',
+      notifyTarget: 'Notify Target',
+      notifyTargetType: 'Notify Target Type',
+      remark: 'Remark',
+      addRule: 'Add Alarm Rule',
+      editRule: 'Edit Alarm Rule',
+      alarmTypes: {
+        temperature: 'Temperature',
+        vibration: 'Vibration',
+        pressure: 'Pressure',
+        humidity: 'Humidity',
+        voltage: 'Voltage',
+        current: 'Current'
+      },
+      conditionTypes: {
+        greaterThan: 'Greater Than',
+        lessThan: 'Less Than',
+        equal: 'Equal',
+        between: 'Between'
+      },
+      alarmLevels: {
+        title: 'Alarm Levels',
+        level1: 'Level 1',
+        level2: 'Level 2',
+        level3: 'Level 3'
+      },
+      deviceTypes: {
+        factory: 'Factory',
+        area: 'Area',
+        device: 'Device'
+      },
+      notifyTargetTypes: {
+        org: 'Organization',
+        user: 'User'
+      },
+      notifyTargets: {
+        all: 'All Users',
+        org: 'Organization',
+        user: 'Specific User'
+      },
+      form: {
+        ruleCode: 'Please enter rule code',
+        ruleName: 'Please enter rule name',
+        alarmType: 'Please select alarm type',
+        conditionType: 'Please select condition type',
+        conditionValue: 'Please enter condition value',
+        alarmLevel: 'Please select alarm level',
+        ruleStatus: 'Please select rule status',
+        remark: 'Please enter remark'
+      },
+      notice: {
+        title: 'Alarm Notice',
+        deviceName: 'Device Name',
+        deviceCode: 'Device Code',
+        alarmMessage: 'Alarm Message',
+        currentValue: 'Current Value',
+        thresholdValue: 'Threshold Value',
+        notifyUserName: 'Notify User',
+        notifyStatus: 'Notify Status',
+        readStatus: 'Read Status',
+        createTime: 'Create Time',
+        readTime: 'Read Time',
+        markRead: 'Mark Read',
+        markAllRead: 'Mark All Read',
+        unreadCount: 'Unread Count',
+        notifyStatuses: {
+          pending: 'Pending',
+          sent: 'Sent',
+          failed: 'Failed'
+        },
+        readStatuses: {
+          unread: 'Unread',
+          read: 'Read'
+        }
       }
     },
     workorder: {

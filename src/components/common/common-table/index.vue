@@ -75,15 +75,15 @@ import FilterSelect from './components/FilterSelect.vue';
 const props = withDefaults(
   defineProps<{
     url: string;
-    columns: DataTableColumn[];
+    columns: DataTableColumn<any>[];
     queryRules?: any;
     searchFieldList?: any;
-    searchParams?: Record<string, any>; // 搜索参数(不需要回显在表单中的搜索参数，持久化不能被重置)
-    showColumnSetting?: boolean; // 是否显示列字段控制功能
-    immediate?: boolean; // 是否立即请求数据
+    searchParams?: Record<string, any>;
+    showColumnSetting?: boolean;
+    immediate?: boolean;
     beforeInitdata?: ((params: any) => any) | null;
     rowKey?: string;
-    method?: 'get' | 'post'; // 请求方法
+    method?: 'get' | 'post';
   }>(),
   {
     queryRules: {},

@@ -40,7 +40,7 @@ declare namespace Api {
       areaStatus?: number;
       areaOrder?: number;
       createTime?: string;
-      children?: FactoryDevice[];
+      children?: Device[];
     };
 
     type FactoryAreaPageList = Common.PaginatingQueryRecord<FactoryArea>;
@@ -147,27 +147,30 @@ declare namespace Api {
     };
 
     type PartThresholdConfig = {
-      id: number;
+      id?: number;
       partId: number;
-      configName: string;
-      tempMin?: number;
-      tempMax?: number;
-      warningMin?: number;
-      warningMax?: number;
+      partName?: string;
+      partCode?: string;
+      level1Operator?: string;
+      level1Value?: number;
+      level2Operator?: string;
+      level2Value?: number;
+      level3Operator?: string;
+      level3Value?: number;
       checkInterval?: number;
       configStatus?: number;
       createTime?: string;
       updateTime?: string;
     };
 
-    type PartThresholdConfigEdit = {
-      id?: number;
+    type PartThresholdConfigDTO = {
       partId: number;
-      configName: string;
-      tempMin?: number;
-      tempMax?: number;
-      warningMin?: number;
-      warningMax?: number;
+      level1Operator?: string;
+      level1Value?: number;
+      level2Operator?: string;
+      level2Value?: number;
+      level3Operator?: string;
+      level3Value?: number;
       checkInterval?: number;
       configStatus?: number;
     };

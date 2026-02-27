@@ -933,6 +933,92 @@ const local: App.I18n.Schema = {
       userInfo: '用户信息',
       accountConfig: '账号配置'
     },
+    alarm: {
+      ruleCode: '规则编号',
+      ruleName: '规则名称',
+      alarmType: '报警类型',
+      conditionType: '条件类型',
+      conditionValue: '条件值',
+      alarmLevel: '报警等级',
+      ruleStatus: '规则状态',
+      deviceSelectType: '设备选择类型',
+      deviceSelect: '设备选择',
+      deviceCount: '设备数量',
+      notifyTarget: '通知目标',
+      notifyTargetType: '通知目标类型',
+      remark: '备注',
+      addRule: '新增报警规则',
+      editRule: '编辑报警规则',
+      alarmTypes: {
+        temperature: '温度',
+        vibration: '振动',
+        pressure: '压力',
+        humidity: '湿度',
+        voltage: '电压',
+        current: '电流'
+      },
+      conditionTypes: {
+        greaterThan: '大于',
+        lessThan: '小于',
+        equal: '等于',
+        between: '在之间'
+      },
+      alarmLevels: {
+        title: '报警等级',
+        level1: '一级',
+        level2: '二级',
+        level3: '三级'
+      },
+      deviceTypes: {
+        factory: '工厂',
+        area: '厂区',
+        device: '设备'
+      },
+      notifyTargetTypes: {
+        org: '组织',
+        user: '用户'
+      },
+      notifyTargets: {
+        all: '全部用户',
+        org: '组织架构',
+        user: '指定用户'
+      },
+      form: {
+        ruleCode: '请输入规则编号',
+        ruleName: '请输入规则名称',
+        alarmType: '请选择报警类型',
+        conditionType: '请选择条件类型',
+        conditionValue: '请输入条件值',
+        alarmLevel: '请选择报警等级',
+        ruleStatus: '请选择规则状态',
+        remark: '请输入备注'
+      },
+      notice: {
+        title: '告警通知',
+        deviceName: '设备名称',
+        deviceCode: '设备编码',
+        alarmMessage: '告警消息',
+        currentValue: '当前值',
+        thresholdValue: '阈值',
+        notifyUserName: '通知用户',
+        notifyStatus: '通知状态',
+        readStatus: '阅读状态',
+        createTime: '创建时间',
+        readTime: '阅读时间',
+        markRead: '标记已读',
+        markAllRead: '全部已读',
+        unreadCount: '未读数量',
+        notifyStatuses: {
+          pending: '待发送',
+          sent: '已发送',
+          failed: '发送失败'
+        },
+        readStatuses: {
+          unread: '未读',
+          read: '已读'
+        }
+      }
+    },
     workorder: {
       title: '工单中心',
       orderCode: '工单编号',
@@ -1150,6 +1236,12 @@ const local: App.I18n.Schema = {
       seconds: '秒',
       addThresholdConfig: '新增阈值配置',
       editThresholdConfig: '编辑阈值配置',
+      level1Alarm: '一级报警',
+      level2Alarm: '二级报警',
+      level3Alarm: '三级报警',
+      operator: '运算符',
+      thresholdValue: '阈值',
+      otherConfig: '其他配置',
       form: {
         factoryCode: '请输入工厂编码',
         factoryName: '请输入工厂名称',
@@ -1182,7 +1274,8 @@ const local: App.I18n.Schema = {
         tempMax: '请输入温度上限',
         warningMin: '请输入预警下限',
         warningMax: '请输入预警上限',
-        checkInterval: '请输入检测间隔'
+        checkInterval: '请输入检测间隔',
+        thresholdValue: '请输入阈值'
       }
     }
   },

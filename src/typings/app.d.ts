@@ -1282,6 +1282,12 @@ declare namespace App {
           seconds: string;
           addThresholdConfig: string;
           editThresholdConfig: string;
+          level1Alarm: string;
+          level2Alarm: string;
+          level3Alarm: string;
+          operator: string;
+          thresholdValue: string;
+          otherConfig: string;
           form: {
             factoryCode: string;
             factoryName: string;
@@ -1315,6 +1321,93 @@ declare namespace App {
             warningMin: string;
             warningMax: string;
             checkInterval: string;
+            thresholdValue: string;
+          };
+        };
+        alarm: {
+          ruleCode: string;
+          ruleName: string;
+          alarmType: string;
+          conditionType: string;
+          conditionValue: string;
+          alarmLevel: string;
+          ruleStatus: string;
+          deviceSelectType: string;
+          deviceSelect: string;
+          deviceCount: string;
+          notifyTarget: string;
+          notifyTargetType: string;
+          remark: string;
+          addRule: string;
+          editRule: string;
+          alarmTypes: {
+            temperature: string;
+            vibration: string;
+            pressure: string;
+            humidity: string;
+            voltage: string;
+            current: string;
+          };
+          conditionTypes: {
+            greaterThan: string;
+            lessThan: string;
+            equal: string;
+            between: string;
+          };
+          alarmLevels: {
+            title: string;
+            level1: string;
+            level2: string;
+            level3: string;
+          };
+          deviceTypes: {
+            factory: string;
+            area: string;
+            device: string;
+          };
+          notifyTargetTypes: {
+            org: string;
+            user: string;
+          };
+          notifyTargets: {
+            all: string;
+            org: string;
+            user: string;
+          };
+          form: {
+            ruleCode: string;
+            ruleName: string;
+            alarmType: string;
+            conditionType: string;
+            conditionValue: string;
+            alarmLevel: string;
+            ruleStatus: string;
+            remark: string;
+          };
+          notice: {
+            title: string;
+            deviceName: string;
+            deviceCode: string;
+            alarmMessage: string;
+            currentValue: string;
+            thresholdValue: string;
+            notifyUserName: string;
+            notifyStatus: string;
+            readStatus: string;
+            createTime: string;
+            readTime: string;
+            markRead: string;
+            markAllRead: string;
+            unreadCount: string;
+            notifyStatuses: {
+              pending: string;
+              sent: string;
+              failed: string;
+            };
+            readStatuses: {
+              unread: string;
+              read: string;
+            };
           };
         };
         workorder: {

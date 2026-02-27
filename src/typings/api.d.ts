@@ -49,4 +49,82 @@ declare namespace Api {
       ids: string[];
     };
   }
+
+  namespace Alarm {
+    type AlarmRule = {
+      ruleId: number;
+      ruleCode: string;
+      ruleName: string;
+      deviceIds: number[];
+      alarmLevels: number[];
+      notifyTargetIds: string[];
+      ruleStatus: number;
+      remark: string;
+      createTime: string;
+      updateTime: string;
+    };
+
+    type AlarmRuleSearchParams = CommonType.RecordNullable<Pick<AlarmRule, 'ruleName' | 'ruleStatus'> & Api.Common.CommonSearchParams>;
+
+    type AlarmRuleEdit = {
+      ruleId?: number;
+      ruleCode: string;
+      ruleName: string;
+      deviceIds: number[];
+      alarmLevels: number[];
+      notifyTargetIds: string[];
+      ruleStatus: number;
+      remark: string;
+    };
+
+    type AlarmRulePageList = Common.PaginatingQueryRecord<AlarmRule>;
+
+    type AlarmNotice = {
+      id: string;
+      ruleId: string;
+      ruleName: string;
+      alarmId: string;
+      deviceId: string;
+      deviceName: string;
+      deviceCode: string;
+      alarmType: number;
+      alarmLevel: number;
+      alarmMessage: string;
+      currentValue: string;
+      thresholdValue: string;
+      notifyUserId: string;
+      notifyUserName: string;
+      notifyStatus: number;
+      notifyTime: string;
+      readStatus: number;
+      readTime: string;
+      createTime: string;
+    };
+
+    type AlarmNoticeSearchParams = CommonType.RecordNullable<
+      Pick<AlarmNotice, 'deviceName' | 'alarmLevel' | 'readStatus' | 'notifyUserId'> & Api.Common.CommonSearchParams
+    >;
+
+    type AlarmNoticeReadParams = {
+      ids: string[];
+      notifyUserId: string;
+    };
+
+    type AlarmNoticePageList = Common.PaginatingQueryRecord<AlarmNotice>;
+
+    type DeviceTreeNode = {
+      id: number;
+      name: string;
+      code: string;
+      type: 'factory' | 'area' | 'device';
+      children?: DeviceTreeNode[];
+    };
+
+    type OrgUserTreeNode = {
+      id: string;
+      name: string;
+      type: 'org' | 'user';
+      children?: OrgUserTreeNode[];
+    };
+  }
 }
