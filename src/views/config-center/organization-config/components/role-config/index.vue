@@ -7,7 +7,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
     >
       <template #actions>
@@ -49,10 +48,6 @@ const { dictTag } = useDict();
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/sys_role/page');
-const searchParams = ref({
-  page: 1,
-  pageSize: 10
-});
 
 const showEdit = ref(false);
 const operateType = ref<'add' | 'edit'>('add');

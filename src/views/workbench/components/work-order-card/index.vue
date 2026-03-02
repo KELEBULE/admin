@@ -1,6 +1,19 @@
 <template>
   <div class="h-full">
     <NGrid class="h-full w-full" :cols="5" x-gap="4">
+      <NGridItem :span="5" class="h-full flex items-center justify-between px-2">
+        <NSpace>
+          <NButton :type="timeRange === 'week' ? 'primary' : 'default'" @click="handleTimeRangeChange('week')">
+            {{ $t('page.workbench.thisWeek') }}
+          </NButton>
+          <NButton :type="timeRange === 'month' ? 'primary' : 'default'" @click="handleTimeRangeChange('month')">
+            {{ $t('page.workbench.thisMonth') }}
+          </NButton>
+          <NButton :type="timeRange === 'quarter' ? 'primary' : 'default'" @click="handleTimeRangeChange('quarter')">
+            {{ $t('page.workbench.thisQuarter') }}
+          </NButton>
+        </NSpace>
+      </NGridItem>
       <NGridItem :span="2" class="h-full flex items-center justify-center">
         <div ref="chartRef" class="w-180px h-180px flex-shrink-0"></div>
       </NGridItem>
@@ -8,19 +21,19 @@
         <NGrid :cols="2" :rows="4" y-gap="8px" x-gap="8px" class="w-full">
           <NGridItem class="flex items-center justify-between">
             <span class="text-gray-500">{{ $t('page.workbench.uncompleted') }}</span>
-            <span class="text-gray-500">{{ (statistics?.total || 0) - (statistics?.completed || 0) }}</span>
+            <span class="text-blue-500">{{ (statistics?.total || 0) - (statistics?.completed || 0) }}</span>
           </NGridItem>
           <NGridItem class="flex items-center justify-between">
             <span class="text-gray-500">{{ $t('page.workbench.completed') }}</span>
-            <span class="text-blue-500">{{ statistics?.completed || 0 }}</span>
+            <span class="text-gray-500">{{ statistics?.completed || 0 }}</span>
           </NGridItem>
           <NGridItem class="flex items-center justify-between">
             <span class="text-gray-500">{{ $t('page.workbench.totalOrders') }}</span>
-            <span class="text-gray-500">{{ statistics?.total || 0 }}</span>
+            <span class="text-blue-500">{{ statistics?.total || 0 }}</span>
           </NGridItem>
           <NGridItem class="flex items-center justify-between">
             <span class="text-gray-500">{{ $t('page.workbench.completionRate') }}</span>
-            <span class="text-blue-500">{{ statistics?.completionRate || 0 }}%</span>
+            <span class="text-gray-500">{{ statistics?.completionRate || 0 }}%</span>
           </NGridItem>
           <NGridItem class="flex items-center justify-between">
             <span class="text-gray-500">{{ $t('page.workbench.priorityUrgent') }}</span>
@@ -77,6 +90,7 @@ interface Statistics {
 const statistics = ref<Statistics | null>(null);
 const chartRef = ref<HTMLElement>();
 let chartInstance: echarts.ECharts | null = null;
+const timeRange = ref<string>('week');
 
 const priorityUrgent = computed(() => statistics.value?.priorityDistribution?.find(p => p.priority === 1)?.count || 0);
 const priorityHigh = computed(() => statistics.value?.priorityDistribution?.find(p => p.priority === 2)?.count || 0);
@@ -139,8 +153,8 @@ function initChart() {
         label: { show: false },
         emphasis: { disable: false },
         data: [
-          { value: completed, name: $t('page.workbench.completed'), itemStyle: { color: '#3b82f6' } },
-          { value: uncompleted, name: $t('page.workbench.uncompleted'), itemStyle: { color: '#e5e7eb' } }
+          { value: completed, name: $t('page.workbench.completed'), itemStyle: { color: '#e5e7eb' } },
+          { value: uncompleted, name: $t('page.workbench.uncompleted'), itemStyle: { color: '#3b82f6' } }
         ]
       },
       {
@@ -183,7 +197,8 @@ async function fetchStatistics() {
   try {
     const { data, error } = await request<Statistics>({
       url: '/device_work_order/statistics',
-      method: 'GET'
+      method: 'GET',
+      params: { timeRange: timeRange.value }
     });
     if (!error && data) {
       statistics.value = data;
@@ -191,6 +206,11 @@ async function fetchStatistics() {
   } catch {
     // ignore
   }
+}
+
+function handleTimeRangeChange(range: string) {
+  timeRange.value = range;
+  fetchStatistics();
 }
 
 onMounted(() => {

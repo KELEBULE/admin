@@ -1,6 +1,6 @@
 <template>
   <NDrawer v-model:show="visible" :width="700" placement="right" :title="$t('page.workorder.viewDetail')" class="m-8px rounded-10px">
-    <NDrawerContent>
+    <NDrawerContent title="工单详情" :native-scrollbar="false">
       <NTabs v-model:value="activeTab" type="line">
         <NTabPane name="info" :tab="$t('page.workorder.viewDetail')">
           <NDescriptions label-placement="left" :column="1" bordered class="mb-4">

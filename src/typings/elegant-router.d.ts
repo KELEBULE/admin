@@ -29,7 +29,6 @@ declare module "@elegant-router/types" {
     "data-center": "/data-center";
     "data-center_alarm-record": "/data-center/alarm-record";
     "data-center_detection-record": "/data-center/detection-record";
-    "data-center_equipment-info": "/data-center/equipment-info";
     "equipment-center": "/equipment-center";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "monitor-center": "/monitor-center";
@@ -103,7 +102,6 @@ declare module "@elegant-router/types" {
     | "config-center_system-config"
     | "data-center_alarm-record"
     | "data-center_detection-record"
-    | "data-center_equipment-info"
     | "equipment-center"
     | "monitor-center"
     | "workbench"

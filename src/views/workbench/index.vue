@@ -13,10 +13,10 @@
       </NGridItem>
       <NGridItem :span="3" class="h-full w-full">
         <NFlex vertical class="h-full w-full" :size="16">
-          <NCard class="flex-1 min-h-0 !h-full" :bordered="false">
+          <NCard class="h-200px" :bordered="false">
             <UserCard></UserCard>
           </NCard>
-          <NCard class="flex-1 min-h-0" :bordered="false">
+          <NCard class="flex-1" :bordered="false">
             <WorkOrderCard></WorkOrderCard>
           </NCard>
           <NCard class="h-300px" :bordered="false">

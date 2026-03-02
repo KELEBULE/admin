@@ -8,7 +8,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
     >
       <template #actions>
@@ -48,24 +47,19 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableData = ref<Api.SystemManage.Position[]>([]);
 const URL = '/sys_position/page';
 
-const searchParams = ref<Api.SystemManage.PositionSearchParams>({
-  page: 1,
-  pageSize: 20,
-  name: null,
-  status: null
-});
-
 const fieldList = [
   {
-    key: 'name',
+    value: 'name',
     label: $t('page.manage.position.name'),
-    type: 'input',
+    component: 'n-input',
+    span: 6,
     placeholder: $t('page.manage.position.form.name')
   },
   {
-    key: 'status',
+    value: 'status',
     label: $t('page.manage.position.status'),
-    type: 'select',
+    component: 'n-select',
+    span: 6,
     placeholder: $t('page.manage.position.form.status'),
     options: dictOptions('status')
   }

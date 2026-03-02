@@ -8,7 +8,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
     >
       <template #actions>
@@ -41,17 +40,12 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableData = ref<Api.Monitor.OperationLog[]>([]);
 const URL = '/mon_logs_operation/page';
 
-const searchParams = ref<Api.Monitor.OperationLogSearchParams>({
-  page: 1,
-  pageSize: 20,
-  createUser: null
-});
-
 const fieldList = [
   {
-    key: 'createUser',
+    value: 'createUser',
     label: $t('page.monitor.logs.operation.createUser'),
-    type: 'input',
+    component: 'n-input',
+    span: 6,
     placeholder: $t('page.monitor.logs.operation.createUser')
   }
 ];

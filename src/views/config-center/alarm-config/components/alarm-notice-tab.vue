@@ -47,23 +47,22 @@ const URL = '/alarm_notice/page';
 const searchParams = ref<Api.Alarm.AlarmNoticeSearchParams>({
   page: 1,
   pageSize: 20,
-  deviceName: null,
-  alarmLevel: null,
-  readStatus: null,
   notifyUserId: authStore.userInfo?.id as string
 });
 
 const fieldList = [
   {
-    key: 'deviceName',
+    value: 'deviceName',
     label: $t('page.alarm.notice.deviceName'),
-    type: 'input',
+    component: 'n-input',
+    span: 6,
     placeholder: $t('page.alarm.notice.deviceName')
   },
   {
-    key: 'alarmLevel',
+    value: 'alarmLevel',
     label: $t('page.alarm.alarmLevel'),
-    type: 'select',
+    component: 'n-select',
+    span: 6,
     placeholder: $t('page.alarm.form.alarmLevel'),
     options: [
       { label: $t('page.alarm.alarmLevels.level1'), value: 1 },
@@ -72,9 +71,10 @@ const fieldList = [
     ]
   },
   {
-    key: 'readStatus',
+    value: 'readStatus',
     label: $t('page.alarm.notice.readStatus'),
-    type: 'select',
+    component: 'n-select',
+    span: 6,
     placeholder: $t('page.alarm.notice.readStatus'),
     options: [
       { label: $t('page.alarm.notice.readStatuses.unread'), value: 0 },

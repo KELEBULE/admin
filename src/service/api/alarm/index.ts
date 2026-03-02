@@ -83,3 +83,5 @@ export function fetchGetUnreadCount(notifyUserId: string) {
     params: { notifyUserId }
   });
 }
+
+export * from './device-alarm';

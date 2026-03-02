@@ -7,6 +7,7 @@ const local: App.I18n.Schema = {
     updateCancel: 'Later'
   },
   common: {
+    export: 'Export',
     action: 'Action',
     selectAll: 'Select All',
     actionSuccess: 'Action Success',
@@ -187,7 +188,6 @@ const local: App.I18n.Schema = {
     'equipment-center': 'Equipment Center',
     'data-center_alarm-record': 'Alarm Record',
     'data-center_detection-record': 'Detection Record',
-    'data-center_equipment-info': 'Equipment Info',
     'workorder-center': 'Workorder Center',
     'config-center': 'Config Center',
     'config-center_alarm-config': 'Alarm Config',
@@ -302,7 +302,9 @@ const local: App.I18n.Schema = {
       priorityHigh: 'High',
       priorityMedium: 'Medium',
       priorityLow: 'Low',
-      thisMonth: 'This Month',
+      thisMonth: 'Last Month',
+      thisWeek: 'Last Week',
+      thisQuarter: 'Last Quarter',
       minute: 'minute',
       noData: 'No Data',
       ai: {
@@ -1168,6 +1170,71 @@ const local: App.I18n.Schema = {
         readStatuses: {
           unread: 'Unread',
           read: 'Read'
+        }
+      },
+      record: {
+        alarmCode: 'Alarm Code',
+        deviceName: 'Device Name',
+        deviceCode: 'Device Code',
+        partName: 'Part Name',
+        alarmLevel: 'Alarm Level',
+        alarmTime: 'Alarm Time',
+        currentValue: 'Current Value',
+        thresholdValue: 'Threshold Value',
+        confirmStatus: 'Confirm Status',
+        clearStatus: 'Clear Status',
+        confirmUser: 'Confirm User',
+        confirmTime: 'Confirm Time',
+        handleUser: 'Handle User',
+        handleTime: 'Handle Time',
+        clearUser: 'Clear User',
+        clearTime: 'Clear Time',
+        alarmDuration: 'Duration',
+        isFalseAlarm: 'Is False Alarm',
+        falseAlarmYes: 'False Alarm',
+        falseAlarmNo: 'Not False Alarm',
+        workOrderCode: 'Work Order Code',
+        confirmed: 'Confirmed',
+        unconfirmed: 'Unconfirmed',
+        cleared: 'Cleared',
+        uncleared: 'Uncleared',
+        confirm: 'Confirm',
+        clear: 'Clear',
+        viewDetail: 'View Detail',
+        detail: 'Alarm Detail',
+        confirmAlarm: 'Confirm this alarm as real alarm?',
+        confirmFalseAlarm: 'Confirm this alarm as false alarm?',
+        confirmCreateWorkOrder: 'Are you sure to create a work order for this alarm?',
+        createWorkOrder: 'Create Work Order',
+        form: {
+          alarmCode: 'Please enter alarm code'
+        }
+      }
+    },
+    detection: {
+      record: {
+        recordId: 'Record ID',
+        deviceName: 'Device Name',
+        deviceCode: 'Device Code',
+        partName: 'Part Name',
+        detectValue: 'Detect Value',
+        detectStatus: 'Detect Status',
+        statusNormal: 'Normal',
+        statusAbnormal: 'Abnormal',
+        isFalseAlarm: 'Is False Alarm',
+        falseAlarmYes: 'Yes',
+        falseAlarmNo: 'No',
+        level1Value: 'Level 1 Value',
+        level2Value: 'Level 2 Value',
+        level3Value: 'Level 3 Value',
+        sensorCode: 'Sensor Code',
+        dataSource: 'Data Source',
+        detectTime: 'Detect Time',
+        viewDetail: 'View Detail',
+        detail: 'Detection Record Detail',
+        form: {
+          deviceName: 'Please enter device name',
+          sensorCode: 'Please enter sensor code'
         }
       }
     },

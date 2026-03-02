@@ -214,7 +214,7 @@ const initData = async () => {
   if (!props.url) return;
   loading.value = true;
   let params: any = {
-    pageNum: pagination.value.page,
+    page: pagination.value.page,
     pageSize: pagination.value.size,
     ...queryRules.value,
     ...searchForm.value, // 搜索表单中的参数

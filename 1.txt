@@ -1,0 +1,131 @@
+> git -c user.useConfigOnly=true commit --quiet --allow-empty-message --file -
+
+> panis-admin@1.0.6 typecheck D:\Users\21774\Desktop\Equipment Admin\panis-admin
+> vue-tsc --noEmit --skipLibCheck
+
+
+> panis-admin@1.0.6 lint D:\Users\21774\Desktop\Equipment Admin\panis-admin
+> eslint . --fix
+
+(node:15140) ESLintCircularFixesWarning: Circular fixes detected while fixing D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\advanced\table-column-setting.vue. It is likely that you have conflicting rules in your configuration.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15140) ESLintCircularFixesWarning: Circular fixes detected while fixing D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\advanced\table-header-operation.vue. It is likely that you have conflicting rules in your configuration.
+(node:15140) ESLintCircularFixesWarning: Circular fixes detected while fixing D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\menu-operate-drawer.vue. It is likely that you have conflicting rules in your configuration.
+(node:15140) ESLintCircularFixesWarning: Circular fixes detected while fixing D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\permission-data-scope-operate-modal.vue. It is likely that you have conflicting rules in your configuration.
+(node:15140) ESLintCircularFixesWarning: Circular fixes detected while fixing D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\permission-operate-modal.vue. It is likely that you have conflicting rules in your configuration.
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\advanced\table-column-setting.vue
+   6:11  warning  Component name "icon-ic:round-settings" is not PascalCase        vue/component-name-in-template-casing
+  12:9   warning  Component name "icon-ic:round-drag-indicator" is not PascalCase  vue/component-name-in-template-casing
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\advanced\table-header-operation.vue
+  34:15  warning  Component name "icon-material-symbols:file-save-rounded" is not PascalCase  vue/component-name-in-template-casing
+  39:15  warning  Component name "icon-ic:round-refresh" is not PascalCase                    vue/component-name-in-template-casing
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\common\common-form\components\FormSelect.vue
+  12:5  warning  'valueKey' of property found, but never used   vue/no-unused-properties
+  13:5  warning  'labelKey' of property found, but never used   vue/no-unused-properties
+  14:5  warning  Prop 'value' requires default value to be set  vue/require-default-prop
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\components\common\common-form\components\RemoteSelect.vue
+  31:3  warning  Prop 'dataKey' requires default value to be set  vue/require-default-prop
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\menu-operate-drawer.vue
+  91:21  warning  Component name "icon-ic:round-plus" is not PascalCase  vue/component-name-in-template-casing
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\permission-data-scope-operate-modal.vue
+  64:27  warning  Component name "icon-ic:round-help-outline" is not PascalCase  vue/component-name-in-template-casing
+  90:19  warning  Component name "icon-ic:round-plus" is not PascalCase          vue/component-name-in-template-casing
+
+D:\Users\21774\Desktop\Equipment Admin\panis-admin\src\views\config-center\system-config\components\menu-config\permission-operate-modal.vue
+  24:19  warning  Component name "icon-ic:round-plus" is not PascalCase  vue/component-name-in-template-casing
+
+✖ 12 problems (0 errors, 12 warnings)
+  0 errors and 8 warnings potentially fixable with the `--fix` option.
+
+diff --git a/.vscode/launch.json b/.vscode/launch.json
+index ab6fc5f..e59c32b 100644
+--- a/.vscode/launch.json
++++ b/.vscode/launch.json
+@@ -1,7 +1,6 @@
+ {
+   "version": "0.2.0",
+   "configurations": [
+-
+     {
+       "type": "chrome",
+       "request": "launch",
+diff --git a/src/views/config-center/alarm-config/components/alarm-rule-operate-modal.vue b/src/views/config-center/alarm-config/components/alarm-rule-operate-modal.vue
+index 65ebebb..b4e0433 100644
+--- a/src/views/config-center/alarm-config/components/alarm-rule-operate-modal.vue
++++ b/src/views/config-center/alarm-config/components/alarm-rule-operate-modal.vue
+@@ -26,12 +26,7 @@
+         </NFormItem>
+         <NFormItem :label="$t('page.alarm.ruleStatus')" path="ruleStatus">
+           <NRadioGroup v-model:value="model.ruleStatus">
+-            <NRadio
+-              v-for="item in dictOptions('status')"
+-              :key="item.value"
+-              :value="Number(item.value)"
+-              :label="item.label"
+-            />
++            <NRadio v-for="item in dictOptions('status')" :key="item.value" :value="Number(item.value)" :label="item.label" />
+           </NRadioGroup>
+         </NFormItem>
+       </NForm>
+diff --git a/src/views/data-center/alarm-record/components/alarm-detail-modal.vue b/src/views/data-center/alarm-record/components/alarm-detail-modal.vue
+index cd88005..a2b5013 100644
+--- a/src/views/data-center/alarm-record/components/alarm-detail-modal.vue
++++ b/src/views/data-center/alarm-record/components/alarm-detail-modal.vue
+@@ -1,6 +1,5 @@
+ <template>
+-  <NModal v-model:show="visible" preset="card" :title="$t('page.alarm.record.detail')" class="w-800px"
+-    :mask-closable="false">
++  <NModal v-model:show="visible" preset="card" :title="$t('page.alarm.record.detail')" class="w-800px" :mask-closable="false">
+     <NSpin :show="loading">
+       <NDescriptions v-if="alarmData" label-placement="left" :column="2" bordered>
+         <NDescriptionsItem :label="$t('page.alarm.record.alarmCode')">
+@@ -31,8 +30,7 @@
+         </NDescriptionsItem>
+         <NDescriptionsItem :label="$t('page.alarm.record.confirmStatus')">
+           <NTag :type="alarmData.confirmStatus === 1 ? 'success' : 'default'" size="small">
+-            {{ alarmData.confirmStatus === 1 ? $t('page.alarm.record.confirmed') : $t('page.alarm.record.unconfirmed')
+-            }}
++            {{ alarmData.confirmStatus === 1 ? $t('page.alarm.record.confirmed') : $t('page.alarm.record.unconfirmed') }}
+           </NTag>
+         </NDescriptionsItem>
+         <NDescriptionsItem :label="$t('page.alarm.record.clearStatus')">
+@@ -60,8 +58,7 @@
+         </NDescriptionsItem>
+         <NDescriptionsItem :label="$t('page.alarm.record.isFalseAlarm')">
+           <NTag :type="alarmData.isFalseAlarm === 1 ? 'warning' : 'success'" size="small">
+-            {{ alarmData.isFalseAlarm === 1 ? $t('page.alarm.record.falseAlarmYes') :
+-              $t('page.alarm.record.falseAlarmNo') }}
++            {{ alarmData.isFalseAlarm === 1 ? $t('page.alarm.record.falseAlarmYes') : $t('page.alarm.record.falseAlarmNo') }}
+           </NTag>
+         </NDescriptionsItem>
+         <NDescriptionsItem :label="$t('page.alarm.record.alarmDuration')">
+diff --git a/src/views/equipment-center/components/device-tab.vue b/src/views/equipment-center/components/device-tab.vue
+index b163f70..e7118f9 100644
+--- a/src/views/equipment-center/components/device-tab.vue
++++ b/src/views/equipment-center/components/device-tab.vue
+@@ -46,7 +46,6 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
+ const tableRef = ref<any>(null);
+ const URL = ref('/factory_device/page');
+
+-
+ const showEdit = ref(false);
+ const operateType = ref<'add' | 'edit' | 'addChild'>('add');
+ const editType = ref<'device' | 'part'>('device');
+diff --git a/src/views/equipment-center/components/factory-info-tab.vue b/src/views/equipment-center/components/factory-info-tab.vue
+index d2f4e46..b05bb75 100644
+--- a/src/views/equipment-center/components/factory-info-tab.vue
++++ b/src/views/equipment-center/components/factory-info-tab.vue
+@@ -38,7 +38,6 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
+ const tableRef = ref<any>(null);
+ const URL = ref('/factory_info/page');
+
+-
+ const showEdit = ref(false);
+ const operateType = ref<'add' | 'edit'>('add');
+ const editRow = ref<any>({});

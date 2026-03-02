@@ -7,6 +7,7 @@ const local: App.I18n.Schema = {
     updateCancel: '稍后再说'
   },
   common: {
+    export: '导出',
     action: '操作',
     selectAll: '全选',
     actionSuccess: '操作成功',
@@ -187,7 +188,6 @@ const local: App.I18n.Schema = {
     'equipment-center': '设备中心',
     'data-center_alarm-record': '报警记录',
     'data-center_detection-record': '检测记录',
-    'data-center_equipment-info': '设备信息',
     'workorder-center': '工单中心',
     'config-center': '配置中心',
     'config-center_alarm-config': '报警配置',
@@ -1017,6 +1017,71 @@ const local: App.I18n.Schema = {
           unread: '未读',
           read: '已读'
         }
+      },
+      record: {
+        alarmCode: '报警编码',
+        deviceName: '设备名称',
+        deviceCode: '设备编码',
+        partName: '部件名称',
+        alarmLevel: '报警级别',
+        alarmTime: '报警时间',
+        currentValue: '当前值',
+        thresholdValue: '阈值',
+        confirmStatus: '确认状态',
+        clearStatus: '清除状态',
+        confirmUser: '确认人',
+        confirmTime: '确认时间',
+        handleUser: '处理人',
+        handleTime: '处理时间',
+        clearUser: '清除人',
+        clearTime: '清除时间',
+        alarmDuration: '持续时长',
+        isFalseAlarm: '是否误报',
+        falseAlarmYes: '误报',
+        falseAlarmNo: '非误报',
+        workOrderCode: '工单编号',
+        confirmed: '已确认',
+        unconfirmed: '未确认',
+        cleared: '已清除',
+        uncleared: '未清除',
+        confirm: '确认',
+        clear: '清除',
+        viewDetail: '查看详情',
+        detail: '报警详情',
+        confirmAlarm: '确认该报警为真实报警吗？',
+        confirmFalseAlarm: '确认该报警为误报吗？',
+        confirmCreateWorkOrder: '确认要为该报警创建工单吗？',
+        createWorkOrder: '创建工单',
+        form: {
+          alarmCode: '请输入报警编码'
+        }
+      }
+    },
+    detection: {
+      record: {
+        recordId: '记录ID',
+        deviceName: '设备名称',
+        deviceCode: '设备编码',
+        partName: '部件名称',
+        detectValue: '检测值',
+        detectStatus: '检测状态',
+        statusNormal: '正常',
+        statusAbnormal: '异常',
+        isFalseAlarm: '是否误报',
+        falseAlarmYes: '是',
+        falseAlarmNo: '否',
+        level1Value: '一级报警值',
+        level2Value: '二级报警值',
+        level3Value: '三级报警值',
+        sensorCode: '传感器编码',
+        dataSource: '数据来源',
+        detectTime: '检测时间',
+        viewDetail: '查看详情',
+        detail: '检测记录详情',
+        form: {
+          deviceName: '请输入设备名称',
+          sensorCode: '请输入传感器编码'
+        }
       }
     },
     workorder: {
@@ -1145,7 +1210,9 @@ const local: App.I18n.Schema = {
       priorityHigh: '高',
       priorityMedium: '中',
       priorityLow: '低',
-      thisMonth: '本月',
+      thisMonth: '近一月',
+      thisWeek: '近一周',
+      thisQuarter: '近一季度',
       minute: '分钟',
       noData: '暂无数据',
       ai: {

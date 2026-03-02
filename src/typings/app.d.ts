@@ -307,6 +307,7 @@ declare namespace App {
         updateCancel: string;
       };
       common: {
+        export: string;
         selectAll: string;
         action: string;
         actionSuccess: string;
@@ -544,6 +545,8 @@ declare namespace App {
           priorityMedium: string;
           priorityLow: string;
           thisMonth: string;
+          thisWeek: string;
+          thisQuarter: string;
           minute: string;
           noData: string;
           ai: {
@@ -1407,6 +1410,71 @@ declare namespace App {
             readStatuses: {
               unread: string;
               read: string;
+            };
+          };
+          record: {
+            alarmCode: string;
+            deviceName: string;
+            deviceCode: string;
+            partName: string;
+            alarmLevel: string;
+            alarmTime: string;
+            currentValue: string;
+            thresholdValue: string;
+            confirmStatus: string;
+            clearStatus: string;
+            confirmUser: string;
+            confirmTime: string;
+            handleUser: string;
+            handleTime: string;
+            clearUser: string;
+            clearTime: string;
+            alarmDuration: string;
+            isFalseAlarm: string;
+            falseAlarmYes: string;
+            falseAlarmNo: string;
+            workOrderCode: string;
+            confirmed: string;
+            unconfirmed: string;
+            cleared: string;
+            uncleared: string;
+            confirm: string;
+            clear: string;
+            viewDetail: string;
+            detail: string;
+            confirmAlarm: string;
+            confirmFalseAlarm: string;
+            confirmCreateWorkOrder: string;
+            createWorkOrder: string;
+            form: {
+              alarmCode: string;
+            };
+          };
+        };
+        detection: {
+          record: {
+            recordId: string;
+            deviceName: string;
+            deviceCode: string;
+            partName: string;
+            detectValue: string;
+            detectStatus: string;
+            statusNormal: string;
+            statusAbnormal: string;
+            isFalseAlarm: string;
+            falseAlarmYes: string;
+            falseAlarmNo: string;
+            level1Value: string;
+            level2Value: string;
+            level3Value: string;
+            sensorCode: string;
+            dataSource: string;
+            detectTime: string;
+            viewDetail: string;
+            detail: string;
+            form: {
+              deviceName: string;
+              sensorCode: string;
             };
           };
         };

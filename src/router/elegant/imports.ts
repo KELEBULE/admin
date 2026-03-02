@@ -26,7 +26,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "config-center_system-config": () => import("@/views/config-center/system-config/index.vue"),
   "data-center_alarm-record": () => import("@/views/data-center/alarm-record/index.vue"),
   "data-center_detection-record": () => import("@/views/data-center/detection-record/index.vue"),
-  "data-center_equipment-info": () => import("@/views/data-center/equipment-info/index.vue"),
   "equipment-center": () => import("@/views/equipment-center/index.vue"),
   "monitor-center": () => import("@/views/monitor-center/index.vue"),
   workbench: () => import("@/views/workbench/index.vue"),

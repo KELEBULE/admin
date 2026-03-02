@@ -8,7 +8,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
       row-key="ruleId"
     >
@@ -47,24 +46,19 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableData = ref<Api.Alarm.AlarmRule[]>([]);
 const URL = '/alarm_rule/page';
 
-const searchParams = ref<Api.Alarm.AlarmRuleSearchParams>({
-  page: 1,
-  pageSize: 20,
-  ruleName: null,
-  ruleStatus: null
-});
-
 const fieldList = [
   {
-    key: 'ruleName',
+    value: 'ruleName',
     label: $t('page.alarm.ruleName'),
-    type: 'input',
+    span: 6,
+    component: 'n-input',
     placeholder: $t('page.alarm.form.ruleName')
   },
   {
-    key: 'ruleStatus',
+    value: 'ruleStatus',
     label: $t('page.alarm.ruleStatus'),
-    type: 'select',
+    span: 6,
+    component: 'n-select',
     placeholder: $t('page.alarm.form.ruleStatus'),
     options: dictOptions('status')
   }

@@ -8,7 +8,6 @@
         :columns="columns"
         :url="URL"
         :search-field-list="fieldList"
-        :search-params="searchParams"
       >
         <template #actions>
           <NButton type="primary" @click="showRelease = true">发布</NButton>
@@ -35,10 +34,6 @@ import Edit from './components/edit.vue';
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/sys_notice/page');
-const searchParams = ref({
-  page: 1,
-  pageSize: 10
-});
 
 const showDetail = ref(false);
 const handleDetail = (row: any) => {

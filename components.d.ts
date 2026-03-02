@@ -42,6 +42,7 @@ declare module 'vue' {
     'IconIc:roundPlus': typeof import('~icons/ic/round-plus')['default']
     'IconIc:roundRefresh': typeof import('~icons/ic/round-refresh')['default']
     'IconIc:roundSettings': typeof import('~icons/ic/round-settings')['default']
+    IconIcMaterialSymbolsDeleteOutline: typeof import('~icons/ic/material-symbols-delete-outline')['default']
     IconIcRoundDelete: typeof import('~icons/ic/round-delete')['default']
     IconIcRoundPlus: typeof import('~icons/ic/round-plus')['default']
     IconIcRoundRefresh: typeof import('~icons/ic/round-refresh')['default']

@@ -8,7 +8,6 @@
         :columns="columns"
         :url="URL"
         :search-field-list="fieldList"
-        :search-params="searchParams"
         method="get"
         row-key="orderId"
       >
@@ -40,10 +39,7 @@ import FlowDrawer from './components/flow-drawer.vue';
 defineOptions({
   name: 'WorkOrderCenterPage'
 });
-const searchParams = ref({
-  page: 1,
-  pageSize: 10
-});
+
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/device_work_order/page');
@@ -159,7 +155,7 @@ const columns = ref<DataTableColumn[]>([
   {
     key: 'orderCode',
     title: $t('page.workorder.orderCode'),
-    width: 160,
+    width: 180,
     align: 'center'
   },
   {

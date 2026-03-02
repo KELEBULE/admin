@@ -125,16 +125,6 @@ export const generatedRoutes: GeneratedRoute[] = [
           i18nKey: 'route.data-center_detection-record',
           order: 3
         }
-      },
-      {
-        name: 'data-center_equipment-info',
-        path: '/data-center/equipment-info',
-        component: 'view.data-center_equipment-info',
-        meta: {
-          title: 'data-center_equipment-info',
-          i18nKey: 'route.data-center_equipment-info',
-          order: 1
-        }
       }
     ]
   },

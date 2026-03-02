@@ -7,7 +7,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
       row-key="factoryId"
     >
@@ -38,10 +37,6 @@ defineOptions({
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/factory_info/page');
-const searchParams = ref({
-  page: 1,
-  pageSize: 10
-});
 
 const showEdit = ref(false);
 const operateType = ref<'add' | 'edit'>('add');

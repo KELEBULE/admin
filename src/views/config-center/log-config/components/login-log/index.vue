@@ -8,7 +8,6 @@
       :columns="columns"
       :url="URL"
       :search-field-list="fieldList"
-      :search-params="searchParams"
       method="get"
     >
       <template #actions>
@@ -43,24 +42,19 @@ const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableData = ref<Api.Monitor.LoginLog[]>([]);
 const URL = '/mon_logs_login/page';
 
-const searchParams = ref<Api.Monitor.LoginLogSearchParams>({
-  page: 1,
-  pageSize: 20,
-  userName: null,
-  userRealName: null
-});
-
 const fieldList = [
   {
-    key: 'userName',
+    value: 'userName',
     label: $t('page.monitor.logs.login.userName'),
-    type: 'input',
+    component: 'n-input',
+    span: 6,
     placeholder: $t('page.monitor.logs.login.userName')
   },
   {
-    key: 'userRealName',
+    value: 'userRealName',
     label: $t('page.monitor.logs.login.userRealName'),
-    type: 'input',
+    component: 'n-input',
+    span: 6,
     placeholder: $t('page.monitor.logs.login.userRealName')
   }
 ];

@@ -11,7 +11,6 @@
             :columns="columns"
             :url="URL"
             :search-field-list="fieldList"
-            :search-params="searchParams"
             :before-initdata="beforeInitData"
             method="get"
           >
@@ -57,10 +56,6 @@ const modal = useModal();
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/sys_user/page');
-const searchParams = ref({
-  page: 1,
-  pageSize: 10
-});
 
 const orgUnitsData = ref<Api.SystemManage.OrgUnitsTree>({
   id: '0',

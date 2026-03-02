@@ -11,9 +11,6 @@
         <NTabPane name="error-log" tab="错误日志" class="w-full h-full">
           <ErrorLog></ErrorLog>
         </NTabPane>
-        <NTabPane name="dispatch-log" tab="调度日志" class="w-full h-full">
-          <DispatchLog></DispatchLog>
-        </NTabPane>
       </NTabs>
     </NFlex>
   </div>
@@ -23,7 +20,6 @@
 import LoginLog from './components/login-log/index.vue';
 import OperationLog from './components/operation-log/index.vue';
 import ErrorLog from './components/error-log/index.vue';
-import DispatchLog from './components/dispatch-log/index.vue';
 </script>
 
 <style scoped></style>
