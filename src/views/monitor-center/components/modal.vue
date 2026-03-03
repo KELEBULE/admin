@@ -12,6 +12,7 @@ import { useThemeStore } from '@/store/modules/theme';
 const emit = defineEmits<{
   loaded: [];
   'update:tooltip': [data: { visible: boolean; text: string; left: string; top: string }];
+  'part-clicked': [data: { partCode: string; partName: string }];
 }>();
 
 const themeStore = useThemeStore();
@@ -132,7 +133,7 @@ function loadCarModel() {
   const loader = new GLTFLoader();
 
   loader.load(
-    '/model/su7.glb',
+    '/model/car.glb',
     gltf => {
       carModel = gltf.scene;
 
@@ -236,6 +237,9 @@ function setupInteraction() {
       const obj = intersects[0].object;
       if (obj instanceof THREE.Mesh) {
         highlightPart(obj);
+        const partCode = obj.userData.name || obj.name;
+        const partName = obj.userData.name || '未知部件';
+        emit('part-clicked', { partCode, partName });
       }
     }
   };

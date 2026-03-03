@@ -22,7 +22,7 @@ export function fetchDeleteFile(data: Api.Common.DeleteParams) {
 
 /** upload file */
 export function fetchUploadFile(data: FormData) {
-  return request<boolean>({
+  return request<string>({
     url: '/mon_file/upload',
     method: 'POST',
     headers: {

@@ -158,6 +158,31 @@
                 clearable
               />
             </NFormItem>
+            <NFormItem :label="$t('page.equipment.modelUrl')" path="modelUrl">
+              <NUpload :custom-request="handleModelUpload" :show-file-list="false" accept=".glb,.gltf">
+                <NButton size="small">
+                  <template #icon>
+                    <SvgIcon icon="mdi:upload" />
+                  </template>
+                  {{ $t('page.equipment.uploadModel') }}
+                </NButton>
+              </NUpload>
+              <NInput v-model:value="deviceFormData.modelUrl" :placeholder="$t('page.equipment.form.modelUrl')" clearable class="mt-8px" />
+            </NFormItem>
+            <NFormItem :label="$t('page.equipment.imageUrl')" path="imageUrl">
+              <NUpload :custom-request="handleImageUpload" :show-file-list="false" accept="image/*">
+                <NButton size="small">
+                  <template #icon>
+                    <SvgIcon icon="mdi:image" />
+                  </template>
+                  {{ $t('page.equipment.uploadImage') }}
+                </NButton>
+              </NUpload>
+              <div v-if="deviceFormData.imageUrl" class="mt-8px">
+                <NImage :src="deviceFormData.imageUrl" width="120" object-fit="contain" />
+              </div>
+              <NInput v-model:value="deviceFormData.imageUrl" :placeholder="$t('page.equipment.form.imageUrl')" clearable class="mt-8px" />
+            </NFormItem>
           </template>
           <template v-else>
             <NFormItem :label="$t('page.equipment.partCode')" path="partCode">
@@ -168,6 +193,9 @@
             </NFormItem>
             <NFormItem :label="$t('page.equipment.partType')" path="partType">
               <NInput v-model:value="partFormData.partType" :placeholder="$t('page.equipment.form.partType')" clearable />
+            </NFormItem>
+            <NFormItem :label="$t('page.equipment.modelNodeName')" path="modelNodeName">
+              <NInput v-model:value="partFormData.modelNodeName" :placeholder="$t('page.equipment.form.modelNodeName')" clearable />
             </NFormItem>
             <NFormItem :label="$t('page.equipment.monitorEnabled')" path="monitorEnabled">
               <NSwitch v-model:value="partFormData.monitorEnabled" :checked-value="1" :unchecked-value="0" />
@@ -195,7 +223,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import type { FormInst, FormRules } from 'naive-ui';
+import type { FormInst, FormRules, UploadCustomRequestOptions } from 'naive-ui';
 import dayjs from 'dayjs';
 import {
   fetchAddDevice,
@@ -209,8 +237,10 @@ import {
   fetchUpdateFactoryArea,
   fetchUpdateFactoryInfo
 } from '@/service/api/equipment';
+import { fetchUploadFile } from '@/service/api/monitor/file';
 import { useDict } from '@/hooks/business/dict';
 import { $t } from '@/locales';
+import SvgIcon from '@/components/custom/svg-icon.vue';
 
 type OperateType = 'add' | 'edit' | 'addChild';
 type EditType = 'factory' | 'area' | 'device' | 'part';
@@ -305,6 +335,8 @@ interface DeviceFormData {
   lastMaintainTime: number | null;
   warrantyPeriod: number | null;
   deviceNote: string;
+  modelUrl: string;
+  imageUrl: string;
 }
 
 interface PartFormData {
@@ -313,6 +345,7 @@ interface PartFormData {
   partName: string;
   deviceId: number | null;
   partType: string;
+  modelNodeName: string;
   monitorEnabled: number;
   installPosition: string;
   partStatus: number;
@@ -351,7 +384,9 @@ const deviceFormData = ref<DeviceFormData>({
   maintainCycle: null,
   lastMaintainTime: null,
   warrantyPeriod: null,
-  deviceNote: ''
+  deviceNote: '',
+  modelUrl: '',
+  imageUrl: ''
 });
 
 const partFormData = ref<PartFormData>({
@@ -360,6 +395,7 @@ const partFormData = ref<PartFormData>({
   partName: '',
   deviceId: null,
   partType: '',
+  modelNodeName: '',
   monitorEnabled: 1,
   installPosition: '',
   partStatus: 1
@@ -484,7 +520,9 @@ function resetDeviceForm() {
     maintainCycle: null,
     lastMaintainTime: null,
     warrantyPeriod: null,
-    deviceNote: ''
+    deviceNote: '',
+    modelUrl: '',
+    imageUrl: ''
   };
 }
 
@@ -495,6 +533,7 @@ function resetPartForm() {
     partName: '',
     deviceId: null,
     partType: '',
+    modelNodeName: '',
     monitorEnabled: 1,
     installPosition: '',
     partStatus: 1
@@ -539,7 +578,9 @@ function initDeviceEditData(row: any) {
     maintainCycle: row.maintainCycle ?? null,
     lastMaintainTime: parseTimeToTimestamp(row.lastMaintainTime),
     warrantyPeriod: row.warrantyPeriod ?? null,
-    deviceNote: row.deviceNote || ''
+    deviceNote: row.deviceNote || '',
+    modelUrl: row.modelUrl || '',
+    imageUrl: row.imageUrl || ''
   };
 }
 
@@ -550,6 +591,7 @@ function initPartEditData(row: any) {
     partName: row.partName || '',
     deviceId: row.deviceId || null,
     partType: row.partType || '',
+    modelNodeName: row.modelNodeName || '',
     monitorEnabled: row.monitorEnabled ?? 1,
     installPosition: row.installPosition || '',
     partStatus: row.partStatus ?? 1
@@ -589,6 +631,30 @@ async function handleInitModel() {
 function formatTimeForSubmit(time: number | null): string | null {
   if (!time) return null;
   return dayjs(time).format('YYYY-MM-DD HH:mm:ss');
+}
+
+async function handleModelUpload({ file }: UploadCustomRequestOptions) {
+  if (!file.file) return;
+  const uploadFormData = new FormData();
+  uploadFormData.append('file', file.file);
+
+  const { error, data } = await fetchUploadFile(uploadFormData);
+  if (!error && data) {
+    deviceFormData.value.modelUrl = data;
+    window.$message?.success($t('common.uploadSuccess'));
+  }
+}
+
+async function handleImageUpload({ file }: UploadCustomRequestOptions) {
+  if (!file.file) return;
+  const uploadFormData = new FormData();
+  uploadFormData.append('file', file.file);
+
+  const { error, data } = await fetchUploadFile(uploadFormData);
+  if (!error && data) {
+    deviceFormData.value.imageUrl = data;
+    window.$message?.success($t('common.uploadSuccess'));
+  }
 }
 
 async function handleSubmit() {

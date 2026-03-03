@@ -153,6 +153,13 @@ export function fetchGetDevicePart(id: string | number) {
   });
 }
 
+export function fetchGetDevicePartByCode(partCode: string) {
+  return request<Api.Equipment.DevicePart>({
+    url: `/device_part/code/${partCode}`,
+    method: 'GET'
+  });
+}
+
 export function fetchUpdateDevicePart(data: Api.Equipment.DevicePartEdit) {
   return request<boolean>({
     url: '/device_part/',
@@ -181,5 +188,20 @@ export function fetchSavePartThresholdConfig(data: Api.Equipment.PartThresholdCo
     url: '/part_threshold_config/',
     method: 'POST',
     data
+  });
+}
+
+export function fetchGetMonitorDeviceTree(params?: { factoryId?: number; areaId?: number; deviceId?: number }) {
+  return request<Api.Equipment.MonitorDeviceTreeNode[]>({
+    url: '/factory_info/monitor_tree',
+    method: 'GET',
+    params
+  });
+}
+
+export function fetchGetLatestAlarmDevice() {
+  return request<Api.Equipment.LatestAlarmDevice>({
+    url: '/factory_info/latest_alarm_device',
+    method: 'GET'
   });
 }

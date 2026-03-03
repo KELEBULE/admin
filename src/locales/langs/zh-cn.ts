@@ -927,7 +927,28 @@ const local: App.I18n.Schema = {
         upload: '上传文件',
         uploadSuccess: '上传成功',
         preview: '预览'
-      }
+      },
+      deviceInfo: '设备信息',
+      filterCondition: '筛选条件',
+      selectFactory: '选择工厂',
+      selectFactoryPlaceholder: '请选择工厂',
+      selectArea: '选择厂区',
+      selectAreaPlaceholder: '请选择厂区',
+      selectDevice: '选择设备',
+      selectDevicePlaceholder: '请选择设备',
+      partList: '部件列表',
+      noParts: '暂无部件数据',
+      currentDevice: '当前设备',
+      deviceName: '设备名称',
+      deviceCode: '设备编码',
+      modelLoaded: '模型状态',
+      modelLoadedYes: '已加载',
+      alarmLevel: '报警级别',
+      alarmPart: '报警部件',
+      alarmLevelLow: '低级报警',
+      alarmLevelMedium: '中级报警',
+      alarmLevelHigh: '高级报警',
+      loadingModel: '正在加载模型...'
     },
     userCenter: {
       userInfo: '用户信息',
@@ -1285,6 +1306,11 @@ const local: App.I18n.Schema = {
       statusMaintenance: '维护中',
       statusFault: '故障',
       statusScrapped: '已报废',
+      modelUrl: '3D模型',
+      imageUrl: '设备图片',
+      uploadModel: '上传模型',
+      uploadImage: '上传图片',
+      modelNodeName: '模型节点名称',
       confirmBatchDeleteFactory: '确定要批量删除选中的工厂吗？此操作不可恢复。',
       confirmBatchDeleteArea: '确定要批量删除选中的厂区吗？此操作不可恢复。',
       confirmBatchDeleteDevice: '确定要批量删除选中的设备吗？删除设备将同时删除其关联的所有部件，此操作不可恢复。',
@@ -1342,7 +1368,10 @@ const local: App.I18n.Schema = {
         warningMin: '请输入预警下限',
         warningMax: '请输入预警上限',
         checkInterval: '请输入检测间隔',
-        thresholdValue: '请输入阈值'
+        thresholdValue: '请输入阈值',
+        modelUrl: '请输入3D模型URL或上传文件',
+        imageUrl: '请输入设备图片URL或上传文件',
+        modelNodeName: '请输入模型节点名称(用于3D模型定位)'
       }
     }
   },
@@ -1396,5 +1425,4 @@ const local: App.I18n.Schema = {
     itemCount: '共 {total} 条'
   }
 };
-
 export default local;

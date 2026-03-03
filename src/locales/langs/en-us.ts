@@ -960,7 +960,28 @@ const local: App.I18n.Schema = {
         upload: 'Upload File',
         uploadSuccess: 'Upload Success',
         preview: 'Preview'
-      }
+      },
+      deviceInfo: 'Device Info',
+      filterCondition: 'Filter',
+      selectFactory: 'Select Factory',
+      selectFactoryPlaceholder: 'Please select factory',
+      selectArea: 'Select Area',
+      selectAreaPlaceholder: 'Please select area',
+      selectDevice: 'Select Device',
+      selectDevicePlaceholder: 'Please select device',
+      partList: 'Part List',
+      noParts: 'No parts available',
+      currentDevice: 'Current Device',
+      deviceName: 'Device Name',
+      deviceCode: 'Device Code',
+      modelLoaded: 'Model Status',
+      modelLoadedYes: 'Loaded',
+      alarmLevel: 'Alarm Level',
+      alarmPart: 'Alarm Part',
+      alarmLevelLow: 'Low',
+      alarmLevelMedium: 'Medium',
+      alarmLevelHigh: 'High',
+      loadingModel: 'Loading model...'
     },
     userCenter: {
       userInfo: 'User Info',
@@ -1027,6 +1048,11 @@ const local: App.I18n.Schema = {
       statusMaintenance: 'Maintenance',
       statusFault: 'Fault',
       statusScrapped: 'Scrapped',
+      modelUrl: '3D Model',
+      imageUrl: 'Device Image',
+      uploadModel: 'Upload Model',
+      uploadImage: 'Upload Image',
+      modelNodeName: 'Model Node Name',
       confirmBatchDeleteFactory: 'Are you sure to delete selected factories? This action cannot be undone.',
       confirmBatchDeleteArea: 'Are you sure to delete selected areas? This action cannot be undone.',
       confirmBatchDeleteDevice: 'Are you sure to delete selected devices? All associated parts will also be deleted.',
@@ -1084,7 +1110,10 @@ const local: App.I18n.Schema = {
         warningMin: 'Please enter warning min',
         warningMax: 'Please enter warning max',
         checkInterval: 'Please enter check interval',
-        thresholdValue: 'Please enter threshold value'
+        thresholdValue: 'Please enter threshold value',
+        modelUrl: 'Please enter 3D model URL or upload file',
+        imageUrl: 'Please enter device image URL or upload file',
+        modelNodeName: 'Please enter model node name (for 3D model positioning)'
       }
     },
     alarm: {

@@ -83,6 +83,8 @@ declare namespace Api {
       lastMaintainTime?: string;
       warrantyPeriod?: number;
       deviceNote?: string;
+      modelUrl?: string;
+      imageUrl?: string;
       createTime?: string;
       updateTime?: string;
       children?: DevicePart[];
@@ -98,6 +100,7 @@ declare namespace Api {
       monitorEnabled?: number;
       installPosition?: string;
       partStatus?: number;
+      modelNodeName?: string;
       createTime?: string;
       updateTime?: string;
     };
@@ -133,6 +136,8 @@ declare namespace Api {
       lastMaintainTime?: string | number | null;
       warrantyPeriod?: number;
       deviceNote?: string;
+      modelUrl?: string;
+      imageUrl?: string;
     };
 
     type DevicePartEdit = {
@@ -144,6 +149,7 @@ declare namespace Api {
       monitorEnabled?: number;
       installPosition?: string;
       partStatus?: number;
+      modelNodeName?: string;
     };
 
     type PartThresholdConfig = {
@@ -173,6 +179,38 @@ declare namespace Api {
       level3Value?: number;
       checkInterval?: number;
       configStatus?: number;
+    };
+
+    type MonitorDeviceTreeNode = {
+      uniqueKey: string;
+      id: number;
+      name: string;
+      code: string;
+      type: 'factory' | 'area' | 'device' | 'part';
+      parentId?: number;
+      deviceId?: number;
+      modelUrl?: string;
+      imageUrl?: string;
+      modelNodeName?: string;
+      deviceStatus?: number;
+      partStatus?: number;
+      hasAlarm?: boolean;
+      children?: MonitorDeviceTreeNode[];
+    };
+
+    type LatestAlarmDevice = {
+      deviceId: number;
+      deviceCode: string;
+      deviceName: string;
+      modelUrl?: string;
+      imageUrl?: string;
+      alarmPartId?: number;
+      alarmPartCode?: string;
+      alarmPartName?: string;
+      alarmPartModelNodeName?: string;
+      alarmLevel?: number;
+      alarmTime?: string;
+      hasModel?: boolean;
     };
   }
 }

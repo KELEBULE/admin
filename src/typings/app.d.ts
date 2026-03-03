@@ -1201,6 +1201,27 @@ declare namespace App {
             uploadSuccess: string;
             preview: string;
           };
+          deviceInfo: string;
+          filterCondition: string;
+          selectFactory: string;
+          selectFactoryPlaceholder: string;
+          selectArea: string;
+          selectAreaPlaceholder: string;
+          selectDevice: string;
+          selectDevicePlaceholder: string;
+          partList: string;
+          noParts: string;
+          currentDevice: string;
+          deviceName: string;
+          deviceCode: string;
+          modelLoaded: string;
+          modelLoadedYes: string;
+          alarmLevel: string;
+          alarmPart: string;
+          alarmLevelLow: string;
+          alarmLevelMedium: string;
+          alarmLevelHigh: string;
+          loadingModel: string;
         };
         userCenter: {
           userInfo: string;
@@ -1291,6 +1312,11 @@ declare namespace App {
           operator: string;
           thresholdValue: string;
           otherConfig: string;
+          modelUrl: string;
+          imageUrl: string;
+          uploadModel: string;
+          uploadImage: string;
+          modelNodeName: string;
           form: {
             factoryCode: string;
             factoryName: string;
@@ -1325,6 +1351,9 @@ declare namespace App {
             warningMax: string;
             checkInterval: string;
             thresholdValue: string;
+            modelUrl: string;
+            imageUrl: string;
+            modelNodeName: string;
           };
         };
         alarm: {
