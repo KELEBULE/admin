@@ -10,7 +10,19 @@
         </div>
         <NScrollbar class="flex-1">
           <div class="px-12px py-8px">
-            <NSpace vertical :size="16"></NSpace>
+            <NCollapse v-if="type === 'device'">
+              <NCollapseItem title="频繁报警部件">1</NCollapseItem>
+              <NCollapseItem title="频繁告警时间">2</NCollapseItem>
+              <NCollapseItem title="频繁报警等级">3</NCollapseItem>
+              <NCollapseItem title="检测温度趋势">4</NCollapseItem>
+              <NCollapseItem title="报警数量日趋势">5</NCollapseItem>
+            </NCollapse>
+            <NCollapse v-else>
+              <NCollapseItem title="检测温度趋势">1</NCollapseItem>
+              <NCollapseItem title="报警温度趋势">2</NCollapseItem>
+              <NCollapseItem title="历史报警时间-横轴24小时-纵轴报警次数">3</NCollapseItem>
+              <NCollapseItem title="频繁报警等级">4</NCollapseItem>
+            </NCollapse>
           </div>
         </NScrollbar>
       </div>
@@ -29,7 +41,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SvgIcon from '@/components/custom/svg-icon.vue';
-
+const type = ref('device');
 const visible = ref(true);
 function toggleDrawer() {
   visible.value = !visible.value;

@@ -64,5 +64,29 @@ declare namespace Api {
       priority?: number;
       assigneeId?: number;
     };
+
+    type AlarmLevelItem = {
+      level: number;
+      levelName: string;
+      count: number;
+      percentage: number;
+    };
+
+    type AlarmLevelDistribution = {
+      levelDistribution: AlarmLevelItem[];
+    };
+
+    type DeviceAlarmItem = {
+      deviceId: number;
+      deviceName: string;
+      level1Count: number;
+      level2Count: number;
+      level3Count: number;
+      totalCount: number;
+    };
+
+    type DeviceAlarmTop = {
+      deviceAlarmList: DeviceAlarmItem[];
+    };
   }
 }

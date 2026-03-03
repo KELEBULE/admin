@@ -10,7 +10,20 @@
         </div>
 
         <NScrollbar class="flex-1">
-          <div class="px-12px py-8px"></div>
+          <NFlex class="px-12px py-8px" vertical :size="8">
+            <NImage src="src\assets\imgs\r.webp" class="w-full h-200px rounded-8px object-cover" />
+            <NCollapse>
+              <NCollapseItem name="1" title="设备信息">
+                <NFlex class="px-12px py-8px" vertical>1</NFlex>
+              </NCollapseItem>
+              <NCollapseItem name="2" title="部件列表">
+                <NFlex class="px-12px py-8px" vertical>2</NFlex>
+              </NCollapseItem>
+              <NCollapseItem name="3" title="报警记录">
+                <NFlex class="px-12px py-8px" vertical>3</NFlex>
+              </NCollapseItem>
+            </NCollapse>
+          </NFlex>
         </NScrollbar>
       </div>
     </Transition>

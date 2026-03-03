@@ -12,7 +12,7 @@
       <NSpin size="large" />
       <NText class="mt-16px">{{ $t('page.monitor.loadingModel') }}</NText>
     </div>
-
+    <TopBar ref="topBarRef" />
     <ViewBar ref="viewBarRef" @switch-view="handleSwitchView" />
     <LeftDrawer
       ref="leftDrawerRef"
@@ -41,6 +41,7 @@ import ViewBar from './components/view-bar.vue';
 import LeftDrawer from './components/left-drawer.vue';
 import RightDrawer from './components/right-drawer.vue';
 import type { ViewType } from './components/view-bar.vue';
+import TopBar from './components/top-bar.vue';
 
 const modelViewerRef = ref<InstanceType<typeof ModelViewer>>();
 const viewBarRef = ref<InstanceType<typeof ViewBar>>();

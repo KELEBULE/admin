@@ -212,5 +212,16 @@ declare namespace Api {
       alarmTime?: string;
       hasModel?: boolean;
     };
+
+    type DeviceStatusItem = {
+      status: number;
+      statusName: string;
+      count: number;
+      percentage: number;
+    };
+
+    type DeviceStatusOverview = {
+      statusDistribution: DeviceStatusItem[];
+    };
   }
 }

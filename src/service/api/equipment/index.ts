@@ -205,3 +205,10 @@ export function fetchGetLatestAlarmDevice() {
     method: 'GET'
   });
 }
+
+export function fetchGetDeviceStatusOverview() {
+  return request<Api.Equipment.DeviceStatusOverview>({
+    url: '/factory_device/status_overview',
+    method: 'GET'
+  });
+}

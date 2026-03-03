@@ -39,3 +39,18 @@ export function fetchExportDeviceAlarm(ids: number[]) {
     responseType: 'blob'
   });
 }
+
+export function fetchGetAlarmLevelDistribution() {
+  return request<Api.Alarm.AlarmLevelDistribution>({
+    url: '/device_alarm/level_distribution',
+    method: 'GET'
+  });
+}
+
+export function fetchGetDeviceAlarmTop(limit: number = 10) {
+  return request<Api.Alarm.DeviceAlarmTop>({
+    url: '/device_alarm/device_top',
+    method: 'GET',
+    params: { limit }
+  });
+}

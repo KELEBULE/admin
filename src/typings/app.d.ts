@@ -549,6 +549,16 @@ declare namespace App {
           thisQuarter: string;
           minute: string;
           noData: string;
+          alarmLevelDistribution: string;
+          deviceAlarmTop: string;
+          deviceStatusOverview: string;
+          level1Alarm: string;
+          level2Alarm: string;
+          level3Alarm: string;
+          statusNormal: string;
+          statusMaintenance: string;
+          statusDisabled: string;
+          alarmCount: string;
           ai: {
             historyTitle: string;
             historyChat: string;
