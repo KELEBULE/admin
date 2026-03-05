@@ -12,87 +12,70 @@
       <NSpin size="large" />
       <NText class="mt-16px">{{ $t('page.monitor.loadingModel') }}</NText>
     </div>
-    <TopBar ref="topBarRef" />
+    <TopBar :current-device-id="currentDeviceId" @device-change="handleDeviceChange" @date-change="handleDateChange" />
     <ViewBar ref="viewBarRef" @switch-view="handleSwitchView" />
     <LeftDrawer
-      ref="leftDrawerRef"
       :device-tree="deviceTree"
       :tree-loading="treeLoading"
       :current-device="currentDevice"
+      :current-part="currentPart"
       @part-select="handlePartSelect"
+      @part-click="handlePartClickFromDrawer"
     />
-    <RightDrawer />
+    <RightDrawer :current-device-id="currentDeviceId" :current-part="currentPart" :date-range="dateRange" @clear-part="handleClearPart" />
 
     <div
-      v-show="tooltipVisible"
+      v-show="tooltip.visible"
       class="fixed px-8px py-12px rounded-4px text-12px pointer-events-none z-100 shadow-[0_2px_8px_rgba(0,0,0,0.15)] border max-w-200px break-all"
-      :style="tooltipStyle"
+      :style="{ left: tooltip.left, top: tooltip.top }"
     >
-      {{ tooltipText }}
+      {{ tooltip.text }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
-import { fetchGetDevicePart, fetchGetDevicePartByCode, fetchGetLatestAlarmDevice, fetchGetMonitorDeviceTree } from '@/service/api/equipment';
+import { onMounted, ref } from 'vue';
+import { useMonitorCenter } from './hooks/use-monitor-center';
 import ModelViewer from './components/model-viewer.vue';
 import ViewBar from './components/view-bar.vue';
 import LeftDrawer from './components/left-drawer.vue';
 import RightDrawer from './components/right-drawer.vue';
-import type { ViewType } from './components/view-bar.vue';
 import TopBar from './components/top-bar.vue';
+import type { ViewType } from './components/view-bar.vue';
 
 const modelViewerRef = ref<InstanceType<typeof ModelViewer>>();
 const viewBarRef = ref<InstanceType<typeof ViewBar>>();
-const leftDrawerRef = ref<InstanceType<typeof LeftDrawer>>();
 
-const loading = ref(true);
-const tooltipVisible = ref(false);
-const tooltipText = ref('');
-const tooltipStyle = reactive({ left: '0px', top: '0px' });
-
-const selectedPart = ref<Api.Equipment.DevicePart | null>(null);
-const partDetailVisible = ref(false);
-const partLoading = ref(false);
-
-const deviceTree = ref<Api.Equipment.MonitorDeviceTreeNode[]>([]);
-const treeLoading = ref(false);
-const currentDevice = ref<Api.Equipment.LatestAlarmDevice | null>(null);
-const currentModelUrl = ref<string>('');
-const currentDeviceId = ref<number | null>(null);
-const pendingHighlightPart = ref<Api.Equipment.MonitorDeviceTreeNode | null>(null);
-
-async function loadInitialData() {
-  treeLoading.value = true;
-  try {
-    const [treeResult, alarmResult] = await Promise.all([fetchGetMonitorDeviceTree(), fetchGetLatestAlarmDevice()]);
-
-    if (treeResult.data) {
-      deviceTree.value = treeResult.data;
-    }
-
-    if (alarmResult.data) {
-      currentDevice.value = alarmResult.data;
-      currentDeviceId.value = alarmResult.data.deviceId;
-      if (alarmResult.data.modelUrl) {
-        currentModelUrl.value = alarmResult.data.modelUrl;
-      }
-    }
-  } catch (error) {
-    console.error('Failed to load initial data:', error);
-  } finally {
-    treeLoading.value = false;
-  }
-}
+const {
+  loading,
+  treeLoading,
+  deviceTree,
+  currentDevice,
+  currentModelUrl,
+  currentDeviceId,
+  pendingHighlightPart,
+  tooltip,
+  dateRange,
+  currentPart,
+  loadInitialData,
+  updateTooltip,
+  switchDevice,
+  selectPart,
+  loadPartDetailByCode,
+  setModelLoaded,
+  clearPendingHighlight,
+  setDateRange,
+  setCurrentPart
+} = useMonitorCenter();
 
 function handleLoaded() {
-  loading.value = false;
+  setModelLoaded();
 
   if (pendingHighlightPart.value?.modelNodeName) {
     setTimeout(() => {
       modelViewerRef.value?.highlightPartByNodeName(pendingHighlightPart.value!.modelNodeName!);
-      pendingHighlightPart.value = null;
+      clearPendingHighlight();
     }, 500);
     return;
   }
@@ -105,41 +88,13 @@ function handleLoaded() {
 }
 
 function handleTooltip(data: { visible: boolean; text: string; left: string; top: string }) {
-  tooltipVisible.value = data.visible;
-  tooltipText.value = data.text;
-  tooltipStyle.left = data.left;
-  tooltipStyle.top = data.top;
+  updateTooltip(data);
 }
 
 async function handlePartClicked(data: { partCode: string; partName: string; modelNodeName: string }) {
-  partDetailVisible.value = true;
-  partLoading.value = true;
-
-  try {
-    const result = await fetchGetDevicePartByCode(data.partCode);
-    if (result.data) {
-      selectedPart.value = result.data;
-    }
-  } catch (error) {
-    console.error('Failed to get part details:', error);
-  } finally {
-    partLoading.value = false;
-  }
-}
-
-async function loadPartDetailById(partId: number) {
-  partDetailVisible.value = true;
-  partLoading.value = true;
-
-  try {
-    const result = await fetchGetDevicePart(partId);
-    if (result.data) {
-      selectedPart.value = result.data;
-    }
-  } catch (error) {
-    console.error('Failed to get part details:', error);
-  } finally {
-    partLoading.value = false;
+  await loadPartDetailByCode(data.partCode);
+  if (currentPart.value) {
+    modelViewerRef.value?.highlightPartByNodeName(data.modelNodeName);
   }
 }
 
@@ -151,20 +106,33 @@ function handleSwitchView(view: ViewType) {
 }
 
 async function handlePartSelect(part: Api.Equipment.MonitorDeviceTreeNode) {
-  const needSwitchDevice = part.deviceId && part.deviceId !== currentDeviceId.value && part.modelUrl;
-
-  if (needSwitchDevice) {
-    loading.value = true;
-    currentModelUrl.value = part.modelUrl!;
-    currentDeviceId.value = part.deviceId!;
-    pendingHighlightPart.value = part;
-  } else if (part.modelNodeName) {
+  await selectPart(part);
+  if (part.modelNodeName && !part.deviceId) {
     modelViewerRef.value?.highlightPartByNodeName(part.modelNodeName);
   }
+}
 
-  if (part.id) {
-    await loadPartDetailById(part.id);
+function handlePartClickFromDrawer(part: Api.Equipment.DevicePart) {
+  setCurrentPart(part);
+  if (part.partCode) {
+    modelViewerRef.value?.highlightPartByNodeName(part.partCode);
   }
+}
+
+function handleDeviceChange(device: { deviceId: number; modelUrl: string; deviceName: string; imageUrl: string } | null) {
+  if (!device) return;
+  switchDevice(device);
+  modelViewerRef.value?.resetHighlight();
+}
+
+function handleDateChange(range: [number, number] | null) {
+  setDateRange(range);
+}
+
+function handleClearPart() {
+  setCurrentPart(null);
+  modelViewerRef.value?.resetHighlight();
+  modelViewerRef.value?.animateCameraTo({ x: 4, y: 3, z: 4 }, { x: 0, y: 0, z: 0 }, 800);
 }
 
 onMounted(() => {

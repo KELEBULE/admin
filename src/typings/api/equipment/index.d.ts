@@ -223,5 +223,16 @@ declare namespace Api {
     type DeviceStatusOverview = {
       statusDistribution: DeviceStatusItem[];
     };
+
+    type DeviceDetailStats = {
+      deviceId: number;
+      deviceCode: string;
+      deviceName: string;
+      deviceStatus: number;
+      imageUrl?: string;
+      alarmCount: number;
+      workOrderCount: number;
+      totalWorkHours: number;
+    };
   }
 }

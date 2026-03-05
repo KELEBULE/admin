@@ -115,6 +115,13 @@ export function fetchGetDevice(id: string | number) {
   });
 }
 
+export function fetchGetDeviceDetailStats(id: string | number) {
+  return request<Api.Equipment.DeviceDetailStats>({
+    url: `/factory_device/detail_stats/${id}`,
+    method: 'GET'
+  });
+}
+
 export function fetchUpdateDevice(data: Api.Equipment.DeviceEdit) {
   return request<boolean>({
     url: '/factory_device/',
@@ -210,5 +217,21 @@ export function fetchGetDeviceStatusOverview() {
   return request<Api.Equipment.DeviceStatusOverview>({
     url: '/factory_device/status_overview',
     method: 'GET'
+  });
+}
+
+export function fetchBatchScrapDevice(data: Api.Common.DeleteParams) {
+  return request<boolean>({
+    url: '/factory_device/batch_scrap',
+    method: 'PUT',
+    data
+  });
+}
+
+export function fetchBatchUpdateDeviceStatus(data: { ids: string[]; deviceStatus: number }) {
+  return request<boolean>({
+    url: '/factory_device/batch_update_status',
+    method: 'PUT',
+    data
   });
 }

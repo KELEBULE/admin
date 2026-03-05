@@ -32,19 +32,6 @@
         </div>
       </div>
     </div>
-    <NSpace justify="start" class="flex-shrink-0">
-      <NTag
-        v-for="(option, index) in quickOptions"
-        :key="index"
-        type="info"
-        size="small"
-        round
-        class="cursor-pointer transition-all-0.2s hover:-translate-y-1px"
-        @click="selectQuickOption(option)"
-      >
-        {{ option }}
-      </NTag>
-    </NSpace>
 
     <NFlex vertical :size="8" class="flex-shrink-0">
       <NFlex class="items-center">
@@ -88,7 +75,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NEllipsis, NInput, NTag, NText, NUpload, type UploadFileInfo, useMessage } from 'naive-ui';
+import { NButton, NEllipsis, NInput, NText, NUpload, type UploadFileInfo, useMessage } from 'naive-ui';
 import { getAuthorization } from '@/service/request/shared';
 import { type ChatMessage, useAiChatStore } from '@/store/modules/ai-chat';
 import { getServiceBaseURL } from '@/utils/service';
@@ -102,16 +89,11 @@ const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === '
 const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
 
 const inputValue = ref('');
-const quickOptions = ref(['帮我写个周报', '分析这个数据', '生成代码', '翻译这段文字']);
 const isRecording = ref(false);
 let recognitionInstance: any = null;
 const uploadedFiles = ref<Array<{ name: string; file: File }>>([]);
 const uploadFileList = ref<UploadFileInfo[]>([]);
 const isStreamMode = ref(true);
-
-function selectQuickOption(option: string) {
-  inputValue.value = option;
-}
 
 function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter' && !e.shiftKey) {

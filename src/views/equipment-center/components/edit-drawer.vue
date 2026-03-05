@@ -167,7 +167,7 @@
                   {{ $t('page.equipment.uploadModel') }}
                 </NButton>
               </NUpload>
-              <NInput v-model:value="deviceFormData.modelUrl" :placeholder="$t('page.equipment.form.modelUrl')" clearable class="mt-8px" />
+              <NInput v-model:value="deviceFormData.modelUrl" :placeholder="$t('page.equipment.form.modelUrl')" clearable />
             </NFormItem>
             <NFormItem :label="$t('page.equipment.imageUrl')" path="imageUrl">
               <NUpload :custom-request="handleImageUpload" :show-file-list="false" accept="image/*">
@@ -178,10 +178,7 @@
                   {{ $t('page.equipment.uploadImage') }}
                 </NButton>
               </NUpload>
-              <div v-if="deviceFormData.imageUrl" class="mt-8px">
-                <NImage :src="deviceFormData.imageUrl" width="120" object-fit="contain" />
-              </div>
-              <NInput v-model:value="deviceFormData.imageUrl" :placeholder="$t('page.equipment.form.imageUrl')" clearable class="mt-8px" />
+              <NInput v-model:value="deviceFormData.imageUrl" :placeholder="$t('page.equipment.form.imageUrl')" clearable />
             </NFormItem>
           </template>
           <template v-else>
@@ -276,8 +273,7 @@ const statusOptions = [
 const deviceStatusOptions = [
   { label: $t('page.equipment.statusNormal'), value: 1 },
   { label: $t('page.equipment.statusMaintenance'), value: 2 },
-  { label: $t('page.equipment.statusFault'), value: 3 },
-  { label: $t('page.equipment.statusScrapped'), value: 0 }
+  { label: $t('page.equipment.statusDisabled'), value: 0 }
 ];
 
 const factoryOptions = ref<{ label: string; value: number }[]>([]);

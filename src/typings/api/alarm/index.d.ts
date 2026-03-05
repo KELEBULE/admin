@@ -11,6 +11,8 @@ declare namespace Api {
       confirmStatus?: number;
       clearStatus?: number;
       isFalseAlarm?: number;
+      page?: number;
+      pageSize?: number;
     };
 
     type DeviceAlarm = {
@@ -87,6 +89,68 @@ declare namespace Api {
 
     type DeviceAlarmTop = {
       deviceAlarmList: DeviceAlarmItem[];
+    };
+
+    type FrequentAlarmPart = {
+      partId: number;
+      partName: string;
+      partCode: string;
+      alarmCount: number;
+      percentage: number;
+    };
+
+    type FrequentAlarmPartResult = {
+      partList: FrequentAlarmPart[];
+    };
+
+    type FrequentAlarmTimeItem = {
+      hour: number;
+      alarmCount: number;
+    };
+
+    type FrequentAlarmTimeResult = {
+      hourlyDistribution: FrequentAlarmTimeItem[];
+    };
+
+    type AlarmLevelStats = {
+      level: number;
+      levelName: string;
+      count: number;
+      percentage: number;
+    };
+
+    type DeviceAlarmLevelStatsResult = {
+      levelStats: AlarmLevelStats[];
+    };
+
+    type TemperatureTrendItem = {
+      detectTime: string;
+      detectValue: number;
+      level1Value?: number;
+      level2Value?: number;
+      level3Value?: number;
+    };
+
+    type TemperatureTrendResult = {
+      trendData: TemperatureTrendItem[];
+    };
+
+    type DailyAlarmCount = {
+      date: string;
+      alarmCount: number;
+    };
+
+    type DailyAlarmTrendResult = {
+      dailyData: DailyAlarmCount[];
+    };
+
+    type HourlyAlarmItem = {
+      hour: number;
+      count: number;
+    };
+
+    type HourlyAlarmDistributionResult = {
+      distribution: HourlyAlarmItem[];
     };
   }
 }

@@ -32,7 +32,7 @@ const loading = ref(true);
 const statusColorMap: Record<number, string> = {
   1: '#22c55e',
   2: '#f97316',
-  3: '#6b7280'
+  0: '#6b7280'
 };
 
 function initChart(data: DeviceStatusOverview) {

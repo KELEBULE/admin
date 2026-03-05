@@ -364,6 +364,8 @@ function animateCameraTo(targetPosition: { x: number; y: number; z: number }, lo
   const endTarget = lookAt ? new THREE.Vector3(lookAt.x, lookAt.y, lookAt.z) : new THREE.Vector3(0, 0, 0);
   const startTime = Date.now();
 
+  orbitControls.enabled = false;
+
   function updateCamera() {
     const elapsed = Date.now() - startTime;
     const progress = Math.min(elapsed / duration, 1);
@@ -376,6 +378,8 @@ function animateCameraTo(targetPosition: { x: number; y: number; z: number }, lo
 
     if (progress < 1) {
       requestAnimationFrame(updateCamera);
+    } else {
+      orbitControls.enabled = true;
     }
   }
 

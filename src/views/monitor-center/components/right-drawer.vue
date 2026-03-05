@@ -6,22 +6,63 @@
         class="absolute top-16px right-16px w-360px h-[calc(100%-32px)] bg-white/95 dark:bg-black/60 backdrop-blur-8px rounded-l-8px shadow-[-2px_0_8px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden"
       >
         <div class="px-16px py-16px border-b border-b-#a8c8e8 dark:border-b-white/10">
-          <span class="text-16px font-500 text-#1b3a5a dark:text-white/90">监测数据</span>
+          <NFlex justify="space-between" align="center">
+            <span class="text-16px font-500 text-#1b3a5a dark:text-white/90">{{ $t('page.monitor.monitorData') }}</span>
+            <NTag v-if="currentPart" type="info" size="small" closable @close="handleClearPart">
+              {{ $t('page.equipment.partTypeLabel') }}: {{ currentPart.partName }}
+            </NTag>
+          </NFlex>
         </div>
         <NScrollbar class="flex-1">
           <div class="px-12px py-8px">
-            <NCollapse v-if="type === 'device'">
-              <NCollapseItem title="频繁报警部件">1</NCollapseItem>
-              <NCollapseItem title="频繁告警时间">2</NCollapseItem>
-              <NCollapseItem title="频繁报警等级">3</NCollapseItem>
-              <NCollapseItem title="检测温度趋势">4</NCollapseItem>
-              <NCollapseItem title="报警数量日趋势">5</NCollapseItem>
+            <NCollapse v-if="!currentPart">
+              <NCollapseItem :title="$t('page.monitor.frequentAlarmParts')">
+                <div class="h-250px">
+                  <FrequentAlarmParts :device-id="currentDeviceId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.frequentAlarmTime')">
+                <div class="h-250px">
+                  <FrequentAlarmTime :device-id="currentDeviceId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.frequentAlarmLevel')">
+                <div class="h-250px">
+                  <AlarmLevelDistribution :device-id="currentDeviceId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.temperatureTrend')">
+                <div class="h-250px">
+                  <TemperatureTrend :device-id="currentDeviceId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.dailyAlarmTrend')">
+                <div class="h-250px">
+                  <DailyAlarmTrend :device-id="currentDeviceId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
             </NCollapse>
             <NCollapse v-else>
-              <NCollapseItem title="检测温度趋势">1</NCollapseItem>
-              <NCollapseItem title="报警温度趋势">2</NCollapseItem>
-              <NCollapseItem title="历史报警时间-横轴24小时-纵轴报警次数">3</NCollapseItem>
-              <NCollapseItem title="频繁报警等级">4</NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.temperatureTrend')">
+                <div class="h-250px">
+                  <PartTemperatureTrend :part-id="currentPart.partId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.alarmTemperatureTrend')">
+                <div class="h-250px">
+                  <PartAlarmTemperatureTrend :part-id="currentPart.partId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.hourlyAlarmDistribution')">
+                <div class="h-250px">
+                  <PartHourlyAlarmDistribution :part-id="currentPart.partId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
+              <NCollapseItem :title="$t('page.monitor.frequentAlarmLevel')">
+                <div class="h-250px">
+                  <PartAlarmLevelDistribution :part-id="currentPart.partId" :start-time="startTime" :end-time="endTime" />
+                </div>
+              </NCollapseItem>
             </NCollapse>
           </div>
         </NScrollbar>
@@ -39,12 +80,58 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import SvgIcon from '@/components/custom/svg-icon.vue';
-const type = ref('device');
+import FrequentAlarmParts from './charts/frequent-alarm-parts.vue';
+import FrequentAlarmTime from './charts/frequent-alarm-time.vue';
+import AlarmLevelDistribution from './charts/alarm-level-distribution.vue';
+import TemperatureTrend from './charts/temperature-trend.vue';
+import DailyAlarmTrend from './charts/daily-alarm-trend.vue';
+import PartTemperatureTrend from './charts/part-temperature-trend.vue';
+import PartAlarmTemperatureTrend from './charts/part-alarm-temperature-trend.vue';
+import PartHourlyAlarmDistribution from './charts/part-hourly-alarm-distribution.vue';
+import PartAlarmLevelDistribution from './charts/part-alarm-level-distribution.vue';
+
+const props = defineProps<{
+  currentDeviceId: number | null;
+  currentPart: Api.Equipment.DevicePart | null;
+  dateRange: [number, number] | null;
+}>();
+
+const emit = defineEmits<{
+  'clear-part': [];
+}>();
+
 const visible = ref(true);
+
 function toggleDrawer() {
   visible.value = !visible.value;
+}
+
+function handleClearPart() {
+  emit('clear-part');
+}
+
+const startTime = computed(() => {
+  if (!props.dateRange) return '';
+  const date = new Date(props.dateRange[0]);
+  return formatLocalDateTime(date);
+});
+
+const endTime = computed(() => {
+  if (!props.dateRange) return '';
+  const date = new Date(props.dateRange[1]);
+  return formatLocalDateTime(date);
+});
+
+function formatLocalDateTime(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 </script>
 

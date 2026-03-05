@@ -121,7 +121,6 @@ function getStatusType(status: number): 'success' | 'warning' | 'error' | 'info'
   const statusMap: Record<number, 'success' | 'warning' | 'error' | 'info'> = {
     1: 'success',
     2: 'warning',
-    3: 'error',
     0: 'info'
   };
   return statusMap[status] || 'info';
@@ -131,8 +130,7 @@ function getStatusText(status: number) {
   const statusMap: Record<number, string> = {
     1: $t('page.equipment.statusNormal'),
     2: $t('page.equipment.statusMaintenance'),
-    3: $t('page.equipment.statusFault'),
-    0: $t('page.equipment.statusScrapped')
+    0: $t('page.equipment.statusDisabled')
   };
   return statusMap[status] || '-';
 }
