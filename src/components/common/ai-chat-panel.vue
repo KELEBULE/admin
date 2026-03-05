@@ -12,10 +12,31 @@
         </div>
         <div
           class="max-w-70% px-14px py-10px rounded-12px shadow-sm"
-          :class="msg.role === 'ai' ? 'bg-blue rounded-tl-4px' : 'bg-blue text-white rounded-tr-4px'"
+          :class="msg.role === 'ai' ? 'bg-gray-100 rounded-tl-4px' : 'bg-gray-50 text-white rounded-tr-4px'"
         >
           <MarkdownRenderer v-if="msg.role === 'ai'" :content="msg.content" />
           <NText v-else>{{ msg.content }}</NText>
+
+          <div v-if="msg.toolResults && msg.toolResults.length > 0" class="mt-12px">
+            <div v-for="(result, rIndex) in msg.toolResults" :key="rIndex" class="mt-8px p-8px bg-[rgba(0,0,0,0.05)] rounded-8px">
+              <NFlex align="center" :size="4">
+                <SvgIcon
+                  :icon="result.success ? 'mdi:check-circle' : 'mdi:alert-circle'"
+                  :class="result.success ? 'text-green-500' : 'text-red-500'"
+                  class="text-16px"
+                />
+                <NText depth="3" class="text-12px">{{ getToolDisplayName(result.toolName) }}</NText>
+              </NFlex>
+
+              <div v-if="result.success && result.data" class="mt-8px">
+                <AlarmDataDisplay :data="result.data" :tool-name="result.toolName" />
+              </div>
+              <div v-else-if="!result.success" class="mt-4px">
+                <NText depth="3" class="text-12px text-red-400">{{ result.data }}</NText>
+              </div>
+            </div>
+          </div>
+
           <div v-if="msg.files && msg.files.length > 0" class="mt-8px">
             <div
               v-for="(file, fIndex) in msg.files"
@@ -74,10 +95,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { NButton, NEllipsis, NInput, NText, NUpload, type UploadFileInfo, useMessage } from 'naive-ui';
+import { defineComponent, h, ref } from 'vue';
+import {
+  NButton,
+  NDataTable,
+  NEllipsis,
+  NFlex,
+  NGi,
+  NGrid,
+  NInput,
+  NSpace,
+  NStatistic,
+  NText,
+  NUpload,
+  type UploadFileInfo,
+  useMessage
+} from 'naive-ui';
 import { getAuthorization } from '@/service/request/shared';
-import { type ChatMessage, useAiChatStore } from '@/store/modules/ai-chat';
+import { type ChatMessage, type ToolResult, useAiChatStore } from '@/store/modules/ai-chat';
 import { getServiceBaseURL } from '@/utils/service';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import MarkdownRenderer from '@/components/common/markdown-renderer.vue';
@@ -94,6 +129,232 @@ let recognitionInstance: any = null;
 const uploadedFiles = ref<Array<{ name: string; file: File }>>([]);
 const uploadFileList = ref<UploadFileInfo[]>([]);
 const isStreamMode = ref(true);
+
+const toolDisplayNames: Record<string, string> = {
+  query_today_alarms: '查询今日报警',
+  query_alarms_by_time_range: '查询时间范围报警',
+  query_unconfirmed_alarms: '查询未确认报警',
+  query_device_alarms: '查询设备报警',
+  get_alarm_level_distribution: '报警等级分布',
+  get_device_alarm_top: '设备报警排行',
+  get_alarm_statistics: '报警统计概览',
+  get_daily_alarm_trend: '每日报警趋势',
+  query_devices: '查询设备列表',
+  get_device_status_distribution: '设备状态分布',
+  get_device_detail: '设备详情',
+  query_fault_devices: '故障设备列表',
+  query_work_orders: '查询工单列表',
+  query_pending_work_orders: '待处理工单',
+  get_work_order_statistics: '工单统计',
+  get_work_order_detail: '工单详情',
+  query_login_logs: '登录日志',
+  query_operation_logs: '操作日志'
+};
+
+function getToolDisplayName(toolName: string): string {
+  return toolDisplayNames[toolName] || toolName;
+}
+
+function renderStatisticGrid(cols: number, items: Array<{ label: string; value: number }>) {
+  return h(NGrid, { cols, xGap: 8 }, () => items.map(item => h(NGi, null, () => h(NStatistic, { label: item.label, value: item.value }))));
+}
+
+function renderDataTable(columns: any[], data: any[], maxHeight = 200) {
+  return h(NDataTable, { columns, data, size: 'small', maxHeight });
+}
+
+function renderListWithTable(total: number, list: any[], columns: any[]) {
+  return h('div', [
+    h(NText, { depth: 3, class: 'text-12px mb-4px' }, { default: () => `共 ${total} 条记录` }),
+    renderDataTable(columns, list.slice(0, 10), 250)
+  ]);
+}
+
+function renderEmptyData() {
+  return h(NText, { depth: 3 }, { default: () => '暂无数据' });
+}
+
+function renderDetailText(lines: string[]) {
+  return h(
+    'div',
+    { class: 'text-12px' },
+    lines.map((line, i) => [h(NText, null, { default: () => line }), i < lines.length - 1 ? h('br') : null]).flat()
+  );
+}
+
+function renderAlarmDistribution(data: any) {
+  const distribution = data?.distribution || data?.levelDistribution;
+  if (!distribution) return null;
+  return renderStatisticGrid(3, [
+    { label: '一级(严重)', value: distribution.level1?.count || 0 },
+    { label: '二级(警告)', value: distribution.level2?.count || 0 },
+    { label: '三级(提示)', value: distribution.level3?.count || 0 }
+  ]);
+}
+
+function renderDeviceAlarmTop(data: any) {
+  const topDevices = data?.topDevices || [];
+  if (topDevices.length === 0) return null;
+  const columns = [
+    { title: '排名', key: 'rank', width: 60 },
+    { title: '设备名称', key: 'deviceName' },
+    { title: '报警次数', key: 'alarmCount', width: 100 }
+  ];
+  return renderDataTable(
+    columns,
+    topDevices.map((d: any, i: number) => ({ ...d, rank: i + 1 }))
+  );
+}
+
+function renderAlarmList(data: any) {
+  const list = data?.list || [];
+  const total = data?.total || 0;
+  if (list.length === 0) return renderEmptyData();
+  const columns = [
+    { title: '报警时间', key: 'alarmTime', width: 150 },
+    { title: '等级', key: 'alarmLevelName', width: 100 },
+    { title: '当前值', key: 'currentValue', width: 80 },
+    { title: '阈值', key: 'thresholdValue', width: 80 },
+    { title: '状态', key: 'confirmStatusName', width: 80 }
+  ];
+  return renderListWithTable(total, list, columns);
+}
+
+function renderAlarmTrend(data: any) {
+  const trend = data?.trend || [];
+  if (trend.length === 0) return null;
+  return renderDataTable(
+    [
+      { title: '日期', key: 'date' },
+      { title: '报警数量', key: 'count' }
+    ],
+    trend
+  );
+}
+
+function renderDeviceStatusDistribution(data: any) {
+  const distribution = data?.distribution;
+  if (!distribution) return null;
+  return renderStatisticGrid(4, [
+    { label: '运行中', value: distribution.running?.count || 0 },
+    { label: '待机', value: distribution.standby?.count || 0 },
+    { label: '故障', value: distribution.fault?.count || 0 },
+    { label: '维护中', value: distribution.maintenance?.count || 0 }
+  ]);
+}
+
+function renderDeviceList(data: any) {
+  const list = data?.list || [];
+  const total = data?.total || 0;
+  if (list.length === 0) return renderEmptyData();
+  const columns = [
+    { title: '设备编码', key: 'deviceCode', width: 100 },
+    { title: '设备名称', key: 'deviceName' },
+    { title: '状态', key: 'deviceStatusName', width: 80 },
+    { title: '厂商', key: 'manufacturer', width: 100 }
+  ];
+  return renderListWithTable(total, list, columns);
+}
+
+function renderDeviceDetail(data: any) {
+  return renderDetailText([
+    `设备名称: ${data.deviceName}`,
+    `设备编码: ${data.deviceCode}`,
+    `状态: ${data.deviceStatusName}`,
+    `厂商: ${data.manufacturer || '未知'}`
+  ]);
+}
+
+function renderWorkOrderList(data: any) {
+  const list = data?.list || [];
+  const total = data?.total || 0;
+  if (list.length === 0) return renderEmptyData();
+  const columns = [
+    { title: '工单编号', key: 'orderCode', width: 120 },
+    { title: '类型', key: 'orderTypeName', width: 80 },
+    { title: '优先级', key: 'priorityName', width: 60 },
+    { title: '状态', key: 'orderStatusName', width: 80 }
+  ];
+  return renderListWithTable(total, list, columns);
+}
+
+function renderWorkOrderStatistics(data: any) {
+  return renderStatisticGrid(4, [
+    { label: '总工单', value: data.totalOrders || 0 },
+    { label: '待处理', value: data.pendingOrders || 0 },
+    { label: '处理中', value: data.processingOrders || 0 },
+    { label: '已完成', value: data.completedOrders || 0 }
+  ]);
+}
+
+function renderWorkOrderDetail(data: any) {
+  return renderDetailText([
+    `工单编号: ${data.orderCode}`,
+    `类型: ${data.orderTypeName}`,
+    `状态: ${data.orderStatusName}`,
+    `故障描述: ${data.faultDescription}`
+  ]);
+}
+
+function renderLogList(toolName: string, data: any) {
+  const list = data?.list || [];
+  const total = data?.total || 0;
+  if (list.length === 0) return renderEmptyData();
+  const isLogin = toolName === 'query_login_logs';
+  const columns = isLogin
+    ? [
+        { title: '用户', key: 'userName', width: 80 },
+        { title: 'IP', key: 'ip', width: 120 },
+        { title: '状态', key: 'statusName', width: 60 },
+        { title: '时间', key: 'createTime', width: 150 }
+      ]
+    : [
+        { title: '用户', key: 'userName', width: 80 },
+        { title: '操作', key: 'operation', width: 120 },
+        { title: '状态', key: 'statusName', width: 60 },
+        { title: '时间', key: 'createTime', width: 150 }
+      ];
+  return renderListWithTable(total, list, columns);
+}
+
+const AlarmDataDisplay = defineComponent({
+  name: 'AlarmDataDisplay',
+  props: {
+    data: { type: Object, required: true },
+    toolName: { type: String, required: true }
+  },
+  setup(props) {
+    const renderers: Record<string, () => any> = {
+      get_alarm_level_distribution: () => renderAlarmDistribution(props.data),
+      get_alarm_statistics: () => renderAlarmDistribution(props.data),
+      get_device_alarm_top: () => renderDeviceAlarmTop(props.data),
+      query_today_alarms: () => renderAlarmList(props.data),
+      query_unconfirmed_alarms: () => renderAlarmList(props.data),
+      query_alarms_by_time_range: () => renderAlarmList(props.data),
+      query_device_alarms: () => renderAlarmList(props.data),
+      get_daily_alarm_trend: () => renderAlarmTrend(props.data),
+      get_device_status_distribution: () => renderDeviceStatusDistribution(props.data),
+      query_devices: () => renderDeviceList(props.data),
+      query_fault_devices: () => renderDeviceList(props.data),
+      get_device_detail: () => renderDeviceDetail(props.data),
+      query_work_orders: () => renderWorkOrderList(props.data),
+      query_pending_work_orders: () => renderWorkOrderList(props.data),
+      get_work_order_statistics: () => renderWorkOrderStatistics(props.data),
+      get_work_order_detail: () => renderWorkOrderDetail(props.data),
+      query_login_logs: () => renderLogList(props.toolName, props.data),
+      query_operation_logs: () => renderLogList(props.toolName, props.data)
+    };
+
+    return () => {
+      const renderer = renderers[props.toolName];
+      if (renderer) {
+        const result = renderer();
+        if (result) return result;
+      }
+      return h(NText, { depth: 3, class: 'text-12px' }, { default: () => JSON.stringify(props.data, null, 2) });
+    };
+  }
+});
 
 function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter' && !e.shiftKey) {
@@ -133,7 +394,7 @@ async function sendNormalMessage(userMessage: ChatMessage) {
       },
       body: JSON.stringify({
         message: userMessage.content,
-        model: 'llama2',
+        model: 'qwen3:14b',
         temperature: 0.7,
         maxTokens: 1000,
         stream: false,
@@ -146,7 +407,8 @@ async function sendNormalMessage(userMessage: ChatMessage) {
     if (result.code === 200) {
       aiChatStore.addMessage({
         role: 'ai',
-        content: result.data?.reply || result.result?.reply
+        content: result.data?.reply || result.result?.reply,
+        toolResults: result.data?.toolResults || result.result?.toolResults
       });
       if (result.data?.sessionId || result.result?.sessionId) {
         aiChatStore.setSessionId(result.data?.sessionId || result.result?.sessionId);
@@ -168,7 +430,7 @@ async function sendStreamMessage(userMessage: ChatMessage) {
     }
     const url = new URL(urlStr);
     url.searchParams.append('message', userMessage.content);
-    url.searchParams.append('model', 'gemma3:12b');
+    url.searchParams.append('model', 'qwen3:14b');
     url.searchParams.append('temperature', '0.7');
     url.searchParams.append('maxTokens', '1000');
     if (aiChatStore.sessionId) {
@@ -191,6 +453,7 @@ async function sendStreamMessage(userMessage: ChatMessage) {
 
     let buffer = '';
     let fullResponse = '';
+    const toolResults: ToolResult[] = [];
     const aiMessageIndex = aiChatStore.messages.length;
 
     aiChatStore.addMessage({
@@ -213,7 +476,7 @@ async function sendStreamMessage(userMessage: ChatMessage) {
       buffer = lines.pop() || '';
 
       for (const line of lines) {
-        const result = processStreamLine(line, fullResponse, aiMessageIndex);
+        const result = processStreamLine(line, fullResponse, aiMessageIndex, toolResults);
         if (result) {
           fullResponse = result;
         }
@@ -221,10 +484,17 @@ async function sendStreamMessage(userMessage: ChatMessage) {
     }
 
     if (buffer.trim()) {
-      const result = processStreamLine(buffer, fullResponse, aiMessageIndex);
+      const result = processStreamLine(buffer, fullResponse, aiMessageIndex, toolResults);
       if (result) {
         fullResponse = result;
       }
+    }
+
+    if (toolResults.length > 0) {
+      aiChatStore.updateMessage(aiMessageIndex, {
+        ...aiChatStore.messages[aiMessageIndex],
+        toolResults
+      });
     }
   } catch (error) {
     console.error('流式发送失败', error);
@@ -232,7 +502,7 @@ async function sendStreamMessage(userMessage: ChatMessage) {
   }
 }
 
-function processStreamLine(line: string, currentFullResponse: string, aiMessageIndex: number): string | null {
+function processStreamLine(line: string, currentFullResponse: string, aiMessageIndex: number, toolResults: ToolResult[]): string | null {
   if (!line.trim().startsWith('data:')) return null;
 
   try {
@@ -240,6 +510,16 @@ function processStreamLine(line: string, currentFullResponse: string, aiMessageI
     if (!jsonStr) return null;
 
     const data = JSON.parse(jsonStr);
+
+    if (data.type === 'tool_call') {
+      toolResults.push({
+        toolName: data.toolName,
+        success: data.success,
+        data: data.data
+      });
+      return null;
+    }
+
     const content = data.content;
     const isDone = data.done;
 

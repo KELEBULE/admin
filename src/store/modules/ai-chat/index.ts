@@ -4,10 +4,18 @@ import { getAuthorization } from '@/service/request/shared';
 import { getServiceBaseURL } from '@/utils/service';
 import { SetupStoreId } from '@/enum';
 
+export interface ToolResult {
+  toolName: string;
+  success: boolean;
+  data: any;
+}
+
 export interface ChatMessage {
   role: 'user' | 'ai';
   content: string;
   files?: Array<{ name: string }>;
+  toolResults?: ToolResult[];
+  isToolCall?: boolean;
 }
 
 export interface AiChatHistoryVO {
@@ -28,7 +36,8 @@ export const useAiChatStore = defineStore(SetupStoreId.AiChat, () => {
   const messages = ref<ChatMessage[]>([
     {
       role: 'ai',
-      content: '你好！我是你的 AI 助手，有什么可以帮助你的吗？'
+      content:
+        '你好！我是设备管理AI助手，可以帮你查询和分析设备报警数据。例如：\n\n• 查询今天有哪些报警\n• 查看未确认的报警\n• 报警等级分布统计\n• 报警最多的设备排行\n\n有什么可以帮助你的吗？'
     }
   ]);
 
@@ -37,7 +46,8 @@ export const useAiChatStore = defineStore(SetupStoreId.AiChat, () => {
     messages.value = [
       {
         role: 'ai',
-        content: '你好！我是你的 AI 助手，有什么可以帮助你的吗？'
+        content:
+          '你好！我是设备管理AI助手，可以帮你查询和分析设备报警数据。例如：\n\n• 查询今天有哪些报警\n• 查看未确认的报警\n• 报警等级分布统计\n• 报警最多的设备排行\n\n有什么可以帮助你的吗？'
       }
     ];
   }
@@ -81,7 +91,8 @@ export const useAiChatStore = defineStore(SetupStoreId.AiChat, () => {
     } else {
       messages.value.push({
         role: 'ai',
-        content: '你好！我是你的 AI 助手，有什么可以帮助你的吗？'
+        content:
+          '你好！我是设备管理AI助手，可以帮你查询和分析设备报警数据。例如：\n\n• 查询今天有哪些报警\n• 查看未确认的报警\n• 报警等级分布统计\n• 报警最多的设备排行\n\n有什么可以帮助你的吗？'
       });
     }
   }
