@@ -235,3 +235,26 @@ export function fetchBatchUpdateDeviceStatus(data: { ids: string[]; deviceStatus
     data
   });
 }
+
+export function fetchDeviceStatusLogs(deviceId: number | string) {
+  return request<Api.Equipment.DeviceStatusLog[]>({
+    url: `/factory_device/status_logs/${deviceId}`,
+    method: 'GET'
+  });
+}
+
+export function fetchChangeDeviceStatus(data: Api.Equipment.DeviceStatusChangeDTO) {
+  return request<boolean>({
+    url: '/factory_device/change_status',
+    method: 'PUT',
+    data
+  });
+}
+
+export function fetchScrapDevices(data: Api.Equipment.DeviceScrapDTO) {
+  return request<boolean>({
+    url: '/factory_device/scrap',
+    method: 'PUT',
+    data
+  });
+}

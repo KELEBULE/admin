@@ -1405,6 +1405,27 @@ const local: App.I18n.Schema = {
         modelUrl: '请输入3D模型URL或上传文件',
         imageUrl: '请输入设备图片URL或上传文件',
         modelNodeName: '请输入模型节点名称(用于3D模型定位)'
+      },
+      statusLog: {
+        title: '状态切换记录',
+        fromStatus: '变更前状态',
+        toStatus: '变更后状态',
+        changeReason: '备注信息',
+        imageUrls: '上传图片',
+        relatedOrder: '关联工单',
+        operator: '操作人',
+        changeTime: '变更时间',
+        noRecords: '暂无状态切换记录',
+        changeStatus: '状态切换',
+        scrapDevice: '设备报废',
+        changeReasonPlaceholder: '请输入备注信息（20-500字）',
+        changeReasonRequired: '备注信息不能为空',
+        changeReasonLength: '备注信息长度必须在20-500字之间',
+        imageUploadTip: '支持JPG、PNG格式，单张不超过5MB，最多上传3张',
+        confirmChangeStatus: '确认变更设备状态',
+        confirmScrap: '确认报废设备',
+        changeStatusSuccess: '状态变更成功',
+        scrapSuccess: '设备报废成功'
       }
     }
   },

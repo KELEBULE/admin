@@ -12,7 +12,7 @@
     >
       <template #actions>
         <NButton type="primary" @click="handleAdd">{{ $t('page.equipment.addDevice') }}</NButton>
-        <NButton v-if="hasAuth('factory:device:scrap')" type="warning" :disabled="!checkedRowKeys.length" @click="handleBatchScrap">
+        <NButton type="warning" :disabled="!checkedRowKeys.length" @click="handleBatchScrap">
           {{ $t('page.equipment.batchScrap') }}
         </NButton>
         <NButton type="info" :disabled="!checkedRowKeys.length" @click="handleBatchEditStatus">
@@ -26,40 +26,30 @@
     <EditDrawer v-model:visible="showEdit" :row="editRow" :operate-type="operateType" :edit-type="editType" @submitted="handleSubmitted" />
     <DetailDrawer v-model:visible="showDetail" :row="detailRow" :detail-type="detailType" />
     <ThresholdConfigModal v-model:visible="showThresholdConfig" :part-data="thresholdPartData" />
-    <NModal
-      v-model:show="showStatusEditModal"
-      preset="dialog"
-      :title="$t('page.equipment.batchEditStatus')"
-      :positive-text="$t('common.confirm')"
-      :negative-text="$t('common.cancel')"
-      @positive-click="handleConfirmBatchEditStatus"
-    >
-      <NForm label-placement="left" label-width="80">
-        <NFormItem :label="$t('page.equipment.deviceStatus')">
-          <NSelect v-model:value="selectedStatus" :options="statusOptions" :placeholder="$t('page.equipment.selectStatus')" />
-        </NFormItem>
-      </NForm>
-    </NModal>
+    <StatusChangeModal
+      v-model:show="showStatusChangeModal"
+      :device-ids="selectedDeviceIds"
+      :mode="statusChangeMode"
+      @success="handleStatusChangeSuccess"
+    />
   </div>
 </template>
 
 <script setup lang="tsx">
 import { ref, watch } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
-import { NButton, NForm, NFormItem, NModal, NPopconfirm, NSelect, NSpace, NTag } from 'naive-ui';
+import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchBatchScrapDevice, fetchBatchUpdateDeviceStatus, fetchDeleteDevice, fetchDeleteDevicePart } from '@/service/api/equipment';
-import { useAuth } from '@/hooks/business/auth';
+import { fetchDeleteDevice, fetchDeleteDevicePart } from '@/service/api/equipment';
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 import DetailDrawer from './detail-drawer.vue';
 import ThresholdConfigModal from './threshold-config-modal.vue';
+import StatusChangeModal from './status-change-modal.vue';
 
 defineOptions({
   name: 'DeviceTab'
 });
-
-const { hasAuth } = useAuth();
 
 const props = defineProps<{
   viewDeviceData?: any;
@@ -81,14 +71,9 @@ const detailRow = ref<any>({});
 const showThresholdConfig = ref(false);
 const thresholdPartData = ref<any>({});
 
-const showStatusEditModal = ref(false);
-const selectedStatus = ref<number | null>(null);
-
-const statusOptions = [
-  { label: $t('page.equipment.statusNormal'), value: 1 },
-  { label: $t('page.equipment.statusMaintenance'), value: 2 },
-  { label: $t('page.equipment.statusDisabled'), value: 0 }
-];
+const showStatusChangeModal = ref(false);
+const statusChangeMode = ref<'status' | 'scrap'>('status');
+const selectedDeviceIds = ref<number[]>([]);
 
 const fieldList = ref([
   {
@@ -378,48 +363,30 @@ async function handleBatchDelete() {
 }
 
 async function handleBatchScrap() {
-  window.$dialog?.warning({
-    title: $t('page.equipment.batchScrap'),
-    content: $t('page.equipment.confirmBatchScrap'),
-    positiveText: $t('common.confirm'),
-    negativeText: $t('common.cancel'),
-    onPositiveClick: async () => {
-      const ids = checkedRowKeys.value.map(key => String(key).replace('device_', '')).filter(key => !key.startsWith('part_'));
-      const { error, data: result } = await fetchBatchScrapDevice({ ids });
-      if (!error && result) {
-        window.$message?.success($t('page.equipment.scrapSuccess'));
-        checkedRowKeys.value = [];
-        tableRef.value?.initData();
-      }
-    }
-  });
+  const ids = checkedRowKeys.value.map(key => String(key).replace('device_', '')).filter(key => !key.startsWith('part_'));
+  if (ids.length === 0) {
+    window.$message?.warning('请选择要报废的设备');
+    return;
+  }
+  selectedDeviceIds.value = ids.map(id => Number(id));
+  statusChangeMode.value = 'scrap';
+  showStatusChangeModal.value = true;
 }
 
 function handleBatchEditStatus() {
-  selectedStatus.value = null;
-  showStatusEditModal.value = true;
+  const ids = checkedRowKeys.value.map(key => String(key).replace('device_', '')).filter(key => !key.startsWith('part_'));
+  if (ids.length === 0) {
+    window.$message?.warning('请选择要修改状态的设备');
+    return;
+  }
+  selectedDeviceIds.value = ids.map(id => Number(id));
+  statusChangeMode.value = 'status';
+  showStatusChangeModal.value = true;
 }
 
-async function handleConfirmBatchEditStatus() {
-  if (selectedStatus.value === null) {
-    window.$message?.warning($t('page.equipment.selectStatus'));
-    return false;
-  }
-
-  const ids = checkedRowKeys.value.map(key => String(key).replace('device_', '')).filter(key => !key.startsWith('part_'));
-  const { error, data: result } = await fetchBatchUpdateDeviceStatus({
-    ids,
-    deviceStatus: selectedStatus.value
-  });
-
-  if (!error && result) {
-    window.$message?.success($t('page.equipment.editStatusSuccess'));
-    checkedRowKeys.value = [];
-    showStatusEditModal.value = false;
-    tableRef.value?.initData();
-    return true;
-  }
-  return false;
+function handleStatusChangeSuccess() {
+  checkedRowKeys.value = [];
+  tableRef.value?.initData();
 }
 
 function handleSubmitted() {

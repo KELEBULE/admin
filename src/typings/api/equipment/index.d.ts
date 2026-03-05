@@ -234,5 +234,38 @@ declare namespace Api {
       workOrderCount: number;
       totalWorkHours: number;
     };
+
+    type DeviceStatusLog = {
+      logId: number;
+      deviceId: number;
+      deviceCode: string;
+      deviceName: string;
+      fromStatus: number;
+      fromStatusName: string;
+      toStatus: number;
+      toStatusName: string;
+      changeReason: string;
+      imageUrls?: string;
+      relatedOrderId?: number;
+      relatedOrderCode?: string;
+      operatorId: number;
+      operatorName: string;
+      createTime: string;
+    };
+
+    type DeviceStatusChangeDTO = {
+      deviceIds: number[];
+      targetStatus?: number;
+      changeReason: string;
+      imageUrls?: string[];
+      relatedOrderId?: number;
+      relatedOrderCode?: string;
+    };
+
+    type DeviceScrapDTO = {
+      deviceIds: number[];
+      changeReason: string;
+      imageUrls?: string[];
+    };
   }
 }

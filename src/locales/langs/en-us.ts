@@ -1147,6 +1147,27 @@ const local: App.I18n.Schema = {
         modelUrl: 'Please enter 3D model URL or upload file',
         imageUrl: 'Please enter device image URL or upload file',
         modelNodeName: 'Please enter model node name (for 3D model positioning)'
+      },
+      statusLog: {
+        title: 'Status Change Log',
+        fromStatus: 'From Status',
+        toStatus: 'To Status',
+        changeReason: 'Remark',
+        imageUrls: 'Images',
+        relatedOrder: 'Related Order',
+        operator: 'Operator',
+        changeTime: 'Change Time',
+        noRecords: 'No status change records',
+        changeStatus: 'Change Status',
+        scrapDevice: 'Scrap Device',
+        changeReasonPlaceholder: 'Please enter remark (20-500 characters)',
+        changeReasonRequired: 'Remark is required',
+        changeReasonLength: 'Remark must be between 20-500 characters',
+        imageUploadTip: 'Support JPG, PNG, max 5MB per image, up to 3 images',
+        confirmChangeStatus: 'Confirm Change Device Status',
+        confirmScrap: 'Confirm Scrap Device',
+        changeStatusSuccess: 'Status changed successfully',
+        scrapSuccess: 'Device scrapped successfully'
       }
     },
     alarm: {

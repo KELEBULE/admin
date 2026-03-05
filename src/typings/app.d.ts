@@ -1350,6 +1350,27 @@ declare namespace App {
           uploadModel: string;
           uploadImage: string;
           modelNodeName: string;
+          statusLog: {
+            title: string;
+            fromStatus: string;
+            toStatus: string;
+            changeReason: string;
+            imageUrls: string;
+            relatedOrder: string;
+            operator: string;
+            changeTime: string;
+            noRecords: string;
+            changeStatus: string;
+            scrapDevice: string;
+            changeReasonPlaceholder: string;
+            changeReasonRequired: string;
+            changeReasonLength: string;
+            imageUploadTip: string;
+            confirmChangeStatus: string;
+            confirmScrap: string;
+            changeStatusSuccess: string;
+            scrapSuccess: string;
+          };
           form: {
             factoryCode: string;
             factoryName: string;
