@@ -10,6 +10,7 @@ const local: App.I18n.Schema = {
     export: '导出',
     action: '操作',
     selectAll: '全选',
+    clearAll: '全部清除',
     actionSuccess: '操作成功',
     add: '新增',
     addSuccess: '添加成功',
@@ -985,6 +986,10 @@ const local: App.I18n.Schema = {
       remark: '备注',
       addRule: '新增报警规则',
       editRule: '编辑报警规则',
+      pushTime: '推送时间',
+      pushInterval: '推送间隔',
+      to: '至',
+      minutes: '分钟',
       alarmTypes: {
         temperature: '温度',
         vibration: '振动',
@@ -1053,6 +1058,16 @@ const local: App.I18n.Schema = {
           unread: '未读',
           read: '已读'
         }
+      },
+      push: {
+        title: '报警推送',
+        alarmLevel: '报警等级',
+        device: '报警设备',
+        alarmTime: '报警时间',
+        temperature: '监测温度',
+        threshold: '阈值',
+        close: '关闭',
+        viewDetail: '查看详情'
       },
       record: {
         alarmCode: '报警编码',

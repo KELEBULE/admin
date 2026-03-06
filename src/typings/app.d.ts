@@ -309,6 +309,7 @@ declare namespace App {
       common: {
         export: string;
         selectAll: string;
+        clearAll: string;
         action: string;
         actionSuccess: string;
         add: string;
@@ -1426,6 +1427,10 @@ declare namespace App {
           remark: string;
           addRule: string;
           editRule: string;
+          pushTime: string;
+          pushInterval: string;
+          to: string;
+          minutes: string;
           alarmTypes: {
             temperature: string;
             vibration: string;
@@ -1494,6 +1499,16 @@ declare namespace App {
               unread: string;
               read: string;
             };
+          };
+          push: {
+            title: string;
+            alarmLevel: string;
+            device: string;
+            alarmTime: string;
+            temperature: string;
+            threshold: string;
+            close: string;
+            viewDetail: string;
           };
           record: {
             alarmCode: string;

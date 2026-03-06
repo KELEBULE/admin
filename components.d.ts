@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AccountConfig: typeof import('./src/components/common/global-modal/user-center/components/account-config/index.vue')['default']
     AiChatPanel: typeof import('./src/components/common/ai-chat-panel.vue')['default']
+    AlarmPushNotification: typeof import('./src/components/common/alarm-push-notification.vue')['default']
     AppProvider: typeof import('./src/components/common/app-provider.vue')['default']
     BetterScroll: typeof import('./src/components/custom/better-scroll.vue')['default']
     ButtonIcon: typeof import('./src/components/custom/button-icon.vue')['default']
@@ -141,6 +142,7 @@ declare module 'vue' {
     NThing: typeof import('naive-ui')['NThing']
     NTimeline: typeof import('naive-ui')['NTimeline']
     NTimelineItem: typeof import('naive-ui')['NTimelineItem']
+    NTimePicker: typeof import('naive-ui')['NTimePicker']
     NTooltip: typeof import('naive-ui')['NTooltip']
     NTree: typeof import('naive-ui')['NTree']
     NTreeSelect: typeof import('naive-ui')['NTreeSelect']

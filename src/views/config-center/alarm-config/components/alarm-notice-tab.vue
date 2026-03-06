@@ -195,7 +195,7 @@ const columns: DataTableColumn[] = [
 
 async function handleMarkRead() {
   const { error, data } = await fetchMarkAlarmNoticeRead({
-    ids: checkedRowKeys.value as string[],
+    ids: checkedRowKeys.value.map(key => String(key)),
     notifyUserId: authStore.userInfo?.id as string
   });
   if (!error && data) {

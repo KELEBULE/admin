@@ -50,7 +50,7 @@ declare namespace Api {
       updateTime?: string;
     };
 
-    type DeviceAlarmPageList = Common.PaginatedQuery<DeviceAlarm>;
+    type DeviceAlarmPageList = Common.PaginatingQueryRecord<DeviceAlarm>;
 
     type DeviceAlarmConfirmParams = {
       alarmId: number;
@@ -65,6 +65,23 @@ declare namespace Api {
       repairRequirement?: string;
       priority?: number;
       assigneeId?: number;
+    };
+
+    type AlarmPush = {
+      alarmId: number;
+      alarmCode: string;
+      alarmLevel: number;
+      alarmLevelName: string;
+      deviceId: number;
+      deviceName: string;
+      deviceCode: string;
+      partName?: string;
+      alarmTime: string;
+      currentValue: number;
+      thresholdValue?: number;
+      alarmMessage: string;
+      ruleId: number;
+      pushTime: string;
     };
 
     type AlarmLevelItem = {

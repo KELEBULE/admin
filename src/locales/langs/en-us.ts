@@ -10,6 +10,7 @@ const local: App.I18n.Schema = {
     export: 'Export',
     action: 'Action',
     selectAll: 'Select All',
+    clearAll: 'Clear All',
     actionSuccess: 'Action Success',
     add: 'Add',
     addSuccess: 'Add Success',
@@ -1186,6 +1187,10 @@ const local: App.I18n.Schema = {
       remark: 'Remark',
       addRule: 'Add Alarm Rule',
       editRule: 'Edit Alarm Rule',
+      pushTime: 'Push Time',
+      pushInterval: 'Push Interval',
+      to: 'to',
+      minutes: 'minutes',
       alarmTypes: {
         temperature: 'Temperature',
         vibration: 'Vibration',
@@ -1254,6 +1259,16 @@ const local: App.I18n.Schema = {
           unread: 'Unread',
           read: 'Read'
         }
+      },
+      push: {
+        title: 'Alarm Push',
+        alarmLevel: 'Alarm Level',
+        device: 'Alarm Device',
+        alarmTime: 'Alarm Time',
+        temperature: 'Temperature',
+        threshold: 'Threshold',
+        close: 'Close',
+        viewDetail: 'View Detail'
       },
       record: {
         alarmCode: 'Alarm Code',

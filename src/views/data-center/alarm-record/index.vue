@@ -17,17 +17,23 @@
           </NButton>
         </template>
       </CommonTable>
-      <AlarmDetailModal v-model:visible="detailVisible" :alarm-data="currentAlarm" />
+      <AlarmDetailModal
+        v-model:visible="detailVisible"
+        :alarm-data="currentAlarm"
+        @confirm="handleModalConfirm"
+        @create-work-order="handleModalCreateWorkOrder"
+      />
       <AlarmCreateWorkOrderModal v-model:visible="createWorkOrderVisible" :alarm-data="currentAlarm" @success="handleSubmitted" />
     </NFlex>
   </div>
 </template>
 
 <script setup lang="tsx">
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
-import { fetchConfirmDeviceAlarm, fetchExportDeviceAlarm } from '@/service/api/alarm';
+import { fetchConfirmDeviceAlarm, fetchExportDeviceAlarm, fetchGetDeviceAlarm } from '@/service/api/alarm';
 import { downloadBlob } from '@/utils/download';
 import { $t } from '@/locales';
 import CommonTable from '@/components/common/common-table/index.vue';
@@ -38,6 +44,8 @@ defineOptions({
   name: 'AlarmRecordPage'
 });
 
+const route = useRoute();
+const router = useRouter();
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
 const URL = ref('/device_alarm/page');
@@ -294,6 +302,21 @@ function handleOpenCreateWorkOrder(row: Api.Alarm.DeviceAlarm) {
   createWorkOrderVisible.value = true;
 }
 
+async function handleModalConfirm(isFalseAlarm: number) {
+  if (!currentAlarm.value) return;
+  const { error } = await fetchConfirmDeviceAlarm({ alarmId: currentAlarm.value.alarmId, isFalseAlarm });
+  if (!error) {
+    window.$message?.success($t('common.actionSuccess'));
+    detailVisible.value = false;
+    tableRef.value?.initData();
+  }
+}
+
+function handleModalCreateWorkOrder() {
+  detailVisible.value = false;
+  createWorkOrderVisible.value = true;
+}
+
 function handleSubmitted() {
   tableRef.value?.initData();
 }
@@ -306,6 +329,33 @@ async function handleExport() {
     checkedRowKeys.value = [];
   }
 }
+
+async function openAlarmDetail(alarmId: number) {
+  const { error, data } = await fetchGetDeviceAlarm(String(alarmId));
+  if (!error && data) {
+    currentAlarm.value = data;
+    detailVisible.value = true;
+  }
+}
+
+function handleRouteQuery() {
+  const alarmId = route.query.alarmId;
+  if (alarmId) {
+    openAlarmDetail(Number(alarmId));
+    router.replace({ query: {} });
+  }
+}
+
+watch(
+  () => route.query.alarmId,
+  () => {
+    handleRouteQuery();
+  }
+);
+
+onMounted(() => {
+  handleRouteQuery();
+});
 </script>
 
 <style scoped></style>

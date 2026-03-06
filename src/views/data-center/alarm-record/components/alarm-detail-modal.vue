@@ -74,6 +74,25 @@
     </NSpin>
     <template #footer>
       <NSpace justify="end">
+        <NPopconfirm v-if="showConfirmButtons" @positive-click="handleConfirm(0)">
+          <template #trigger>
+            <NButton type="warning">
+              {{ $t('page.alarm.record.confirm') }}
+            </NButton>
+          </template>
+          {{ $t('page.alarm.record.confirmAlarm') }}
+        </NPopconfirm>
+        <NPopconfirm v-if="showConfirmButtons" @positive-click="handleConfirm(1)">
+          <template #trigger>
+            <NButton type="error">
+              {{ $t('page.alarm.record.falseAlarmYes') }}
+            </NButton>
+          </template>
+          {{ $t('page.alarm.record.confirmFalseAlarm') }}
+        </NPopconfirm>
+        <NButton v-if="showCreateWorkOrderButton" type="info" @click="handleCreateWorkOrder">
+          {{ $t('page.alarm.record.createWorkOrder') }}
+        </NButton>
         <NButton @click="visible = false">{{ $t('common.close') }}</NButton>
       </NSpace>
     </template>
@@ -95,6 +114,8 @@ const props = defineProps<Props>();
 
 const emit = defineEmits<{
   'update:visible': [visible: boolean];
+  confirm: [isFalseAlarm: number];
+  createWorkOrder: [];
 }>();
 
 const visible = computed({
@@ -103,6 +124,23 @@ const visible = computed({
 });
 
 const loading = computed(() => !props.alarmData);
+
+const showConfirmButtons = computed(() => {
+  return props.alarmData?.confirmStatus === 0;
+});
+
+const showCreateWorkOrderButton = computed(() => {
+  const data = props.alarmData;
+  return data?.confirmStatus === 1 && data?.clearStatus === 0 && !data?.workOrderId && data?.isFalseAlarm !== 1;
+});
+
+function handleConfirm(isFalseAlarm: number) {
+  emit('confirm', isFalseAlarm);
+}
+
+function handleCreateWorkOrder() {
+  emit('createWorkOrder');
+}
 
 const getAlarmLevelType = (level: number): 'error' | 'warning' | 'info' => {
   const map: Record<number, 'error' | 'warning' | 'info'> = {

@@ -18,6 +18,7 @@ declare namespace Api {
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
       records: T[];
+      list?: T[];
     }
 
     /**
@@ -58,6 +59,9 @@ declare namespace Api {
       deviceIds: number[];
       alarmLevels: number[];
       notifyTargetIds: string[];
+      pushStartTime?: string;
+      pushEndTime?: string;
+      pushInterval?: number;
       ruleStatus: number;
       remark: string;
       createTime: string;
@@ -73,6 +77,9 @@ declare namespace Api {
       deviceIds: number[];
       alarmLevels: number[];
       notifyTargetIds: string[];
+      pushStartTime?: string;
+      pushEndTime?: string;
+      pushInterval?: number;
       ruleStatus: number;
       remark: string;
     };

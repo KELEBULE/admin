@@ -21,6 +21,20 @@
         <NFormItem :label="$t('page.alarm.notifyTarget')" path="notifyTargetIds">
           <NotifyTargetSelect v-model:notify-target-ids="model.notifyTargetIds" />
         </NFormItem>
+        <NFormItem :label="$t('page.alarm.pushTime')" path="pushStartTime">
+          <NSpace align="center">
+            <NTimePicker v-model:formatted-value="model.pushStartTime" format="HH:mm" clearable class="w-120px" />
+            <span>{{ $t('page.alarm.to') }}</span>
+            <NTimePicker v-model:formatted-value="model.pushEndTime" format="HH:mm" clearable class="w-120px" />
+          </NSpace>
+        </NFormItem>
+        <NFormItem :label="$t('page.alarm.pushInterval')" path="pushInterval">
+          <NInputNumber v-model:value="model.pushInterval" :min="1" :max="1440" class="w-200px">
+            <template #suffix>
+              <span>{{ $t('page.alarm.minutes') }}</span>
+            </template>
+          </NInputNumber>
+        </NFormItem>
         <NFormItem :label="$t('page.alarm.remark')" path="remark">
           <NInput v-model:value="model.remark" type="textarea" :placeholder="$t('page.alarm.form.remark')" />
         </NFormItem>
@@ -98,12 +112,15 @@ function createDefaultModel(): Model {
     deviceIds: [],
     alarmLevels: [1, 2, 3],
     notifyTargetIds: [],
+    pushStartTime: '08:00',
+    pushEndTime: '22:00',
+    pushInterval: 5,
     ruleStatus: 1,
     remark: ''
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'ruleId' | 'deviceIds' | 'notifyTargetIds' | 'remark'>;
+type RuleKey = Exclude<keyof Model, 'ruleId' | 'deviceIds' | 'notifyTargetIds' | 'remark' | 'pushStartTime' | 'pushEndTime' | 'pushInterval'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   ruleCode: defaultRequiredRule,
@@ -139,10 +156,19 @@ function handleInitModel() {
       deviceIds: props.rowData.deviceIds || [],
       alarmLevels: props.rowData.alarmLevels || [1, 2, 3],
       notifyTargetIds: props.rowData.notifyTargetIds || [],
+      pushStartTime: formatTimeToShort(props.rowData.pushStartTime) || '08:00',
+      pushEndTime: formatTimeToShort(props.rowData.pushEndTime) || '22:00',
+      pushInterval: props.rowData.pushInterval || 5,
       ruleStatus: props.rowData.ruleStatus,
       remark: props.rowData.remark || ''
     });
   }
+}
+
+function formatTimeToShort(time?: string): string | undefined {
+  if (!time) return undefined;
+  if (time.length === 5) return time;
+  return time.substring(0, 5);
 }
 
 function closeModal() {
