@@ -16,7 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   loaded: [];
   'update:tooltip': [data: { visible: boolean; text: string; left: string; top: string }];
-  'part-clicked': [data: { partCode: string; partName: string; modelNodeName: string }];
+  'part-clicked': [data: { partCode: string; partName: string }];
 }>();
 
 const themeStore = useThemeStore();
@@ -289,8 +289,7 @@ function setupInteraction() {
         highlightPart(obj);
         const partCode = obj.userData.name || obj.name;
         const partName = obj.userData.name || 'Unknown Part';
-        const modelNodeName = obj.userData.name || obj.name;
-        emit('part-clicked', { partCode, partName, modelNodeName });
+        emit('part-clicked', { partCode, partName });
       }
     }
   };

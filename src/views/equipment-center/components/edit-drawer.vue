@@ -191,14 +191,8 @@
             <NFormItem :label="$t('page.equipment.partType')" path="partType">
               <NInput v-model:value="partFormData.partType" :placeholder="$t('page.equipment.form.partType')" clearable />
             </NFormItem>
-            <NFormItem :label="$t('page.equipment.modelNodeName')" path="modelNodeName">
-              <NInput v-model:value="partFormData.modelNodeName" :placeholder="$t('page.equipment.form.modelNodeName')" clearable />
-            </NFormItem>
             <NFormItem :label="$t('page.equipment.monitorEnabled')" path="monitorEnabled">
               <NSwitch v-model:value="partFormData.monitorEnabled" :checked-value="1" :unchecked-value="0" />
-            </NFormItem>
-            <NFormItem :label="$t('page.equipment.installPosition')" path="installPosition">
-              <NInput v-model:value="partFormData.installPosition" :placeholder="$t('page.equipment.form.installPosition')" clearable />
             </NFormItem>
             <NFormItem :label="$t('page.equipment.partStatus')" path="partStatus">
               <NRadioGroup v-model:value="partFormData.partStatus">
@@ -341,9 +335,7 @@ interface PartFormData {
   partName: string;
   deviceId: number | null;
   partType: string;
-  modelNodeName: string;
   monitorEnabled: number;
-  installPosition: string;
   partStatus: number;
 }
 
@@ -391,9 +383,7 @@ const partFormData = ref<PartFormData>({
   partName: '',
   deviceId: null,
   partType: '',
-  modelNodeName: '',
   monitorEnabled: 1,
-  installPosition: '',
   partStatus: 1
 });
 
@@ -529,9 +519,7 @@ function resetPartForm() {
     partName: '',
     deviceId: null,
     partType: '',
-    modelNodeName: '',
     monitorEnabled: 1,
-    installPosition: '',
     partStatus: 1
   };
 }
@@ -587,9 +575,7 @@ function initPartEditData(row: any) {
     partName: row.partName || '',
     deviceId: row.deviceId || null,
     partType: row.partType || '',
-    modelNodeName: row.modelNodeName || '',
     monitorEnabled: row.monitorEnabled ?? 1,
-    installPosition: row.installPosition || '',
     partStatus: row.partStatus ?? 1
   };
 }

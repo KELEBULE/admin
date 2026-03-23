@@ -75,9 +75,6 @@
                         <template #description>
                           <NFlex :size="4">
                             <NTag v-if="part.partType" size="small" type="info">{{ part.partType }}</NTag>
-                            <NTag v-if="part.modelNodeName" size="small" type="warning">
-                              {{ $t('page.equipment.modelNodeName') }}: {{ part.modelNodeName }}
-                            </NTag>
                           </NFlex>
                         </template>
                       </NThing>

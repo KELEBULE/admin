@@ -1286,6 +1286,7 @@ const local: App.I18n.Schema = {
       }
     },
     equipment: {
+      uploadImage: '上传图片',
       title: '设备中心',
       factoryTab: '工厂管理',
       areaTab: '厂区管理',
@@ -1332,7 +1333,6 @@ const local: App.I18n.Schema = {
       monitorEnabled: '监控启用',
       monitorEnabledYes: '已启用',
       monitorEnabledNo: '未启用',
-      installPosition: '安装位置',
       partStatus: '部件状态',
       name: '名称',
       code: '编码',
@@ -1350,8 +1350,6 @@ const local: App.I18n.Schema = {
       modelUrl: '3D模型',
       imageUrl: '设备图片',
       uploadModel: '上传模型',
-      uploadImage: '上传图片',
-      modelNodeName: '模型节点名称',
       confirmBatchDeleteFactory: '确定要批量删除选中的工厂吗？此操作不可恢复。',
       confirmBatchDeleteArea: '确定要批量删除选中的厂区吗？此操作不可恢复。',
       confirmBatchDeleteDevice: '确定要批量删除选中的设备吗？删除设备将同时删除其关联的所有部件，此操作不可恢复。',
@@ -1409,7 +1407,6 @@ const local: App.I18n.Schema = {
         partCode: '请输入部件编码',
         partName: '请输入部件名称',
         partType: '请输入部件类型',
-        installPosition: '请输入安装位置',
         configName: '请输入配置名称',
         tempMin: '请输入温度下限',
         tempMax: '请输入温度上限',
@@ -1418,8 +1415,7 @@ const local: App.I18n.Schema = {
         checkInterval: '请输入检测间隔',
         thresholdValue: '请输入阈值',
         modelUrl: '请输入3D模型URL或上传文件',
-        imageUrl: '请输入设备图片URL或上传文件',
-        modelNodeName: '请输入模型节点名称(用于3D模型定位)'
+        imageUrl: '请输入设备图片URL或上传文件'
       },
       statusLog: {
         title: '状态切换记录',

@@ -1014,6 +1014,7 @@ const local: App.I18n.Schema = {
       accountConfig: 'Account Config'
     },
     equipment: {
+      uploadImage: 'Upload Image',
       title: 'Equipment Center',
       factoryTab: 'Factory Management',
       areaTab: 'Area Management',
@@ -1060,7 +1061,6 @@ const local: App.I18n.Schema = {
       monitorEnabled: 'Monitor Enabled',
       monitorEnabledYes: 'Enabled',
       monitorEnabledNo: 'Disabled',
-      installPosition: 'Install Position',
       partStatus: 'Part Status',
       name: 'Name',
       code: 'Code',
@@ -1078,8 +1078,6 @@ const local: App.I18n.Schema = {
       modelUrl: '3D Model',
       imageUrl: 'Device Image',
       uploadModel: 'Upload Model',
-      uploadImage: 'Upload Image',
-      modelNodeName: 'Model Node Name',
       confirmBatchDeleteFactory: 'Are you sure to delete selected factories? This action cannot be undone.',
       confirmBatchDeleteArea: 'Are you sure to delete selected areas? This action cannot be undone.',
       confirmBatchDeleteDevice: 'Are you sure to delete selected devices? All associated parts will also be deleted.',
@@ -1137,7 +1135,6 @@ const local: App.I18n.Schema = {
         partCode: 'Please enter part code',
         partName: 'Please enter part name',
         partType: 'Please enter part type',
-        installPosition: 'Please enter install position',
         configName: 'Please enter config name',
         tempMin: 'Please enter temp min',
         tempMax: 'Please enter temp max',
@@ -1146,8 +1143,7 @@ const local: App.I18n.Schema = {
         checkInterval: 'Please enter check interval',
         thresholdValue: 'Please enter threshold value',
         modelUrl: 'Please enter 3D model URL or upload file',
-        imageUrl: 'Please enter device image URL or upload file',
-        modelNodeName: 'Please enter model node name (for 3D model positioning)'
+        imageUrl: 'Please enter device image URL or upload file'
       },
       statusLog: {
         title: 'Status Change Log',

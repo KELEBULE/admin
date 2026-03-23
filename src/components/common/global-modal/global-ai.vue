@@ -51,7 +51,7 @@ const route = useRoute();
 const aiChatStore = useAiChatStore();
 
 const isWorkbench = () => {
-  if (route.path.includes('/workbench') || route.path.includes('/login/')) {
+  if (route.path.includes('/workbench') || route.path.includes('/login')) {
     return false;
   }
   return true;

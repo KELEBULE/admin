@@ -72,17 +72,10 @@ const {
 function handleLoaded() {
   setModelLoaded();
 
-  if (pendingHighlightPart.value?.modelNodeName) {
+  if (pendingHighlightPart.value?.code) {
     setTimeout(() => {
-      modelViewerRef.value?.highlightPartByNodeName(pendingHighlightPart.value!.modelNodeName!);
+      modelViewerRef.value?.highlightPartByNodeName(pendingHighlightPart.value!.code);
       clearPendingHighlight();
-    }, 500);
-    return;
-  }
-
-  if (currentDevice.value?.alarmPartModelNodeName) {
-    setTimeout(() => {
-      modelViewerRef.value?.highlightPartByNodeName(currentDevice.value!.alarmPartModelNodeName!);
     }, 500);
   }
 }
@@ -91,10 +84,10 @@ function handleTooltip(data: { visible: boolean; text: string; left: string; top
   updateTooltip(data);
 }
 
-async function handlePartClicked(data: { partCode: string; partName: string; modelNodeName: string }) {
+async function handlePartClicked(data: { partCode: string; partName: string }) {
   await loadPartDetailByCode(data.partCode);
   if (currentPart.value) {
-    modelViewerRef.value?.highlightPartByNodeName(data.modelNodeName);
+    modelViewerRef.value?.highlightPartByNodeName(data.partCode);
   }
 }
 
@@ -107,8 +100,8 @@ function handleSwitchView(view: ViewType) {
 
 async function handlePartSelect(part: Api.Equipment.MonitorDeviceTreeNode) {
   await selectPart(part);
-  if (part.modelNodeName && !part.deviceId) {
-    modelViewerRef.value?.highlightPartByNodeName(part.modelNodeName);
+  if (part.code && !part.deviceId) {
+    modelViewerRef.value?.highlightPartByNodeName(part.code);
   }
 }
 

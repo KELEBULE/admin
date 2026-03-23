@@ -35,8 +35,6 @@ declare namespace Api {
       factoryId?: number;
       parentId?: number;
       areaType?: number;
-      longitude?: number;
-      latitude?: number;
       areaStatus?: number;
       areaOrder?: number;
       createTime?: string;
@@ -56,8 +54,6 @@ declare namespace Api {
       factoryId?: number;
       parentId?: number;
       areaType?: number;
-      longitude?: number;
-      latitude?: number;
       areaStatus?: number;
       areaOrder?: number;
     };
@@ -68,7 +64,6 @@ declare namespace Api {
       deviceCode: string;
       deviceName: string;
       deviceModel?: string;
-      typeId?: number;
       locationId?: number;
       installTime?: string;
       startUseTime?: string;
@@ -98,9 +93,7 @@ declare namespace Api {
       deviceId: number;
       partType?: string;
       monitorEnabled?: number;
-      installPosition?: string;
       partStatus?: number;
-      modelNodeName?: string;
       createTime?: string;
       updateTime?: string;
     };
@@ -122,7 +115,6 @@ declare namespace Api {
       deviceCode: string;
       deviceName: string;
       deviceModel?: string;
-      typeId?: number;
       locationId?: number;
       installTime?: string | number | null;
       startUseTime?: string | number | null;
@@ -147,9 +139,7 @@ declare namespace Api {
       deviceId: number;
       partType?: string;
       monitorEnabled?: number;
-      installPosition?: string;
       partStatus?: number;
-      modelNodeName?: string;
     };
 
     type PartThresholdConfig = {
@@ -191,7 +181,6 @@ declare namespace Api {
       deviceId?: number;
       modelUrl?: string;
       imageUrl?: string;
-      modelNodeName?: string;
       deviceStatus?: number;
       partStatus?: number;
       hasAlarm?: boolean;
@@ -207,7 +196,6 @@ declare namespace Api {
       alarmPartId?: number;
       alarmPartCode?: string;
       alarmPartName?: string;
-      alarmPartModelNodeName?: string;
       alarmLevel?: number;
       alarmTime?: string;
       hasModel?: boolean;

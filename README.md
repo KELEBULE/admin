@@ -1,11 +1,11 @@
 # PanisAdmin 后台管理系统
 
-![Node](https://img.shields.io/badge/Node-18-blue.svg)
-![Version](https://img.shields.io/badge/Version-1.0.5-blue.svg)
-[![License](https://img.shields.io/badge/License-Apache%20License%202.0-B9D6AF.svg)](./LICENSE)
-<br/>
-[![Author](https://img.shields.io/badge/Author-paynezhuang-green.svg)](https://github.com/paynezhuang)
-[![Copyright](https://img.shields.io/badge/Copyright-2024%20Zhuang%20Pan%20@PanisAdmin-green.svg)](https://github.com/paynezhuang)
+!\[Node]\(<https://img.shields.io/badge/Node-18-blue.svg> null)
+!\[Version]\(<https://img.shields.io/badge/Version-1.0.5-blue.svg> null)
+[!\[License\](https://img.shields.io/badge/License-Apache%20License%202.0-B9D6AF.svg null)](./LICENSE)
+
+[!\[Author\](https://img.shields.io/badge/Author-paynezhuang-green.svg null)](https://github.com/paynezhuang)
+[!\[Copyright\](https://img.shields.io/badge/Copyright-2024%20Zhuang%20Pan%20@PanisAdmin-green.svg null)](https://github.com/paynezhuang)
 
 ### 项目简介
 
@@ -29,90 +29,13 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 - **命令行工具**：内置高效的命令行工具，git提交、删除文件、发布等。
 - **移动端适配**：完美支持移动端，实现自适应布局。
 
-### 通用组件
-
-项目内置了三个功能强大的通用组件，位于 `src/components/common` 目录下，可大幅提升开发效率。
-
-#### CommonDrawer 通用抽屉组件
-
-基于 Naive UI NDrawer 二次封装的高级抽屉组件，提供更丰富的交互体验。
-
-**主要特性：**
-- **多方向支持**：支持 `right`、`left`、`top`、`bottom` 四个方向弹出
-- **折叠功能**：关闭后可折叠为小图标，点击可重新展开
-- **Tab 切换**：支持抽屉内 Tab 标签页切换功能
-- **主题适配**：自动适配明暗主题，支持自定义背景透明度
-- **毛玻璃效果**：内置 backdrop-filter 模糊效果
-- **自定义插槽**：提供 `header`、`footer`、默认插槽，灵活定制内容
-
-**基础用法：**
-```vue
-<CommonDrawer v-model="show" title="详情" :width="500">
-  <!-- 内容 -->
-</CommonDrawer>
-```
-
-#### CommonForm 通用表单组件
-
-基于 Naive UI NForm 二次封装的配置化表单组件，通过 JSON 配置快速生成表单。
-
-**主要特性：**
-- **配置化驱动**：通过 `fieldList` 配置自动生成表单字段
-- **丰富组件支持**：内置 15+ 表单控件（Input、Select、DatePicker、Switch、Cascader 等）
-- **远程数据选择**：支持 `remote-select` 远程搜索下拉框
-- **自动占位符**：根据字段标签自动生成 placeholder
-- **展开/收起**：支持表单字段展开收起功能
-- **栅格布局**：基于 24 栅格系统，支持自定义字段宽度
-- **表单验证**：完整支持 Naive UI 表单验证规则
-- **事件上下文**：事件回调自动注入 formModel 和 field 上下文
-
-**基础用法：**
-```vue
-<CommonForm
-  :model="formData"
-  :field-list="[
-    { value: 'name', label: '名称' },
-    { value: 'status', label: '状态', component: 'n-select', list: statusOptions }
-  ]"
-  @confirm="handleSubmit"
-/>
-```
-
-#### CommonTable 通用表格组件
-
-集成了搜索、分页、列设置等功能的高级数据表格组件，开箱即用。
-
-**主要特性：**
-- **自动请求**：传入 URL 自动发起请求获取数据
-- **集成搜索**：内置搜索表单，支持展开收起
-- **分页功能**：自动分页，支持页码和每页条数切换
-- **列设置**：支持列显示/隐藏、拖拽排序
-- **列过滤**：支持表头筛选器（输入框、数字、日期、下拉选择）
-- **行选择**：支持多选/单选，返回选中行数据
-- **行事件**：支持单击、双击行事件
-- **排序功能**：支持列排序，自动传递排序参数
-- **数据适配**：兼容多种后端数据结构（list/records 数组）
-- **请求拦截**：支持 `beforeInitdata` 钩子处理请求参数
-
-**基础用法：**
-```vue
-<CommonTable
-  :url="'/api/user/list'"
-  :columns="columns"
-  :search-field-list="searchFields"
-  v-model:pagination="pagination"
-  v-model:checked-row-keys="selectedKeys"
-  @selection="handleSelection"
-/>
-```
-
 ### 项目源码
 
-| 名称      | 链接                                                                      |
-|:--------|:------------------------------------------------------------------------|
-| 前端      | [Panis-admin](https://github.com/paynezhuang/panis-admin)               |
-| 后端      | [Panis-boot](https://github.com/paynezhuang/panis-boot)                 |
-| 后端扩展依赖库 | [Panis-boot-starter](https://github.com/paynezhuang/panis-boot-starter) |
+| 名称      | 链接                                                          |
+| :------ | :------------------------------------------------------------ |
+| 前端      | [admin](https://github.com/KELEBULE/admin.git)               |
+| 后端      | [boot](https://github.com/KELEBULE/boot.git)                 |
+| 后端扩展依赖库 | [boot-starter](https://github.com/KELEBULE/boot-starter.git) |
 
 ### 项目启动
 
@@ -122,22 +45,24 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 - **NodeJS**: >=20.19.0，推荐 20.19.0 或更高。
 - **pnpm**: >= 10.5.0，推荐 10.5.0 或更高。
 
-
 ##### 克隆项目
 
 ```bash
-git clone https://github.com/paynezhuang/panis-admin.git
+git clone
 ```
 
 ##### 项目启动
 
 1. 安装依赖
+
 ```bash
 pnpm i
 ```
+
 > 由于本项目采用了 pnpm monorepo 的管理方式，因此请不要使用 npm 或 yarn 来安装依赖。
 
-2. 启动项目，修改`.env.test`中`VITE_SERVICE_BASE_URL`对应的后端地址
+1. 启动项目，修改`.env.test`中`VITE_SERVICE_BASE_URL`对应的后端地址
+
 ```bash
 pnpm dev
 ```
@@ -152,29 +77,33 @@ pnpm build
 
 ### Git 提交规范
 
-本项目已内置 `commit` 命令，您可以通过执行 `pnpm commit` 来生成符合 [Conventional Commits]([conventionalcommits](https://www.conventionalcommits.org/)) 规范的提交信息。在提交PR时，请务必使用 `commit` 命令来创建提交信息，以确保信息的规范性。
-
+本项目已内置 `commit` 命令，您可以通过执行 *`pnpm commit`* *来生成符合* *[Conventional Commits](\[conventionalcommits]\(https://www.conventionalcommits.org/\))* *规范的提交信息。在提交PR时，请务必使用* *`commit`* *命令来创建提交信息，以确保信息的规范*性。
 
 ### 示例图片
 
-![](./doc/images/Login.png)
+| 登录页面 | 工作台 |
+| :---: | :---: |
+| ![](./doc/images/login.png) | ![](./doc/images/workbench.png) |
 
-| ![Home](./doc/images/Home.png) | ![Home-2](./doc/images/Home-2.png) |
-|--------------------------------|--------------------------------|
-| ![User](./doc/images/User.png) | ![User-2](./doc/images/User-2.png) |
-| ![Role](./doc/images/Role-Permission.png) | ![Role](./doc/images/Role-Menu.png) |
-| ![Menu](./doc/images/Menu.png) | ![Menu-2](./doc/images/Menu-2.png) |
-| ![Menu-3](./doc/images/Menu-3.png) |![User-Dark](./doc/images/User-Dark.png) |
-| ![Mobile](./doc/images/Home-Mobile.png) | ![Mobile](./doc/images/User-Mobile.png) |
-| ![Mobile](./doc/images/Menu-Mobile.png) | ![Mobile](./doc/images/Menu-Mobile-Dark.png)|
+| 设备中心 | 工单中心 |
+| :---: | :---: |
+| ![](./doc/images/equipment-center.png) | ![](./doc/images/workorder-center.png) |
+
+| 数据中心 | 监控中心 |
+| :---: | :---: |
+| ![](./doc/images/data-center.png) | ![](./doc/images/monitor-center.png) |
+
+| AI 助手 |
+| :---: |
+| ![](./doc/images/ai.png) |
 
 ### 浏览器支持
 
 推荐使用最新版的 Chrome 浏览器进行开发，以获得更好的体验。
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png" alt="IE" width="24px" height="24px"  />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) |
-| --- | --- | --- | --- | --- |
-| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| not support                                                                                                                                                                                                                             | last 2 versions                                                                                                                                                                               | last 2 versions                                                                                                                                                                                       | last 2 versions                                                                                                                                                                                    | last 2 versions                                                                                                                                                                                    |
 
 ### 特别鸣谢
 

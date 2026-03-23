@@ -1254,6 +1254,7 @@ declare namespace App {
           accountConfig: string;
         };
         equipment: {
+          uploadImage: string;
           title: string;
           factoryTab: string;
           areaTab: string;
@@ -1300,7 +1301,6 @@ declare namespace App {
           monitorEnabled: string;
           monitorEnabledYes: string;
           monitorEnabledNo: string;
-          installPosition: string;
           partStatus: string;
           name: string;
           code: string;
@@ -1349,8 +1349,6 @@ declare namespace App {
           modelUrl: string;
           imageUrl: string;
           uploadModel: string;
-          uploadImage: string;
-          modelNodeName: string;
           statusLog: {
             title: string;
             fromStatus: string;
@@ -1398,7 +1396,6 @@ declare namespace App {
             partCode: string;
             partName: string;
             partType: string;
-            installPosition: string;
             configName: string;
             tempMin: string;
             tempMax: string;
@@ -1408,7 +1405,6 @@ declare namespace App {
             thresholdValue: string;
             modelUrl: string;
             imageUrl: string;
-            modelNodeName: string;
           };
         };
         alarm: {
