@@ -17,7 +17,7 @@
           </NButton>
         </template>
       </CommonTable>
-      <AlarmDetailModal
+      <AlarmDetailDrawer
         v-model:visible="detailVisible"
         :alarm-data="currentAlarm"
         @confirm="handleModalConfirm"
@@ -37,7 +37,7 @@ import { fetchConfirmDeviceAlarm, fetchExportDeviceAlarm, fetchGetDeviceAlarm } 
 import { downloadBlob } from '@/utils/download';
 import { $t } from '@/locales';
 import CommonTable from '@/components/common/common-table/index.vue';
-import AlarmDetailModal from './components/alarm-detail-modal.vue';
+import AlarmDetailDrawer from './components/alarm-detail-drawer.vue';
 import AlarmCreateWorkOrderModal from './components/alarm-create-work-order-modal.vue';
 
 defineOptions({

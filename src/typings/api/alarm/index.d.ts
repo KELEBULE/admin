@@ -169,5 +169,20 @@ declare namespace Api {
     type HourlyAlarmDistributionResult = {
       distribution: HourlyAlarmItem[];
     };
+
+    type DeviceAlarmStatusLog = {
+      logId: number;
+      alarmId: number;
+      alarmCode: string;
+      beforeStatus: number;
+      afterStatus: number;
+      operateType: number;
+      operateUserId?: number;
+      operateUserName?: string;
+      operateTime: string;
+      operateSource: number;
+      operateRemark?: string;
+      createTime: string;
+    };
   }
 }

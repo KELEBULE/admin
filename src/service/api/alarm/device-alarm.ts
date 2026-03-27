@@ -126,3 +126,10 @@ export function fetchGetDailyAlarmTrend(deviceId: number, startTime: string, end
     params: { deviceId, startTime, endTime }
   });
 }
+
+export function fetchGetDeviceAlarmStatusLogList(alarmId: number) {
+  return request<Api.Alarm.DeviceAlarmStatusLog[]>({
+    url: `/device_alarm/status_log/${alarmId}`,
+    method: 'GET'
+  });
+}

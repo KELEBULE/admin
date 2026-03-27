@@ -1099,10 +1099,32 @@ const local: App.I18n.Schema = {
         clear: '清除',
         viewDetail: '查看详情',
         detail: '报警详情',
+        detailTab: '报警详情',
+        statusLogTab: '状态日志',
+        noStatusLog: '暂无状态变更记录',
+        operator: '操作人',
+        statusChange: '状态变更',
+        remark: '备注',
+        operateSource: '操作来源',
+        manualOperate: '手动操作',
+        autoOperate: '系统自动',
         confirmAlarm: '确认该报警为真实报警吗？',
         confirmFalseAlarm: '确认该报警为误报吗？',
         confirmCreateWorkOrder: '确认要为该报警创建工单吗？',
         createWorkOrder: '创建工单',
+        operateTypes: {
+          confirm: '确认报警',
+          handle: '处理报警',
+          clear: '消除报警',
+          falseAlarm: '标记误报',
+          reactivate: '重新激活'
+        },
+        statusTypes: {
+          unconfirmed: '未确认',
+          confirmed: '已确认',
+          handled: '已处理',
+          cleared: '已消除'
+        },
         form: {
           alarmCode: '请输入报警编码'
         }

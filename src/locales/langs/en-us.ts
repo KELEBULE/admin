@@ -1296,10 +1296,32 @@ const local: App.I18n.Schema = {
         clear: 'Clear',
         viewDetail: 'View Detail',
         detail: 'Alarm Detail',
+        detailTab: 'Alarm Detail',
+        statusLogTab: 'Status Log',
+        noStatusLog: 'No status change records',
+        operator: 'Operator',
+        statusChange: 'Status Change',
+        remark: 'Remark',
+        operateSource: 'Source',
+        manualOperate: 'Manual',
+        autoOperate: 'Auto',
         confirmAlarm: 'Confirm this alarm as real alarm?',
         confirmFalseAlarm: 'Confirm this alarm as false alarm?',
         confirmCreateWorkOrder: 'Are you sure to create a work order for this alarm?',
         createWorkOrder: 'Create Work Order',
+        operateTypes: {
+          confirm: 'Confirm Alarm',
+          handle: 'Handle Alarm',
+          clear: 'Clear Alarm',
+          falseAlarm: 'Mark False Alarm',
+          reactivate: 'Reactivate'
+        },
+        statusTypes: {
+          unconfirmed: 'Unconfirmed',
+          confirmed: 'Confirmed',
+          handled: 'Handled',
+          cleared: 'Cleared'
+        },
         form: {
           alarmCode: 'Please enter alarm code'
         }

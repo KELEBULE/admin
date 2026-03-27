@@ -1523,6 +1523,15 @@ declare namespace App {
             handleTime: string;
             clearUser: string;
             clearTime: string;
+            detailTab: string;
+            statusLogTab: string;
+            noStatusLog: string;
+            operator: string;
+            statusChange: string;
+            remark: string;
+            operateSource: string;
+            manualOperate: string;
+            autoOperate: string;
             alarmDuration: string;
             isFalseAlarm: string;
             falseAlarmYes: string;
@@ -1540,6 +1549,19 @@ declare namespace App {
             confirmFalseAlarm: string;
             confirmCreateWorkOrder: string;
             createWorkOrder: string;
+            operateTypes: {
+              confirm: string;
+              handle: string;
+              clear: string;
+              falseAlarm: string;
+              reactivate: string;
+            };
+            statusTypes: {
+              unconfirmed: string;
+              confirmed: string;
+              handled: string;
+              cleared: string;
+            };
             form: {
               alarmCode: string;
             };
