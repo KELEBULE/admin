@@ -41,10 +41,10 @@
             {{ recordData?.dataSource || '-' }}
           </NDescriptionsItem>
           <NDescriptionsItem :label="$t('page.detection.record.detectTime')">
-            {{ recordData?.detectTime || '-' }}
+            {{ formatTime(recordData?.detectTime) }}
           </NDescriptionsItem>
           <NDescriptionsItem :label="$t('common.createTime')">
-            {{ recordData?.createTime || '-' }}
+            {{ formatTime(recordData?.createTime) }}
           </NDescriptionsItem>
         </NDescriptions>
       </NSpin>
@@ -58,6 +58,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { NButton, NDescriptions, NDescriptionsItem, NDrawer, NDrawerContent, NSpin, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchGetDeviceDetectionRecord } from '@/service/api/detection';
 import { $t } from '@/locales';
 
@@ -104,6 +105,12 @@ async function loadDetail(id: number) {
 
 function handleClose() {
   visible.value = false;
+}
+
+function formatTime(time: string | number | null | undefined): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
 }
 </script>
 

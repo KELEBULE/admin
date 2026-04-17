@@ -178,6 +178,24 @@ const local: App.I18n.Schema = {
       resetSuccessMsg: 'Reset Success'
     }
   },
+  aiConfig: {
+    title: 'AI Configuration',
+    serviceStatus: 'Service Status',
+    serviceRunning: 'Running',
+    serviceError: 'Error',
+    defaultModel: 'Default Model',
+    selectModel: 'Select default model',
+    temperature: 'Temperature',
+    temperatureDesc: 'Controls randomness of responses. Higher values make responses more random',
+    maxTokens: 'Max Tokens',
+    systemPrompt: 'System Prompt',
+    systemPromptPlaceholder: 'Enter system prompt',
+    refreshModels: 'Refresh Model List',
+    refreshSuccess: 'Refresh successful',
+    refreshFailed: 'Refresh failed',
+    saveSuccess: 'Configuration saved successfully',
+    saveFailed: 'Failed to save configuration'
+  },
   route: {
     login: 'Login',
     403: 'No Permission',

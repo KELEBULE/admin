@@ -33,6 +33,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchConfirmDeviceAlarm, fetchExportDeviceAlarm, fetchGetDeviceAlarm } from '@/service/api/alarm';
 import { downloadBlob } from '@/utils/download';
 import { $t } from '@/locales';
@@ -125,6 +126,12 @@ function formatDuration(duration?: number): string {
   return parts.join(' ');
 }
 
+function formatTime(time: string | number | null): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
+}
+
 const columns = ref<DataTableColumn[]>([
   {
     type: 'selection',
@@ -165,7 +172,8 @@ const columns = ref<DataTableColumn[]>([
     key: 'alarmTime',
     title: $t('page.alarm.record.alarmTime'),
     width: 170,
-    align: 'center'
+    align: 'center',
+    render: (row: any) => <span>{formatTime(row.alarmTime)}</span>
   },
   {
     key: 'currentValue',

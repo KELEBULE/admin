@@ -23,7 +23,7 @@
                 {{ alarmData.partName || '-' }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.alarmTime')">
-                {{ alarmData.alarmTime }}
+                {{ formatTime(alarmData.alarmTime) }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.currentValue')">
                 {{ alarmData.currentValue }}
@@ -45,19 +45,19 @@
                 {{ alarmData.confirmUserName || '-' }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.confirmTime')">
-                {{ alarmData.confirmTime || '-' }}
+                {{ formatTime(alarmData.confirmTime) }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.handleUser')">
                 {{ alarmData.handleUserName || '-' }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.handleTime')">
-                {{ alarmData.handleTime || '-' }}
+                {{ formatTime(alarmData.handleTime) }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.clearUser')">
                 {{ alarmData.clearUserName || '-' }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.clearTime')">
-                {{ alarmData.clearTime || '-' }}
+                {{ formatTime(alarmData.clearTime) }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('page.alarm.record.isFalseAlarm')">
                 <NTag :type="alarmData.isFalseAlarm === 1 ? 'warning' : 'success'" size="small">
@@ -71,7 +71,7 @@
                 {{ alarmData.workOrderCode || '-' }}
               </NDescriptionsItem>
               <NDescriptionsItem :label="$t('common.createTime')">
-                {{ alarmData.createTime }}
+                {{ formatTime(alarmData.createTime) }}
               </NDescriptionsItem>
             </NDescriptions>
           </NTabPane>
@@ -84,7 +84,7 @@
                   :key="log.logId"
                   :type="getLogType(log.operateType)"
                   :title="getOperateTypeLabel(log.operateType)"
-                  :time="log.operateTime"
+                  :time="formatTime(log.operateTime)"
                 >
                   <div class="text-sm">
                     <p v-if="log.operateUserName">
@@ -140,6 +140,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import dayjs from 'dayjs';
 import { fetchGetDeviceAlarmStatusLogList } from '@/service/api/alarm';
 import { $t } from '@/locales';
 
@@ -207,6 +208,12 @@ function handleConfirm(isFalseAlarm: number) {
 
 function handleCreateWorkOrder() {
   emit('createWorkOrder');
+}
+
+function formatTime(time: string | number | null | undefined): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
 }
 
 const getAlarmLevelType = (level: number): 'error' | 'warning' | 'info' => {

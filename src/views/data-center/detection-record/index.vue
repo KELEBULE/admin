@@ -19,6 +19,7 @@
 import { ref } from 'vue';
 import type { DataTableColumn } from 'naive-ui';
 import { NButton, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { $t } from '@/locales';
 import CommonTable from '@/components/common/common-table/index.vue';
 import DetailDrawer from './components/detail-drawer.vue';
@@ -75,6 +76,12 @@ const fieldList = ref([
     placeholder: $t('page.detection.record.form.sensorCode')
   }
 ]);
+
+function formatTime(time: string | number | null): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
+}
 
 const columns = ref<DataTableColumn[]>([
   {
@@ -165,7 +172,8 @@ const columns = ref<DataTableColumn[]>([
     key: 'detectTime',
     title: $t('page.detection.record.detectTime'),
     width: 170,
-    align: 'center'
+    align: 'center',
+    render: (row: any) => <span>{formatTime(row.detectTime)}</span>
   },
   {
     key: 'action',

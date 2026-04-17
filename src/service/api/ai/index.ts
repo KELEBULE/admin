@@ -9,14 +9,6 @@ export interface AiSessionVO {
   createTime: string;
 }
 
-export const fetchNormalCompletion = (data: any) => {
-  return request({
-    url: '/ai_chat/completion',
-    method: 'POST',
-    data
-  });
-};
-
 export const fetchStreamCompletion = (params: any) => {
   return request({
     url: '/ai_chat/stream',

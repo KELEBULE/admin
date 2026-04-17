@@ -188,22 +188,6 @@ const columns = ref<DataTableColumn[]>([
     }
   },
   {
-    key: 'monitor',
-    title: $t('page.equipment.monitorEnabled'),
-    width: 80,
-    align: 'center',
-    render: (row: any) => {
-      if (row.partId) {
-        return (
-          <NTag type={row.monitorEnabled === 1 ? 'success' : 'default'}>
-            {row.monitorEnabled === 1 ? $t('page.equipment.monitorEnabledYes') : $t('page.equipment.monitorEnabledNo')}
-          </NTag>
-        );
-      }
-      return <span>-</span>;
-    }
-  },
-  {
     key: 'manufacturer',
     title: $t('page.equipment.manufacturer'),
     width: 120,

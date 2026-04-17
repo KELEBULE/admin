@@ -111,14 +111,17 @@ import {
   type UploadFileInfo,
   useMessage
 } from 'naive-ui';
+import dayjs from 'dayjs';
 import { getAuthorization } from '@/service/request/shared';
 import { type ChatMessage, type ToolResult, useAiChatStore } from '@/store/modules/ai-chat';
+import { useAiConfigStore } from '@/store/modules/ai-config';
 import { getServiceBaseURL } from '@/utils/service';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import MarkdownRenderer from '@/components/common/markdown-renderer.vue';
 
 const message = useMessage();
 const aiChatStore = useAiChatStore();
+const aiConfigStore = useAiConfigStore();
 
 const isHttpProxy = import.meta.env.DEV && import.meta.env.VITE_HTTP_PROXY === 'Y';
 const { baseURL } = getServiceBaseURL(import.meta.env, isHttpProxy);
@@ -128,7 +131,12 @@ const isRecording = ref(false);
 let recognitionInstance: any = null;
 const uploadedFiles = ref<Array<{ name: string; file: File }>>([]);
 const uploadFileList = ref<UploadFileInfo[]>([]);
-const isStreamMode = ref(true);
+
+function formatTime(time: string | number | null | undefined): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
+}
 
 const toolDisplayNames: Record<string, string> = {
   query_today_alarms: '查询今日报警',
@@ -211,7 +219,7 @@ function renderAlarmList(data: any) {
   const total = data?.total || 0;
   if (list.length === 0) return renderEmptyData();
   const columns = [
-    { title: '报警时间', key: 'alarmTime', width: 150 },
+    { title: '报警时间', key: 'alarmTime', width: 150, render: (row: any) => formatTime(row.alarmTime) },
     { title: '等级', key: 'alarmLevelName', width: 100 },
     { title: '当前值', key: 'currentValue', width: 80 },
     { title: '阈值', key: 'thresholdValue', width: 80 },
@@ -306,13 +314,13 @@ function renderLogList(toolName: string, data: any) {
         { title: '用户', key: 'userName', width: 80 },
         { title: 'IP', key: 'ip', width: 120 },
         { title: '状态', key: 'statusName', width: 60 },
-        { title: '时间', key: 'createTime', width: 150 }
+        { title: '时间', key: 'createTime', width: 150, render: (row: any) => formatTime(row.createTime) }
       ]
     : [
         { title: '用户', key: 'userName', width: 80 },
         { title: '操作', key: 'operation', width: 120 },
         { title: '状态', key: 'statusName', width: 60 },
-        { title: '时间', key: 'createTime', width: 150 }
+        { title: '时间', key: 'createTime', width: 150, render: (row: any) => formatTime(row.createTime) }
       ];
   return renderListWithTable(total, list, columns);
 }
@@ -377,66 +385,29 @@ function sendMessage() {
   uploadedFiles.value = [];
   uploadFileList.value = [];
 
-  if (isStreamMode.value) {
-    sendStreamMessage(userMessage);
-  } else {
-    sendNormalMessage(userMessage);
-  }
-}
-
-async function sendNormalMessage(userMessage: ChatMessage) {
-  try {
-    const response = await fetch(`${baseURL}/ai_chat/completion`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: getAuthorization() || ''
-      },
-      body: JSON.stringify({
-        message: userMessage.content,
-        model: 'qwen3:14b',
-        temperature: 0.7,
-        maxTokens: 1000,
-        stream: false,
-        sessionId: aiChatStore.sessionId
-      })
-    });
-
-    const result = await response.json();
-
-    if (result.code === 200) {
-      aiChatStore.addMessage({
-        role: 'ai',
-        content: result.data?.reply || result.result?.reply,
-        toolResults: result.data?.toolResults || result.result?.toolResults
-      });
-      if (result.data?.sessionId || result.result?.sessionId) {
-        aiChatStore.setSessionId(result.data?.sessionId || result.result?.sessionId);
-      }
-    } else {
-      message.error(result.message || '发送消息失败');
-    }
-  } catch (error) {
-    console.error('发送消息失败', error);
-    message.error('发送消息失败，请稍后重试');
-  }
+  sendStreamMessage(userMessage);
 }
 
 async function sendStreamMessage(userMessage: ChatMessage) {
   try {
+    // 使用配置中的参数
+    const { defaultModel, temperature, maxTokens } = aiConfigStore.config;
+
+    // 由于流式响应需要持续读取响应流，而普通的 axios/request 封装无法处理流式响应，所以
+    // 所以这里使用原生的 fetch API 来发送流式请求
     let urlStr = `${baseURL}/ai_chat/stream`;
     if (!urlStr.startsWith('http://') && !urlStr.startsWith('https://')) {
       urlStr = `${window.location.origin}${urlStr}`;
     }
     const url = new URL(urlStr);
+
     url.searchParams.append('message', userMessage.content);
-    url.searchParams.append('model', 'qwen3:14b');
-    url.searchParams.append('temperature', '0.7');
-    url.searchParams.append('maxTokens', '1000');
+    url.searchParams.append('model', defaultModel);
+    url.searchParams.append('temperature', temperature.toString());
+    url.searchParams.append('maxTokens', maxTokens.toString());
     if (aiChatStore.sessionId) {
       url.searchParams.append('sessionId', aiChatStore.sessionId);
     }
-
     const response = await fetch(url.toString(), {
       headers: {
         'Content-Type': 'application/json',

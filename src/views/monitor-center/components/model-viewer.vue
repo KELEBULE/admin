@@ -72,7 +72,7 @@ function updateSceneColors(isDark: boolean) {
 
 function initThree() {
   if (!containerRef.value) return;
-
+  // 初始化场景
   scene = new THREE.Scene();
   scene.background = new THREE.Color(themeStore.darkMode ? DARK_COLORS.scene : LIGHT_COLORS.scene);
 
@@ -245,44 +245,33 @@ function setupInteraction() {
   if (removeInteractionListeners) {
     removeInteractionListeners();
   }
-
   const container = containerRef.value;
   if (!container) return;
-
   let lastTooltipEvent: { visible: boolean; text: string; left: string; top: string } | null = null;
-
   const onMouseMove = (event: MouseEvent) => {
     if (meshList.length === 0) return;
-
     const rect = container.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
     isRaycasterDirty = true;
-
     const newEvent = {
       visible: false,
       text: '',
       left: `${event.clientX + 15}px`,
       top: `${event.clientY + 15}px`
     };
-
     if (lastTooltipEvent?.visible !== newEvent.visible || lastTooltipEvent?.text !== newEvent.text) {
       emit('update:tooltip', newEvent);
       lastTooltipEvent = newEvent;
     }
   };
-
   const onClick = (event: MouseEvent) => {
     if (meshList.length === 0) return;
-
     const rect = container.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(meshList);
-
     if (intersects.length > 0) {
       const obj = intersects[0].object;
       if (obj instanceof THREE.Mesh) {
@@ -293,10 +282,8 @@ function setupInteraction() {
       }
     }
   };
-
   container.addEventListener('mousemove', onMouseMove, { passive: true });
   container.addEventListener('click', onClick);
-
   removeInteractionListeners = () => {
     container.removeEventListener('mousemove', onMouseMove);
     container.removeEventListener('click', onClick);
@@ -305,11 +292,9 @@ function setupInteraction() {
 
 function processRaycaster() {
   if (!isRaycasterDirty || meshList.length === 0) return;
-
   isRaycasterDirty = false;
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(meshList);
-
   if (intersects.length > 0) {
     // const obj = intersects[0].object;
     document.body.style.cursor = 'pointer';

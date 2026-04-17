@@ -5,7 +5,8 @@ export enum SetupStoreId {
   Route = 'route-store',
   Tab = 'tab-store',
   Dict = 'dict-store',
-  AiChat = 'ai-chat-store'
+  AiChat = 'ai-chat-store',
+  AiConfig = 'ai-config-store'
 }
 
 export enum DateTimePattern {

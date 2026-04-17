@@ -81,6 +81,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import dayjs from 'dayjs';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import FrequentAlarmParts from './charts/frequent-alarm-parts.vue';
 import FrequentAlarmTime from './charts/frequent-alarm-time.vue';
@@ -114,25 +115,13 @@ function handleClearPart() {
 
 const startTime = computed(() => {
   if (!props.dateRange) return '';
-  const date = new Date(props.dateRange[0]);
-  return formatLocalDateTime(date);
+  return dayjs(props.dateRange[0]).format('YYYY-MM-DD HH:mm:ss');
 });
 
 const endTime = computed(() => {
   if (!props.dateRange) return '';
-  const date = new Date(props.dateRange[1]);
-  return formatLocalDateTime(date);
+  return dayjs(props.dateRange[1]).format('YYYY-MM-DD HH:mm:ss');
 });
-
-function formatLocalDateTime(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
 </script>
 
 <style scoped>

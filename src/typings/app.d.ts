@@ -440,6 +440,24 @@ declare namespace App {
           resetSuccessMsg: string;
         };
       };
+      aiConfig: {
+        title: string;
+        serviceStatus: string;
+        serviceRunning: string;
+        serviceError: string;
+        defaultModel: string;
+        selectModel: string;
+        temperature: string;
+        temperatureDesc: string;
+        maxTokens: string;
+        systemPrompt: string;
+        systemPromptPlaceholder: string;
+        refreshModels: string;
+        refreshSuccess: string;
+        refreshFailed: string;
+        saveSuccess: string;
+        saveFailed: string;
+      };
       route: Record<I18nRouteKey, string>;
       page: {
         login: {

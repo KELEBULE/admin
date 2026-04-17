@@ -28,6 +28,7 @@
 import { h, ref } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchMarkAlarmNoticeRead } from '@/service/api/alarm';
 import { useAuthStore } from '@/store/modules/auth';
 import { $t } from '@/locales';
@@ -43,6 +44,12 @@ const tableRef = ref<InstanceType<typeof CommonTable>>();
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableData = ref<Api.Alarm.AlarmNotice[]>([]);
 const URL = '/alarm_notice/page';
+
+function formatTime(time: string | number | null): string {
+  if (!time) return '-';
+  const parsed = dayjs(time);
+  return parsed.isValid() ? parsed.format('YYYY-MM-DD HH:mm:ss') : '-';
+}
 
 const searchParams = ref<Api.Alarm.AlarmNoticeSearchParams>({
   page: 1,
@@ -189,7 +196,8 @@ const columns: DataTableColumn[] = [
     key: 'createTime',
     title: $t('page.alarm.notice.createTime'),
     align: 'center',
-    minWidth: 150
+    minWidth: 150,
+    render: (row: any) => <span>{formatTime(row.createTime)}</span>
   }
 ];
 

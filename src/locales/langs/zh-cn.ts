@@ -178,6 +178,24 @@ const local: App.I18n.Schema = {
       resetSuccessMsg: '重置成功'
     }
   },
+  aiConfig: {
+    title: 'AI配置',
+    serviceStatus: '服务状态',
+    serviceRunning: '正常运行',
+    serviceError: '服务异常',
+    defaultModel: '默认模型',
+    selectModel: '选择默认模型',
+    temperature: '温度参数',
+    temperatureDesc: '控制回答的随机性，值越大回答越随机',
+    maxTokens: '最大Token数',
+    systemPrompt: '系统提示词',
+    systemPromptPlaceholder: '输入系统提示词',
+    refreshModels: '刷新模型列表',
+    refreshSuccess: '刷新成功',
+    refreshFailed: '刷新失败',
+    saveSuccess: '保存配置成功',
+    saveFailed: '保存配置失败'
+  },
   route: {
     login: '登录',
     403: '无权限',
