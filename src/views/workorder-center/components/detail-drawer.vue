@@ -222,7 +222,8 @@ function getLogType(actionType: number): 'default' | 'info' | 'success' | 'warni
     5: 'success',
     6: 'success',
     7: 'error',
-    8: 'warning'
+    8: 'warning',
+    9: 'error'
   };
   return typeMap[actionType] || 'default';
 }
@@ -236,7 +237,8 @@ function getActionText(actionType: number): string {
     5: $t('page.workorder.actionTypes.completeProcess'),
     6: $t('page.workorder.actionTypes.review'),
     7: $t('page.workorder.actionTypes.cancel'),
-    8: $t('page.workorder.actionTypes.evaluate')
+    8: $t('page.workorder.actionTypes.evaluate'),
+    9: $t('page.workorder.actionTypes.reviewRejected')
   };
   return textMap[actionType] || '未知操作';
 }

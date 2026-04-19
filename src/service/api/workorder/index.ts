@@ -47,6 +47,14 @@ export function fetchFlowWorkOrder(data: Api.WorkOrder.WorkOrderFlow) {
   });
 }
 
+export function fetchReviewWorkOrder(data: Api.WorkOrder.WorkOrderFlow) {
+  return request<boolean>({
+    url: '/device_work_order/review',
+    method: 'POST',
+    data
+  });
+}
+
 export function fetchGetWorkOrderLogs(orderId: string | number) {
   return request<Api.WorkOrder.WorkOrderLog[]>({
     url: `/device_work_order/logs/${orderId}`,

@@ -15,8 +15,8 @@
             method="get"
           >
             <template #actions>
-              <NButton type="primary" @click="handleAdd">新增</NButton>
-              <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">删除</NButton>
+              <NButton v-if="hasAuth('sys:user:add;sys:role:allRoles')" type="primary" @click="handleAdd">新增</NButton>
+              <NButton v-if="hasAuth('sys:user:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">删除</NButton>
             </template>
           </CommonTable>
           <UserEdit v-model:visible="showEdit" :row="editRow" :operate-type="operateType" @submitted="handleSubmitted"></UserEdit>
@@ -37,6 +37,7 @@ import { NButton, NDropdown, NPopconfirm, NSpace, useModal } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { fetchDeleteUser, fetchResetUserPassword } from '@/service/api/manage/user';
 import { useDict } from '@/hooks/business/dict';
+import { useAuth } from '@/hooks/business/auth';
 import { $t } from '@/locales';
 import { collectIdsFromItem } from './userShared';
 import OrgUnitTree from './org-utils-tree.vue';
@@ -50,6 +51,7 @@ defineOptions({
 const { bool: userItemVisible } = useBoolean();
 
 const { dictTag } = useDict();
+const { hasAuth } = useAuth();
 
 const modal = useModal();
 

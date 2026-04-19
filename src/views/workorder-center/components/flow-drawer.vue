@@ -37,9 +37,14 @@
           </NFormItem>
         </template>
 
-        <NFormItem v-if="flowType === 'review'" :label="$t('page.workorder.reviewResult')" path="reviewResult">
-          <NInput v-model:value="formData.reviewResult" type="textarea" :rows="3" :placeholder="$t('page.workorder.form.reviewResult')" />
-        </NFormItem>
+        <template v-if="flowType === 'review'">
+          <NFormItem :label="$t('page.workorder.reviewResult')" path="reviewStatus">
+            <NSelect v-model:value="formData.reviewStatus" :options="reviewStatusOptions" :placeholder="$t('page.workorder.form.reviewResult')" />
+          </NFormItem>
+          <NFormItem :label="$t('page.workorder.reviewRemark')" path="reviewRemark">
+            <NInput v-model:value="formData.reviewRemark" type="textarea" :rows="3" :placeholder="$t('page.workorder.reviewRemark')" />
+          </NFormItem>
+        </template>
 
         <template v-if="flowType === 'evaluate'">
           <NFormItem :label="$t('page.workorder.evaluationScore')" path="evaluationScore">
@@ -67,7 +72,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import type { FormInst, FormItemRule, FormRules } from 'naive-ui';
-import { fetchFlowWorkOrder } from '@/service/api/workorder';
+import { fetchFlowWorkOrder, fetchReviewWorkOrder } from '@/service/api/workorder';
 import { $t } from '@/locales';
 import RemoteSelect from '@/components/common/common-form/components/RemoteSelect.vue';
 
@@ -106,6 +111,11 @@ const flowTitle = computed(() => {
 const formRef = ref<FormInst | null>(null);
 const loading = ref(false);
 
+const reviewStatusOptions = [
+  { label: $t('page.workorder.passReview'), value: 1 },
+  { label: $t('page.workorder.reviewRejected'), value: 0 }
+];
+
 const formData = ref({
   orderId: undefined as number | undefined,
   targetStatus: undefined as number | undefined,
@@ -115,7 +125,8 @@ const formData = ref({
   repairResult: '',
   repairCost: undefined as number | undefined,
   spareParts: '',
-  reviewResult: '',
+  reviewStatus: undefined as number | undefined,
+  reviewRemark: '',
   evaluationScore: undefined as number | undefined,
   evaluationRemark: ''
 });
@@ -125,6 +136,18 @@ const rules = computed<FormRules>(() => ({
     {
       required: props.flowType === 'assign',
       message: $t('page.workorder.form.assigneeId'),
+      trigger: 'change'
+    }
+  ],
+  reviewStatus: [
+    {
+      required: props.flowType === 'review',
+      validator: (_rule: FormItemRule, value: number) => {
+        if (props.flowType === 'review' && (value === undefined || value === null)) {
+          return new Error($t('page.workorder.form.reviewResult'));
+        }
+        return true;
+      },
       trigger: 'change'
     }
   ],
@@ -159,7 +182,31 @@ watch(
         assign: 0,
         evaluate: 3
       };
-      formData.value.targetStatus = statusMap[props.flowType];
+
+      if (props.flowType === 'review') {
+        formData.value.targetStatus = formData.value.reviewStatus === 1 ? 3 : 0;
+      } else {
+        formData.value.targetStatus = statusMap[props.flowType];
+      }
+    }
+  }
+);
+
+watch(
+  () => props.row,
+  newRow => {
+    if (props.visible && newRow?.orderId) {
+      formData.value.orderId = newRow.orderId;
+    }
+  },
+  { deep: true }
+);
+
+watch(
+  () => formData.value.reviewStatus,
+  newVal => {
+    if (props.flowType === 'review' && newVal !== undefined) {
+      formData.value.targetStatus = newVal === 1 ? 3 : 0;
     }
   }
 );
@@ -174,7 +221,8 @@ function resetForm() {
     repairResult: '',
     repairCost: undefined,
     spareParts: '',
-    reviewResult: '',
+    reviewStatus: undefined,
+    reviewRemark: '',
     evaluationScore: undefined,
     evaluationRemark: ''
   };
@@ -209,7 +257,8 @@ async function handleSubmit() {
     }
 
     if (props.flowType === 'review') {
-      submitData.reviewResult = formData.value.reviewResult;
+      submitData.reviewStatus = formData.value.reviewStatus;
+      submitData.reviewRemark = formData.value.reviewRemark;
     }
 
     if (props.flowType === 'evaluate') {
@@ -218,7 +267,13 @@ async function handleSubmit() {
       submitData.targetStatus = undefined;
     }
 
-    const { error, data: result } = await fetchFlowWorkOrder(submitData);
+    // 根据flowType选择不同的API
+    let apiCall = fetchFlowWorkOrder;
+    if (props.flowType === 'review') {
+      apiCall = fetchReviewWorkOrder;
+    }
+
+    const { error, data: result } = await apiCall(submitData);
 
     if (!error && result) {
       window.$message?.success($t('common.updateSuccess'));

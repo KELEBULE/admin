@@ -11,8 +11,8 @@
       row-key="factoryId"
     >
       <template #actions>
-        <NButton type="primary" @click="handleAdd">{{ $t('page.equipment.addFactory') }}</NButton>
-        <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+        <NButton v-if="hasAuth('factory:info:add')" type="primary" @click="handleAdd">{{ $t('page.equipment.addFactory') }}</NButton>
+        <NButton v-if="hasAuth('factory:info:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
           {{ $t('common.batchDelete') }}
         </NButton>
       </template>
@@ -27,12 +27,15 @@ import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 import { fetchDeleteFactoryInfo } from '@/service/api/equipment';
+import { useAuth } from '@/hooks/business/auth';
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 
 defineOptions({
   name: 'FactoryInfoTab'
 });
+
+const { hasAuth } = useAuth();
 
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
@@ -142,11 +145,18 @@ const columns = ref<DataTableColumn[]>([
     align: 'center',
     fixed: 'right',
     render: (row: any) => {
-      return (
-        <NSpace justify="center">
+      const actions: any[] = [];
+
+      if (hasAuth('factory:info:update')) {
+        actions.push(
           <NButton type="info" text size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
+        );
+      }
+
+      if (hasAuth('factory:info:delete')) {
+        actions.push(
           <NPopconfirm onPositiveClick={() => handleDelete(row.factoryId)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -157,8 +167,10 @@ const columns = ref<DataTableColumn[]>([
               )
             }}
           </NPopconfirm>
-        </NSpace>
-      );
+        );
+      }
+
+      return <NSpace justify="center">{actions}</NSpace>;
     }
   }
 ]);

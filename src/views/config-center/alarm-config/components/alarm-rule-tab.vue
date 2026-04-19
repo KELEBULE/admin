@@ -12,10 +12,10 @@
       row-key="ruleId"
     >
       <template #actions>
-        <NButton type="primary" @click="handleAdd">
+        <NButton v-if="hasAuth('alarm:rule:add')" type="primary" @click="handleAdd">
           {{ $t('common.add') }}
         </NButton>
-        <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+        <NButton v-if="hasAuth('alarm:rule:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
           {{ $t('common.delete') }}
         </NButton>
       </template>
@@ -30,6 +30,7 @@ import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import { fetchDeleteAlarmRule } from '@/service/api/alarm';
 import { useDict } from '@/hooks/business/dict';
+import { useAuth } from '@/hooks/business/auth';
 import { transDeleteParams } from '@/utils/common';
 import { $t } from '@/locales';
 import CommonTable from '@/components/common/common-table/index.vue';
@@ -40,6 +41,7 @@ defineOptions({
 });
 
 const { dictTag, dictOptions } = useDict();
+const { hasAuth } = useAuth();
 
 const tableRef = ref<InstanceType<typeof CommonTable>>();
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
@@ -142,37 +144,48 @@ const columns: DataTableColumn<any>[] = [
     width: 120,
     fixed: 'right',
     render: row => {
-      return h(NSpace, { justify: 'center' }, () => [
-        h(
-          NButton,
-          {
-            size: 'small',
-            text: true,
-            type: 'primary',
-            onClick: () => handleEdit(row)
-          },
-          { default: () => $t('common.edit') }
-        ),
-        h(
-          NPopconfirm,
-          {
-            onPositiveClick: () => handleDelete(row.ruleId)
-          },
-          {
-            trigger: () =>
-              h(
-                NButton,
-                {
-                  size: 'small',
-                  text: true,
-                  type: 'error'
-                },
-                { default: () => $t('common.delete') }
-              ),
-            default: () => $t('common.confirmDelete')
-          }
-        )
-      ]);
+      const actions: any[] = [];
+
+      if (hasAuth('alarm:rule:update')) {
+        actions.push(
+          h(
+            NButton,
+            {
+              size: 'small',
+              text: true,
+              type: 'primary',
+              onClick: () => handleEdit(row)
+            },
+            { default: () => $t('common.edit') }
+          )
+        );
+      }
+
+      if (hasAuth('alarm:rule:delete')) {
+        actions.push(
+          h(
+            NPopconfirm,
+            {
+              onPositiveClick: () => handleDelete(row.ruleId)
+            },
+            {
+              trigger: () =>
+                h(
+                  NButton,
+                  {
+                    size: 'small',
+                    text: true,
+                    type: 'error'
+                  },
+                  { default: () => $t('common.delete') }
+                ),
+              default: () => $t('common.confirmDelete')
+            }
+          )
+        );
+      }
+
+      return h(NSpace, { justify: 'center' }, () => actions);
     }
   }
 ];

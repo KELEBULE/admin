@@ -12,7 +12,7 @@
         row-key="alarmId"
       >
         <template #actions>
-          <NButton type="primary" :disabled="!checkedRowKeys.length" @click="handleExport">
+          <NButton v-if="hasAuth('alarm:device:export')" type="primary" :disabled="!checkedRowKeys.length" @click="handleExport">
             {{ $t('common.export') }}
           </NButton>
         </template>
@@ -35,6 +35,7 @@ import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 import { fetchConfirmDeviceAlarm, fetchExportDeviceAlarm, fetchGetDeviceAlarm } from '@/service/api/alarm';
+import { useAuth } from '@/hooks/business/auth';
 import { downloadBlob } from '@/utils/download';
 import { $t } from '@/locales';
 import CommonTable from '@/components/common/common-table/index.vue';
@@ -44,6 +45,8 @@ import AlarmCreateWorkOrderModal from './components/alarm-create-work-order-moda
 defineOptions({
   name: 'AlarmRecordPage'
 });
+
+const { hasAuth } = useAuth();
 
 const route = useRoute();
 const router = useRouter();
@@ -246,13 +249,15 @@ const columns = ref<DataTableColumn[]>([
     render: (row: any) => {
       const actions: any[] = [];
 
-      actions.push(
-        <NButton type="primary" text size="small" onClick={() => handleViewDetail(row)}>
-          {$t('page.alarm.record.viewDetail')}
-        </NButton>
-      );
+      if (hasAuth('alarm:device:get')) {
+        actions.push(
+          <NButton type="primary" text size="small" onClick={() => handleViewDetail(row)}>
+            {$t('page.alarm.record.viewDetail')}
+          </NButton>
+        );
+      }
 
-      if (row.confirmStatus === 0) {
+      if (row.confirmStatus === 0 && hasAuth('alarm:device:confirm')) {
         actions.push(
           <NPopconfirm onPositiveClick={() => handleConfirm(row, 0)}>
             {{
@@ -279,7 +284,7 @@ const columns = ref<DataTableColumn[]>([
         );
       }
 
-      if (row.confirmStatus === 1 && row.clearStatus === 0 && !row.workOrderId && row.isFalseAlarm !== 1) {
+      if (row.confirmStatus === 1 && row.clearStatus === 0 && !row.workOrderId && row.isFalseAlarm !== 1 && hasAuth('device:work:order:add')) {
         actions.push(
           <NButton type="info" text size="small" onClick={() => handleOpenCreateWorkOrder(row)}>
             {$t('page.alarm.record.createWorkOrder')}

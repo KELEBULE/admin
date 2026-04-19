@@ -307,6 +307,7 @@ declare namespace App {
         updateCancel: string;
       };
       common: {
+        continue: string;
         export: string;
         selectAll: string;
         clearAll: string;
@@ -1367,6 +1368,7 @@ declare namespace App {
           modelUrl: string;
           imageUrl: string;
           uploadModel: string;
+          installPosition: string;
           statusLog: {
             title: string;
             fromStatus: string;
@@ -1387,6 +1389,29 @@ declare namespace App {
             confirmScrap: string;
             changeStatusSuccess: string;
             scrapSuccess: string;
+          };
+          import: {
+            title: string;
+            dragTip: string;
+            fileTypeTip: string;
+            downloadTemplate: string;
+            result: string;
+            totalCount: string;
+            successCount: string;
+            failCount: string;
+            factoryCount: string;
+            areaCount: string;
+            deviceCount: string;
+            partCount: string;
+            errorMessages: string;
+            importFailed: string;
+            downloadFailed: string;
+          };
+          export: {
+            title: string;
+            selectDevice: string;
+            success: string;
+            failed: string;
           };
           form: {
             factoryCode: string;
@@ -1655,7 +1680,10 @@ declare namespace App {
           startProcess: string;
           completeProcess: string;
           submitReview: string;
+          review: string;
           passReview: string;
+          reviewRejected: string;
+          reviewRemark: string;
           cancelOrder: string;
           assignHandler: string;
           evaluate: string;
@@ -1694,6 +1722,8 @@ declare namespace App {
             review: string;
             cancel: string;
             evaluate: string;
+            reviewRejected: string;
+            passReview: string;
           };
           confirmBatchDelete: string;
           confirmDelete: string;

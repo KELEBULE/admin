@@ -7,6 +7,7 @@ const local: App.I18n.Schema = {
     updateCancel: '稍后再说'
   },
   common: {
+    continue: '继续',
     export: '导出',
     action: '操作',
     selectAll: '全选',
@@ -1218,7 +1219,10 @@ const local: App.I18n.Schema = {
       startProcess: '开始处理',
       completeProcess: '完成处理',
       submitReview: '提交审核',
+      review: '审核',
       passReview: '审核通过',
+      reviewRejected: '审核不通过',
+      reviewRemark: '审核备注',
       cancelOrder: '取消工单',
       assignHandler: '指派处理人',
       evaluate: '评价',
@@ -1255,6 +1259,8 @@ const local: App.I18n.Schema = {
         startProcess: '开始处理',
         completeProcess: '完成处理',
         review: '审核',
+        passReview: '审核通过',
+        reviewRejected: '审核不通过',
         cancel: '取消工单',
         evaluate: '评价'
       },
@@ -1326,6 +1332,7 @@ const local: App.I18n.Schema = {
       }
     },
     equipment: {
+      installPosition: '安装位置',
       uploadImage: '上传图片',
       title: '设备中心',
       factoryTab: '工厂管理',
@@ -1477,6 +1484,29 @@ const local: App.I18n.Schema = {
         confirmScrap: '确认报废设备',
         changeStatusSuccess: '状态变更成功',
         scrapSuccess: '设备报废成功'
+      },
+      import: {
+        title: '导入设备',
+        dragTip: '点击或拖拽文件到此区域上传',
+        fileTypeTip: '支持 .xlsx、.xls 格式',
+        downloadTemplate: '下载导入模板',
+        result: '导入结果',
+        totalCount: '总记录数',
+        successCount: '成功数',
+        failCount: '失败数',
+        factoryCount: '新增工厂数',
+        areaCount: '新增厂区数',
+        deviceCount: '新增设备数',
+        partCount: '新增部件数',
+        errorMessages: '错误信息',
+        importFailed: '导入失败',
+        downloadFailed: '下载模板失败'
+      },
+      export: {
+        title: '导出设备',
+        selectDevice: '请选择要导出的设备',
+        success: '导出成功',
+        failed: '导出失败'
       }
     }
   },

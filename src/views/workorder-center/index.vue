@@ -12,10 +12,11 @@
         row-key="orderId"
       >
         <template #actions>
-          <NButton type="primary" @click="handleAdd">{{ $t('page.workorder.addWorkOrder') }}</NButton>
-          <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+          <NButton v-if="hasAuth('device:work:order:add')" type="primary" @click="handleAdd">{{ $t('page.workorder.addWorkOrder') }}</NButton>
+          <!-- <NButton v-if="hasAuth('device:work:order:delete')" type="error" :disabled="!checkedRowKeys.length"
+            @click="handleBatchDelete">
             {{ $t('common.batchDelete') }}
-          </NButton>
+          </NButton> -->
         </template>
       </CommonTable>
       <EditDrawer v-model:visible="showEdit" :row="editRow" :operate-type="operateType" @submitted="handleSubmitted" />
@@ -28,9 +29,11 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
-import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
+import { NButton, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchDeleteWorkOrder } from '@/service/api/workorder';
+// import { fetchDeleteWorkOrder } from '@/service/api/workorder';
+import { useAuthStore } from '@/store/modules/auth';
+import { useAuth } from '@/hooks/business/auth';
 import { $t } from '@/locales';
 import EditDrawer from './components/edit-drawer.vue';
 import DetailDrawer from './components/detail-drawer.vue';
@@ -39,6 +42,10 @@ import FlowDrawer from './components/flow-drawer.vue';
 defineOptions({
   name: 'WorkOrderCenterPage'
 });
+
+const { hasAuth } = useAuth();
+const authStore = useAuthStore();
+const currentUserId = authStore.userInfo.id;
 
 const checkedRowKeys = ref<DataTableRowKey[]>([]);
 const tableRef = ref<any>(null);
@@ -224,31 +231,35 @@ const columns = ref<DataTableColumn[]>([
     render: (row: any) => {
       const actions: any[] = [];
 
-      actions.push(
-        <NButton type="info" text size="small" onClick={() => handleDetail(row)}>
-          {$t('page.workorder.viewDetail')}
-        </NButton>
-      );
-
-      if (row.orderStatus === 0) {
+      if (hasAuth('device:work:order:get')) {
         actions.push(
-          <NButton type="primary" text size="small" onClick={() => handleEdit(row)}>
-            {$t('common.edit')}
-          </NButton>
-        );
-        actions.push(
-          <NButton type="info" text size="small" onClick={() => handleFlowAction(row, 'assign')}>
-            {$t('page.workorder.assignHandler')}
-          </NButton>
-        );
-        actions.push(
-          <NButton type="primary" text size="small" onClick={() => handleFlowAction(row, 'start')}>
-            {$t('page.workorder.startProcess')}
+          <NButton type="info" text size="small" onClick={() => handleDetail(row)}>
+            {$t('page.workorder.viewDetail')}
           </NButton>
         );
       }
 
-      if (row.orderStatus === 1) {
+      if (row.orderStatus === 0) {
+        if (hasAuth('device:work:order:flow')) {
+          if (row.assigneeId === currentUserId || row.creatorId === currentUserId) {
+            actions.push(
+              <NButton type="info" text size="small" onClick={() => handleFlowAction(row, 'assign')}>
+                {$t('page.workorder.assignHandler')}
+              </NButton>
+            );
+          }
+
+          if (row.assigneeId === currentUserId) {
+            actions.push(
+              <NButton type="primary" text size="small" onClick={() => handleFlowAction(row, 'start')}>
+                {$t('page.workorder.startProcess')}
+              </NButton>
+            );
+          }
+        }
+      }
+
+      if (row.orderStatus === 1 && hasAuth('device:work:order:flow') && row.assigneeId === currentUserId) {
         actions.push(
           <NButton type="success" text size="small" onClick={() => handleFlowAction(row, 'complete')}>
             {$t('page.workorder.completeProcess')}
@@ -256,15 +267,15 @@ const columns = ref<DataTableColumn[]>([
         );
       }
 
-      if (row.orderStatus === 2) {
+      if (row.orderStatus === 2 && hasAuth('device:work:order:review')) {
         actions.push(
           <NButton type="success" text size="small" onClick={() => handleFlowAction(row, 'review')}>
-            {$t('page.workorder.passReview')}
+            {$t('page.workorder.review')}
           </NButton>
         );
       }
 
-      if (row.orderStatus === 3 && !row.evaluationScore) {
+      if (row.orderStatus === 3 && !row.evaluationScore && hasAuth('device:work:order:flow') && row.creatorId === currentUserId) {
         actions.push(
           <NButton type="warning" text size="small" onClick={() => handleFlowAction(row, 'evaluate')}>
             {$t('page.workorder.evaluate')}
@@ -272,26 +283,11 @@ const columns = ref<DataTableColumn[]>([
         );
       }
 
-      if (row.orderStatus === 0 || row.orderStatus === 1) {
+      if ((row.orderStatus === 0 || row.orderStatus === 1) && hasAuth('device:work:order:flow') && row.creatorId === currentUserId) {
         actions.push(
           <NButton type="error" text size="small" onClick={() => handleFlowAction(row, 'cancel')}>
             {$t('page.workorder.cancelOrder')}
           </NButton>
-        );
-      }
-
-      if (row.orderStatus === 0) {
-        actions.push(
-          <NPopconfirm onPositiveClick={() => handleDelete(row.orderId)}>
-            {{
-              default: () => $t('page.workorder.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" text size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
         );
       }
 
@@ -306,11 +302,11 @@ function handleAdd() {
   showEdit.value = true;
 }
 
-function handleEdit(row: any) {
-  operateType.value = 'edit';
-  editRow.value = { ...row };
-  showEdit.value = true;
-}
+// function handleEdit(row: any) {
+//   operateType.value = 'edit';
+//   editRow.value = { ...row };
+//   showEdit.value = true;
+// }
 
 function handleDetail(row: any) {
   detailRow.value = { ...row };
@@ -320,7 +316,10 @@ function handleDetail(row: any) {
 function handleFlowAction(row: any, type: 'start' | 'complete' | 'review' | 'cancel' | 'assign' | 'evaluate') {
   flowRow.value = { ...row };
   flowType.value = type;
-  showFlow.value = true;
+  showFlow.value = false;
+  setTimeout(() => {
+    showFlow.value = true;
+  }, 0);
 }
 
 function handleFlow(row: any, type: 'start' | 'complete' | 'review' | 'cancel' | 'assign' | 'evaluate') {
@@ -328,32 +327,32 @@ function handleFlow(row: any, type: 'start' | 'complete' | 'review' | 'cancel' |
   handleFlowAction(row, type);
 }
 
-async function handleDelete(id: number) {
-  const { error, data: result } = await fetchDeleteWorkOrder({ ids: [String(id)] });
-  if (!error && result) {
-    window.$message?.success($t('common.deleteSuccess'));
-    checkedRowKeys.value = [];
-    tableRef.value?.initData();
-  }
-}
+// async function handleDelete(id: number) {
+//   const { error, data: result } = await fetchDeleteWorkOrder({ ids: [String(id)] });
+//   if (!error && result) {
+//     window.$message?.success($t('common.deleteSuccess'));
+//     checkedRowKeys.value = [];
+//     tableRef.value?.initData();
+//   }
+// }
 
-async function handleBatchDelete() {
-  window.$dialog?.warning({
-    title: $t('common.confirmDelete'),
-    content: $t('page.workorder.confirmBatchDelete'),
-    positiveText: $t('common.confirm'),
-    negativeText: $t('common.cancel'),
-    onPositiveClick: async () => {
-      const ids = checkedRowKeys.value.map(key => String(key));
-      const { error, data: result } = await fetchDeleteWorkOrder({ ids });
-      if (!error && result) {
-        window.$message?.success($t('common.deleteSuccess'));
-        checkedRowKeys.value = [];
-        tableRef.value?.initData();
-      }
-    }
-  });
-}
+// async function handleBatchDelete() {
+//   window.$dialog?.warning({
+//     title: $t('common.confirmDelete'),
+//     content: $t('page.workorder.confirmBatchDelete'),
+//     positiveText: $t('common.confirm'),
+//     negativeText: $t('common.cancel'),
+//     onPositiveClick: async () => {
+//       const ids = checkedRowKeys.value.map(key => String(key));
+//       const { error, data: result } = await fetchDeleteWorkOrder({ ids });
+//       if (!error && result) {
+//         window.$message?.success($t('common.deleteSuccess'));
+//         checkedRowKeys.value = [];
+//         tableRef.value?.initData();
+//       }
+//     }
+//   });
+// }
 
 function handleSubmitted() {
   tableRef.value?.initData();

@@ -7,6 +7,7 @@ const local: App.I18n.Schema = {
     updateCancel: 'Later'
   },
   common: {
+    continue: 'Continue',
     export: 'Export',
     action: 'Action',
     selectAll: 'Select All',
@@ -1127,6 +1128,7 @@ const local: App.I18n.Schema = {
       operator: 'Operator',
       thresholdValue: 'Threshold Value',
       otherConfig: 'Other Config',
+      installPosition: 'Install Position',
       form: {
         factoryCode: 'Please enter factory code',
         factoryName: 'Please enter factory name',
@@ -1183,6 +1185,29 @@ const local: App.I18n.Schema = {
         confirmScrap: 'Confirm Scrap Device',
         changeStatusSuccess: 'Status changed successfully',
         scrapSuccess: 'Device scrapped successfully'
+      },
+      import: {
+        title: 'Import Equipment',
+        dragTip: 'Click or drag file to this area to upload',
+        fileTypeTip: 'Support .xlsx, .xls format',
+        downloadTemplate: 'Download Import Template',
+        result: 'Import Result',
+        totalCount: 'Total Records',
+        successCount: 'Success Count',
+        failCount: 'Fail Count',
+        factoryCount: 'New Factories',
+        areaCount: 'New Areas',
+        deviceCount: 'New Devices',
+        partCount: 'New Parts',
+        errorMessages: 'Error Messages',
+        importFailed: 'Import Failed',
+        downloadFailed: 'Download Template Failed'
+      },
+      export: {
+        title: 'Export Equipment',
+        selectDevice: 'Please select devices to export',
+        success: 'Export Success',
+        failed: 'Export Failed'
       }
     },
     alarm: {
@@ -1415,7 +1440,10 @@ const local: App.I18n.Schema = {
       startProcess: 'Start Process',
       completeProcess: 'Complete Process',
       submitReview: 'Submit Review',
+      review: 'Review',
       passReview: 'Pass Review',
+      reviewRejected: 'Review Rejected',
+      reviewRemark: 'Review Remark',
       cancelOrder: 'Cancel Order',
       assignHandler: 'Assign Handler',
       evaluate: 'Evaluate',
@@ -1452,6 +1480,8 @@ const local: App.I18n.Schema = {
         startProcess: 'Start Process',
         completeProcess: 'Complete Process',
         review: 'Review',
+        passReview: 'Pass Review',
+        reviewRejected: 'Review Rejected',
         cancel: 'Cancel Order',
         evaluate: 'Evaluate'
       },

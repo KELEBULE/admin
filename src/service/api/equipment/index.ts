@@ -258,3 +258,31 @@ export function fetchScrapDevices(data: Api.Equipment.DeviceScrapDTO) {
     data
   });
 }
+
+export function fetchImportEquipment(file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+  return request<Api.Equipment.ImportResult>({
+    url: '/equipment/import',
+    method: 'POST',
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+}
+
+export function fetchExportEquipment(ids: number[]) {
+  return request<Blob, 'blob'>({
+    url: '/equipment/export',
+    method: 'POST',
+    data: ids,
+    responseType: 'blob'
+  });
+}
+
+export function fetchDownloadEquipmentTemplate() {
+  return request<Blob, 'blob'>({
+    url: '/equipment/template',
+    method: 'GET',
+    responseType: 'blob'
+  });
+}

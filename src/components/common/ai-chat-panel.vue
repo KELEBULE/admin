@@ -520,18 +520,24 @@ async function handleFileChange(options: { fileList: UploadFileInfo[] }) {
 
   if (newFiles.length > 0) {
     try {
-      const fileNames = newFiles.map(f => f.name);
+      // 如果sessionId为空，先生成一个临时的sessionId
+      if (!aiChatStore.sessionId) {
+        const tempSessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+        aiChatStore.setSessionId(tempSessionId);
+      }
+
+      const formData = new FormData();
+      newFiles.forEach(f => {
+        formData.append('files', f.file as File);
+      });
+      formData.append('sessionId', aiChatStore.sessionId);
 
       const response = await fetch(`${baseURL}/ai_chat/file/upload`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: getAuthorization() || ''
         },
-        body: JSON.stringify({
-          fileNames,
-          sessionId: aiChatStore.sessionId
-        })
+        body: formData
       });
 
       const result = await response.json();

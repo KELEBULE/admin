@@ -13,10 +13,10 @@
       method="get"
     >
       <template #actions>
-        <NButton type="primary" @click="handleAdd">
+        <NButton v-if="hasAuth('sys:dict:item:add')" type="primary" @click="handleAdd">
           {{ $t('common.add') }}
         </NButton>
-        <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+        <NButton v-if="hasAuth('sys:dict:item:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
           {{ $t('common.delete') }}
         </NButton>
       </template>
@@ -30,7 +30,7 @@ import { computed, h, ref } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm } from 'naive-ui';
 import { fetchDeleteDictItem } from '@/service/api';
-// import { useAuth } from '@/hooks/business/auth';
+import { useAuth } from '@/hooks/business/auth';
 import { useDict } from '@/hooks/business/dict';
 import { transDeleteParams } from '@/utils/common';
 import { $t } from '@/locales';
@@ -47,7 +47,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// const { hasAuth } = useAuth();
+const { hasAuth } = useAuth();
 const { dictTag } = useDict();
 
 const tableRef = ref<InstanceType<typeof CommonTable>>();

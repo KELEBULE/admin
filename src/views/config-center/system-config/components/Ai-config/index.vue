@@ -13,7 +13,7 @@
 
         <NFormItem :label="$t('aiConfig.defaultModel')">
           <NSpace align="center" class="w-full">
-            <NSelect v-model:value="formData.defaultModel" :options="modelOptions" :placeholder="$t('aiConfig.selectModel')" class="flex-1" />
+            <NSelect v-model:value="formData.defaultModel" :options="modelOptions" :placeholder="$t('aiConfig.selectModel')" class="w-150px" />
             <NButton text :loading="refreshingModels" @click="refreshModels">
               <template #icon>
                 <SvgIcon icon="mdi:refresh" />

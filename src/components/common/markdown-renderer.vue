@@ -14,22 +14,6 @@ const props = defineProps<{
   content: string;
 }>();
 
-const renderer = new marked.Renderer();
-
-renderer.code = ({ text, lang }) => {
-  let highlightedCode: string;
-  if (lang && hljs.getLanguage(lang)) {
-    try {
-      highlightedCode = hljs.highlight(text, { language: lang }).value;
-    } catch {
-      highlightedCode = text;
-    }
-  } else {
-    highlightedCode = hljs.highlightAuto(text).value;
-  }
-  return `<pre><code class="hljs">${highlightedCode}</code></pre>`;
-};
-
 marked.use(
   markedHighlight({
     langPrefix: 'hljs language-',
@@ -41,15 +25,14 @@ marked.use(
           return code;
         }
       }
-      return hljs.highlightAuto(code).value;
+      return code;
     }
   })
 );
 
 marked.setOptions({
   gfm: true,
-  breaks: true,
-  renderer
+  breaks: true
 });
 
 const renderedContent = computed(() => {

@@ -11,8 +11,8 @@
       row-key="uniqueKey"
     >
       <template #actions>
-        <NButton type="primary" @click="handleAdd">{{ $t('page.equipment.addArea') }}</NButton>
-        <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+        <NButton v-if="hasAuth('factory:area:add')" type="primary" @click="handleAdd">{{ $t('page.equipment.addArea') }}</NButton>
+        <NButton v-if="hasAuth('factory:area:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
           {{ $t('common.batchDelete') }}
         </NButton>
       </template>
@@ -27,12 +27,15 @@ import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 import { fetchDeleteDevice, fetchDeleteFactoryArea, fetchGetFactoryInfoList } from '@/service/api/equipment';
+import { useAuth } from '@/hooks/business/auth';
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 
 defineOptions({
   name: 'FactoryAreaTab'
 });
+
+const { hasAuth } = useAuth();
 
 const emit = defineEmits<{
   (e: 'viewDevice', device: any): void;
@@ -191,11 +194,18 @@ const columns = ref<DataTableColumn[]>([
     fixed: 'right',
     render: (row: any) => {
       if (row.deviceId) {
-        return (
-          <NSpace justify="end">
+        const deviceActions: any[] = [];
+
+        if (hasAuth('factory:device:get')) {
+          deviceActions.push(
             <NButton type="info" text size="small" onClick={() => handleViewDevice(row)}>
               {$t('page.equipment.viewDetail')}
             </NButton>
+          );
+        }
+
+        if (hasAuth('factory:device:delete')) {
+          deviceActions.push(
             <NPopconfirm onPositiveClick={() => handleDeleteDevice(row.deviceId)}>
               {{
                 default: () => $t('page.equipment.confirmDeleteDevice'),
@@ -206,18 +216,32 @@ const columns = ref<DataTableColumn[]>([
                 )
               }}
             </NPopconfirm>
-          </NSpace>
-        );
+          );
+        }
+
+        return <NSpace justify="end">{deviceActions}</NSpace>;
       }
-      return (
-        <NSpace justify="end">
+
+      const areaActions: any[] = [];
+
+      if (hasAuth('factory:area:update')) {
+        areaActions.push(
           <NButton type="info" text size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
+        );
+      }
+
+      if (hasAuth('factory:device:add')) {
+        areaActions.push(
           <NButton type="primary" text size="small" onClick={() => handleAddDevice(row)}>
             {$t('page.equipment.addDevice')}
           </NButton>
+        );
+      }
 
+      if (hasAuth('factory:area:delete')) {
+        areaActions.push(
           <NPopconfirm onPositiveClick={() => handleDelete(row.areaId)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -228,8 +252,10 @@ const columns = ref<DataTableColumn[]>([
               )
             }}
           </NPopconfirm>
-        </NSpace>
-      );
+        );
+      }
+
+      return <NSpace justify="end">{areaActions}</NSpace>;
     }
   }
 ]);

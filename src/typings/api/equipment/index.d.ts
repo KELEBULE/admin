@@ -255,5 +255,16 @@ declare namespace Api {
       changeReason: string;
       imageUrls?: string[];
     };
+
+    type ImportResult = {
+      totalCount: number;
+      successCount: number;
+      failCount: number;
+      factoryCount: number;
+      areaCount: number;
+      deviceCount: number;
+      partCount: number;
+      errorMessages: string[];
+    };
   }
 }

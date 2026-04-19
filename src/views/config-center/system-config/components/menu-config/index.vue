@@ -5,7 +5,7 @@
         <NCard :title="$t('page.manage.menu.title')" :bordered="false" size="small" class="h-full sm:flex-1-hidden" content-class="h-full-hidden">
           <template #header-extra>
             <NFlex>
-              <NButton ghost type="primary" size="small" @click="handleAddMenu()">
+              <NButton v-if="hasAuth('sys:menu:allPages;sys:menu:add')" ghost type="primary" size="small" @click="handleAddMenu()">
                 {{ $t('common.add') }}
               </NButton>
               <NButton quaternary @click="init(null)">
@@ -35,13 +35,19 @@
         <NCard :title="$t('page.manage.menu.detail')" :bordered="false" size="small">
           <template #header-extra>
             <NFlex>
-              <NButton v-if="showData.type === '1'" type="primary" quaternary size="small" @click="handleAddChildMenu()">
+              <NButton
+                v-if="showData.type === '1' && hasAuth('sys:menu:allPages;sys:menu:add')"
+                type="primary"
+                quaternary
+                size="small"
+                @click="handleAddChildMenu()"
+              >
                 {{ $t('page.manage.menu.addChildMenu') }}
               </NButton>
-              <NButton ghost type="primary" size="small" @click="handleEditMenu()">
+              <NButton v-if="hasAuth('sys:menu:update;sys:menu:get sys:menu:allPages')" ghost type="primary" size="small" @click="handleEditMenu()">
                 {{ $t('common.edit') }}
               </NButton>
-              <NPopconfirm placement="bottom" @positive-click="handleDeleteMenu">
+              <NPopconfirm v-if="hasAuth('sys:menu:delete')" placement="bottom" @positive-click="handleDeleteMenu">
                 <template #trigger>
                   <NButton ghost type="error" size="small">
                     {{ $t('common.delete') }}
@@ -98,7 +104,7 @@ import { h, reactive, ref, shallowRef } from 'vue';
 import { NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { fetchDeleteMenu, fetchGetAllPages, fetchGetMenuTree } from '@/service/api';
-// import { useAuth } from '@/hooks/business/auth';
+import { useAuth } from '@/hooks/business/auth';
 import { useDict } from '@/hooks/business/dict';
 import { transDeleteParams } from '@/utils/common';
 import { $t } from '@/locales';
@@ -110,7 +116,7 @@ const { bool: detailVisible, setBool: setDetailVisible, setFalse: hideDetail } =
 
 const { bool: menuDrawerVisible, setTrue: openMenuDrawer } = useBoolean();
 
-// const { hasAuth } = useAuth();
+const { hasAuth } = useAuth();
 
 const { dcitType, dictLabel } = useDict();
 

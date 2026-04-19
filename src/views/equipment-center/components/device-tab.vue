@@ -11,14 +11,20 @@
       row-key="uniqueKey"
     >
       <template #actions>
-        <NButton type="primary" @click="handleAdd">{{ $t('page.equipment.addDevice') }}</NButton>
-        <NButton type="warning" :disabled="!checkedRowKeys.length" @click="handleBatchScrap">
+        <NButton v-if="hasAuth('factory:device:add')" type="primary" @click="handleAdd">{{ $t('page.equipment.addDevice') }}</NButton>
+        <NButton v-if="hasAuth('equipment:import')" type="success" @click="handleImport">
+          {{ $t('page.equipment.import.title') }}
+        </NButton>
+        <NButton v-if="hasAuth('equipment:export')" type="info" :disabled="!checkedRowKeys.length" @click="handleExport">
+          {{ $t('page.equipment.export.title') }}
+        </NButton>
+        <NButton v-if="hasAuth('factory:device:scrap')" type="warning" :disabled="!checkedRowKeys.length" @click="handleBatchScrap">
           {{ $t('page.equipment.batchScrap') }}
         </NButton>
-        <NButton type="info" :disabled="!checkedRowKeys.length" @click="handleBatchEditStatus">
+        <NButton v-if="hasAuth('factory:device:updateStatus')" type="info" :disabled="!checkedRowKeys.length" @click="handleBatchEditStatus">
           {{ $t('page.equipment.batchEditStatus') }}
         </NButton>
-        <NButton type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
+        <NButton v-if="hasAuth('factory:device:delete')" type="error" :disabled="!checkedRowKeys.length" @click="handleBatchDelete">
           {{ $t('common.batchDelete') }}
         </NButton>
       </template>
@@ -32,6 +38,7 @@
       :mode="statusChangeMode"
       @success="handleStatusChangeSuccess"
     />
+    <ImportModal v-model:show="showImportModal" @success="handleImportSuccess" />
   </div>
 </template>
 
@@ -40,16 +47,20 @@ import { ref, watch } from 'vue';
 import type { DataTableColumn, DataTableRowKey } from 'naive-ui';
 import { NButton, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchDeleteDevice, fetchDeleteDevicePart } from '@/service/api/equipment';
+import { fetchDeleteDevice, fetchDeleteDevicePart, fetchExportEquipment } from '@/service/api/equipment';
+import { useAuth } from '@/hooks/business/auth';
 import { $t } from '@/locales';
 import EditDrawer from './edit-drawer.vue';
 import DetailDrawer from './detail-drawer.vue';
 import ThresholdConfigModal from './threshold-config-modal.vue';
 import StatusChangeModal from './status-change-modal.vue';
+import ImportModal from './import-modal.vue';
 
 defineOptions({
   name: 'DeviceTab'
 });
+
+const { hasAuth } = useAuth();
 
 const props = defineProps<{
   viewDeviceData?: any;
@@ -74,6 +85,8 @@ const thresholdPartData = ref<any>({});
 const showStatusChangeModal = ref(false);
 const statusChangeMode = ref<'status' | 'scrap'>('status');
 const selectedDeviceIds = ref<number[]>([]);
+
+const showImportModal = ref(false);
 
 const fieldList = ref([
   {
@@ -214,17 +227,34 @@ const columns = ref<DataTableColumn[]>([
     fixed: 'right',
     render: (row: any) => {
       if (row.partId) {
-        return (
-          <NSpace justify="end">
+        const partActions: any[] = [];
+
+        if (hasAuth('part:threshold:save')) {
+          partActions.push(
             <NButton type="info" text size="small" onClick={() => handleThresholdConfig(row)}>
               {$t('page.equipment.thresholdConfig')}
             </NButton>
+          );
+        }
+
+        if (hasAuth('device:part:get')) {
+          partActions.push(
             <NButton type="info" text size="small" onClick={() => handleDetailPart(row)}>
               {$t('page.equipment.viewDetail')}
             </NButton>
+          );
+        }
+
+        if (hasAuth('device:part:update')) {
+          partActions.push(
             <NButton type="info" text size="small" onClick={() => handleEditPart(row)}>
               {$t('common.edit')}
             </NButton>
+          );
+        }
+
+        if (hasAuth('device:part:delete')) {
+          partActions.push(
             <NPopconfirm onPositiveClick={() => handleDeletePart(row.partId, row.deviceId)}>
               {{
                 default: () => $t('common.confirmDelete'),
@@ -235,21 +265,40 @@ const columns = ref<DataTableColumn[]>([
                 )
               }}
             </NPopconfirm>
-          </NSpace>
-        );
+          );
+        }
+
+        return <NSpace justify="end">{partActions}</NSpace>;
       }
-      return (
-        <NSpace justify="end">
+
+      const deviceActions: any[] = [];
+
+      if (hasAuth('device:part:add')) {
+        deviceActions.push(
           <NButton type="primary" text size="small" onClick={() => handleAddPart(row)}>
             {$t('page.equipment.addPart')}
           </NButton>
+        );
+      }
+
+      if (hasAuth('factory:device:get')) {
+        deviceActions.push(
           <NButton type="info" text size="small" onClick={() => handleDetail(row)}>
             {$t('page.equipment.viewDetail')}
           </NButton>
+        );
+      }
 
+      if (hasAuth('factory:device:update')) {
+        deviceActions.push(
           <NButton type="info" text size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
+        );
+      }
+
+      if (hasAuth('factory:device:delete')) {
+        deviceActions.push(
           <NPopconfirm onPositiveClick={() => handleDelete(row.deviceId)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -260,8 +309,10 @@ const columns = ref<DataTableColumn[]>([
               )
             }}
           </NPopconfirm>
-        </NSpace>
-      );
+        );
+      }
+
+      return <NSpace justify="end">{deviceActions}</NSpace>;
     }
   }
 ]);
@@ -371,6 +422,40 @@ function handleBatchEditStatus() {
 function handleStatusChangeSuccess() {
   checkedRowKeys.value = [];
   tableRef.value?.initData();
+}
+
+function handleImport() {
+  showImportModal.value = true;
+}
+
+function handleImportSuccess() {
+  tableRef.value?.initData();
+}
+
+async function handleExport() {
+  const ids = checkedRowKeys.value.map(key => String(key).replace('device_', '')).filter(key => !key.startsWith('part_'));
+  if (ids.length === 0) {
+    window.$message?.warning($t('page.equipment.export.selectDevice'));
+    return;
+  }
+
+  try {
+    const { error, data } = await fetchExportEquipment(ids.map(id => Number(id)));
+
+    if (!error && data) {
+      const url = window.URL.createObjectURL(data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = '设备数据.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      window.$message?.success($t('page.equipment.export.success'));
+    }
+  } catch {
+    window.$message?.error($t('page.equipment.export.failed'));
+  }
 }
 
 function handleSubmitted() {
